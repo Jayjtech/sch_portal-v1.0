@@ -1,0 +1,3 @@
+RewriteEngine ON
+RewriteRule ^submit-exam submit_exam.php [NC,L]
+

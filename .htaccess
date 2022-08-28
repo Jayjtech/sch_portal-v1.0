@@ -1,0 +1,4 @@
+RewriteEngine ON
+RewriteRule ^dashboard dashboard.php [NC,L] 
+RewriteRule ^login index.php [NC,L] 
+RewriteRule ^register register.php [NC,L] 

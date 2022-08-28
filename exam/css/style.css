@@ -1,0 +1,131 @@
+/* *{
+    box-sizing: border-box;
+} */
+body{
+    margin: 0;
+    box-sizing: border-box;
+    background-color: rgb(230, 248, 243);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.nav{
+    background-color: rgba(28, 135, 185, 0.6);
+    border: none;
+    padding:  10px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    /* color: rgb(234, 181, 46); */
+
+}
+.main{
+    width: 60%;
+    margin: 5em auto;
+    margin-top: 50px;
+    border: 3px solid rgb(253, 252, 252);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 2px 3px rgba(28, 135, 185, 0.6);
+    flex-wrap: wrap;
+}
+
+.nav span{
+    text-align: end;
+    color: azure;
+    padding: 5px;
+    margin-right: 10px;
+
+}
+.instructions{
+    border-bottom: 1px solid #000;
+    padding: 1px 5px;
+    margin-top: 5px;
+    text-align: left;
+}
+
+.primary-nav{
+    text-align: right;
+}
+button:hover{
+    opacity: 0.6;
+   
+}
+button:active {
+    transform: translateY(0.5em);
+    transition-delay: initial;
+
+}
+.submit-div{
+    margin-top: 10px;
+    padding: 5px;
+}
+
+.btn-submit{
+    background-color: rgb(89, 189, 89);
+    color: #fff;
+    border: none;
+    padding: 10px 10px;
+    display: none;
+}
+
+.nav-btn{
+    background-color: rgb(70, 122, 189);
+    border: none;
+    padding: 10px 10px;
+    font-weight: bold;
+    color: antiquewhite;
+    border-radius: 4px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+#ans{
+    background-color: rgb(177, 232, 236);
+    border: none;
+    padding: 0.7em ;
+    margin-top: 4px;
+    margin-right: 4px;
+    display: grid;
+    grid-template-columns: repeat(2, 4fr);
+    cursor: pointer;
+    outline: unset;
+    /* width: 100%; */
+}
+#ans:hover{
+    background-color: aliceblue;
+}
+
+ul li{
+    list-style-type: disc;
+    margin-top: 3px;
+}
+
+.result{
+    text-align: center;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 10px 10px;
+}
+
+.remark{
+    text-align: center;
+    color: #000000;
+
+}
+
+#view-sol{
+    color: rgb(255, 254, 250);
+    border: none;
+    padding: 10px 10px;
+    border-radius: 3px;
+    background-color: rgba(12, 238, 114);
+    font-weight: bold;
+}
+.answer-btn{
+    margin-top: 4px;
+}
+
+@media screen and (max-width: 768px){
+    .main{
+        width: 90vw;
+        height: 100vw;
+        margin: auto;
+    }
+}

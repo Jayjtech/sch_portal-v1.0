@@ -1,0 +1,5 @@
+RewriteEngine ON
+
+
+
+php_value date.timezone 'Africa/lagos'
