@@ -1,4 +1,6 @@
 <?php include "includes/header.php"; ?>
+<?php include "includes/calls.php"; ?>
+
 
 <body>
     <div class="container-scroller">
@@ -18,8 +20,12 @@
                                         placeholder="User - ID">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control form-control-lg"
-                                        id="exampleInputPassword1" placeholder="Password">
+                                    <div class="input-group">
+                                        <input type="password" class="form-control form-control-lg" id="password"
+                                            placeholder="Password">
+                                        <span class="input-group-text" id="eye-el" onclick="viewPassword()"><i
+                                                class="mdi mdi-eye"></i></span>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <select class="form-control form-control-lg" id="exampleFormControlSelect2">
@@ -32,9 +38,9 @@
                                 <div class="form-group">
                                     <select class="form-control form-control-lg" id="exampleFormControlSelect2">
                                         <option>Select Session</option>
-                                        <option value="1">First Term</option>
-                                        <option value="2">Second Term</option>
-                                        <option value="3">Third Term</option>
+                                        <?php while($row = $callSession->fetch_object()):?>
+                                        <option value="<?= $row->session; ?>"><?= $row->session; ?></option>
+                                        <?php endwhile; ?>
                                     </select>
                                 </div>
                                 <div class="mt-3">
@@ -64,19 +70,4 @@
         </div>
         <!-- page-body-wrapper ends -->
     </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <script src="vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-    <script src="js/off-canvas.js"></script>
-    <script src="js/hoverable-collapse.js"></script>
-    <script src="js/template.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/todolist.js"></script>
-    <!-- endinject -->
-</body>
-
-</html>
+    <?php include "includes/log_footer.php"; ?>

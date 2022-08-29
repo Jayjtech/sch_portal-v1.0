@@ -1,4 +1,4 @@
-<?php include "../config/db.php"; ?>
+<?php include "config/db.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +19,12 @@
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="css/pass.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="images/favicon.png" />
+    <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
+
+
+    <!-- <script src="js/googleapis.js"></script> -->
+
 </head>

@@ -18,6 +18,11 @@ $question_tbl_b = "quest_type_b";
 $question_tbl_c = "quest_type_c";
 $instruction_tbl = "instructions";
 $score_tbl = "score_sheet";
+$settings_tbl = "settings";
+$evaluation_tbl = "evaluation";
+$session_tbl = "session";
+$class_tbl = "class";
+$users_tbl = "users";
 
 /**Questions */
 $questions = [
@@ -119,9 +124,32 @@ $instructions = [
                 ]
 ];
 
+$classes = [
+    "class" => [
+        1 => "JSS-1",
+        2 => "JSS-2",
+        3 => "JSS-3",
+        4 => "SSS-1",
+        5 => "SSS-2",
+        6 => "SSS-3"
+    ]
+];
 
+$sessions = [
+    "session" => [
+        1 => "2021/2022",
+        2 => "2022/2023",
+        3 => "2023/2024",
+        4 => "2024/2025",
+        5 => "2025/2026",
+        6 => "2026/2027"
+    ]
+];
 // FUNCTION PAGES
 $score_recorder = "functions/submit-exam";
+$monnify_res = "functions/payment_gateway/monnify.php";
           
-
+//Details
+$mailer_email = "support@ekreat.com";
+$sch_name = "Jayjtech Schools";
 ?>
