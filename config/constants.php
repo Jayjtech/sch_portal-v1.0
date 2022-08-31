@@ -11,8 +11,8 @@ $month = date("m");
 $year = date("Y");
 $time = date("g:ia ", time());
 session_start();
+error_reporting(0);
 
-$userId = "Jay18937893";
 $question_tbl_a = "quest_type_a";
 $question_tbl_b = "quest_type_b";
 $question_tbl_c = "quest_type_c";
@@ -23,6 +23,7 @@ $evaluation_tbl = "evaluation";
 $session_tbl = "session";
 $class_tbl = "class";
 $users_tbl = "users";
+$course_tbl = "courses";
 
 /**Questions */
 $questions = [

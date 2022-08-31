@@ -1,4 +1,5 @@
 <?php include "config/db.php"; ?>
+<?php include "calls.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,8 +24,4 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="images/favicon.png" />
     <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
-
-
-    <!-- <script src="js/googleapis.js"></script> -->
-
 </head>

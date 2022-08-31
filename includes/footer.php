@@ -19,7 +19,7 @@
 <!-- page-body-wrapper ends -->
 </div>
 <!-- container-scroller -->
-
+<script src="js/sweetalert2.js"></script>
 <!-- plugins:js -->
 <script src="vendors/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
@@ -40,6 +40,7 @@
 <!-- Custom js for this page-->
 <script src="js/dashboard.js"></script>
 <script src="js/Chart.roundedBarCharts.js"></script>
+<?php include "auth.php"; ?>
 <!-- End custom js for this page-->
 </body>
 

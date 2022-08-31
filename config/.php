@@ -19,15 +19,18 @@ $create_user = $conn->query("CREATE TABLE IF NOT EXISTS $users_tbl (
     curr_class varchar(50) NOT NULL,
     monnify_account varchar(1000000000) NOT NULL,
     password varchar(50) NOT NULL,
+    pin varchar(255) NOT NULL,
     ip varchar(255) NOT NULL,
     os varchar(255) NOT NULL,
     device varchar(255) NOT NULL,
+    img varchar(255) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 
 if($create_user){
   $user_type = base64_encode('Admin');
   $token = md5(date('Y')*time());
+  $pin = base64_encode('12345');
   $check = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'QWRtaW4=' AND position = 1");
   if($check->num_rows == 0){
     $insert = $conn->query("INSERT INTO $users_tbl SET 
@@ -35,12 +38,34 @@ if($create_user){
                 token = '$token',
                 user_type = '$user_type',
                 position = 1,
-                userId = 'Adm5465343',
+                userId = '8395465343',
                 email = 'admin@example.com',
+                pin = '$pin',
                 password = '9bdb52d04dc20036dbd8313ed055'
       ");
   }
 }
+
+$cr_course_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $course_tbl (
+    id int(11) AUTO_INCREMENT NOT NULL,
+    course int(11)  NOT NULL,
+    course_code varchar(50)  NOT NULL,
+    class varchar(50)  NOT NULL,
+    department varchar(50)  NOT NULL,
+    taken_by varchar(255)  NOT NULL,
+    token varchar(255)  NOT NULL,
+    exam_duration int(11)  NOT NULL,
+    test_duration int(11)  NOT NULL,
+    ass_duration int(11)  NOT NULL,
+    exam_unit int(11)  NOT NULL,
+    test_unit int(11)  NOT NULL,
+    ass_unit int(11)  NOT NULL,
+    term varchar(50)  NOT NULL,
+    session varchar(50)  NOT NULL,
+    created_at varchar(50)  NOT NULL,
+    updated_at varchar(50)  NOT NULL,
+    PRIMARY KEY (id)
+)");
 
 $cr_question_tbl_a = $conn->query("CREATE TABLE IF NOT EXISTS $question_tbl_a (
     id int(11) AUTO_INCREMENT NOT NULL,

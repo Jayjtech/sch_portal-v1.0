@@ -1,6 +1,4 @@
 <?php include "includes/header.php"; ?>
-<?php include "includes/calls.php"; ?>
-
 
 <body>
     <div class="container-scroller">
@@ -14,10 +12,18 @@
                             </div>
                             <h4>Hello! let's get started</h4>
                             <h6 class="font-weight-light">Sign in to continue.</h6>
-                            <form action="" class="pt-3" method="POST">
+                            <form id="loginForm" class="pt-3" method="POST">
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-lg" id="exampleInputEmail1"
-                                        placeholder="User - ID">
+                                    <input type="text" class="UserId form-control form-control-lg" id="userId"
+                                        onkeyup="check()" placeholder="User - ID">
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control form-control-lg user-category" style="display:none;"
+                                        id="userCategory">
+                                        <option value="">Select Category</option>
+                                        <option value="c3R1ZHk=">Student</option>
+                                        <option value="d29yaw==">Staff</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
@@ -28,22 +34,24 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <select class="form-control form-control-lg" id="exampleFormControlSelect2">
-                                        <option>Select Term</option>
+                                    <select class="form-control form-control-lg" id="term">
+                                        <option value="">Select Term</option>
                                         <option value="1">First Term</option>
                                         <option value="2">Second Term</option>
                                         <option value="3">Third Term</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <select class="form-control form-control-lg" id="exampleFormControlSelect2">
-                                        <option>Select Session</option>
+                                    <select class="form-control form-control-lg" id="Session">
+                                        <option value="">Select Session</option>
                                         <?php while($row = $callSession->fetch_object()):?>
                                         <option value="<?= $row->session; ?>"><?= $row->session; ?></option>
                                         <?php endwhile; ?>
                                     </select>
                                 </div>
-                                <div class="mt-3">
+
+                                <div class="mt-3 loginResponse">
+                                    <div class="mt-2 mb-3 logUser"></div>
                                     <button type="submit"
                                         class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN
                                         IN</button>

@@ -1,53 +1,65 @@
-<?php
-$response = '{"status":"Successful", 
-              "statusCode":"200", 
-              "network":"9mobile", 
-              "denomination":"100", 
-              "quantity":3, 
-              "vouchers": { 
-              "1": "158395947836214", 
-              "2": "937183739484493", 
-              "3": "378594957023291"
-              }, 
-              "requestRef": "75Qd543c1607766805|qa35h78hhjgRFD5666728", 
-              "wallet": 15379.95 
-                }';
-// $response = '{"status":"Successful","statusCode":200,"network":"AIRTEL","denomination":"100","quantity":"1","vouchers":"1869634728994791","requestRef":"57M1c4Pg1661629627|RC87092221661629615","wallet":4500}';
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
 
-$res = json_decode($response);
-$quantity = $res->quantity;
-for($x = 1; $x <= $quantity; $x++){
-    if($quantity == 1){
-        echo $voucher = $res->vouchers;
-    }else{
-        echo $voucher = $res->vouchers->$x;
+<body>
+    <input type="number" id="num" onkeyup="check();">
+    <div class="response"></div>
+    <script type="text/javascript">
+    function check() {
+        let userId = document.querySelector("#num").value;
+        let res = document.getElementById("num")
+        res.value = userId.toUpperCase();
+        let response = document.querySelector(".response")
+        response.textContent = userId * 5;
     }
-        
-        // $insert = $con->query("INSERT INTO recharge_card SET
-        //     voucher = '$voucher',
-        //     user_id = '$user_code',
-        //     denomination = '$denomination',
-        //     network = '$network',
-        //     response = '$response',
-        //     status = 'Unused'
-        // ");
+    </script>
+
+
+
+
+    <button onclick="clickMe()">Click Me</button>
+    <script>
+    function clickMe() {
+        Swal.fire({
+            title: 'Submit your Github username',
+            input: 'number',
+            inputAttributes: {
+                autocapitalize: 'off',
+                required: 'on'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Look up',
+            showLoaderOnConfirm: true,
+            preConfirm: (login) => {
+                return fetch(`call.php?id=${login}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText)
+                        }
+                        return response.json()
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(
+                            `Request failed: ${error}`
+                        )
+                    })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: result.value.text,
+                    icon: result.value.icon,
+                    imageUrl: result.value.avatar_url
+                })
+            }
+        })
     }
-
-
-                // Success Response 
-                // $res = json_decode('{ 
-                //     "status":"Successful", 
-                //     "statusCode":"200", 
-                //     "network":"9mobile", 
-                //     "denomination":"100", 
-                //     "quantity":3, 
-                //     "vouchers": { 
-                //     "1": "158395947836214", 
-                //     "2": "937183739484493", 
-                //     "3": "378594957023291"
-                //     }, 
-                //     "requestRef": "75Qd543c1607766805|qa35h78hhjgRFD5666728", 
-                //     "wallet": 15379.95 
-                // }');
-?>
+    </script>

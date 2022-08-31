@@ -2,3 +2,4 @@ RewriteEngine ON
 RewriteRule ^dashboard dashboard.php [NC,L] 
 RewriteRule ^login index.php [NC,L] 
 RewriteRule ^register register.php [NC,L] 
+RewriteRule ^create_course create_course.php [NC,L] 

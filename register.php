@@ -1,7 +1,4 @@
 <?php include "includes/header.php"; ?>
-<?php include "includes/calls.php"; ?>
-<script src="js/googleapis.js"></script>
-<script src="js/jquery.js"></script>
 
 <body>
     <div class="container-scroller">
@@ -38,6 +35,14 @@
 
                                 <div class="form-group">
                                     <div class="input-group">
+                                        <input type="password" id="pin" class="form-control" placeholder="5 digit Pin">
+                                        <span class="input-group-text" id="eye-el3" onclick="pin()"><i
+                                                class="mdi mdi-eye"></i></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="input-group">
                                         <input type="password" class="form-control form-control-lg" id="password"
                                             placeholder="Password">
                                         <span class="input-group-text" id="eye-el" onclick="viewPassword()"><i
@@ -52,6 +57,7 @@
                                         <span id="length" class="invalid">Minimum <b>8 characters</b></span>
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <div class="input-group">
                                         <input type="password" class="form-control form-control-lg" id="rPassword"
@@ -74,6 +80,7 @@
                                             name="register">SIGN
                                             UP</button>
                                     </div>
+
                                     <div class="text-center mt-4 font-weight-light">
                                         Already have an account? <a href="login" class="text-primary">Login</a>
                                     </div>
