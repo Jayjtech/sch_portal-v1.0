@@ -25,6 +25,7 @@ $class_tbl = "class";
 $users_tbl = "users";
 $course_tbl = "courses";
 
+$add_course = "exam/functions/uploader";
 /**Questions */
 $questions = [
             "course_code" => "ICT401",

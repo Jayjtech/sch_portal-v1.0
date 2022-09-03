@@ -19,6 +19,7 @@
 <!-- page-body-wrapper ends -->
 </div>
 <!-- container-scroller -->
+<script src="js/validator.js"></script>
 <script src="js/sweetalert2.js"></script>
 <!-- plugins:js -->
 <script src="vendors/js/vendor.bundle.base.js"></script>
@@ -40,7 +41,28 @@
 <!-- Custom js for this page-->
 <script src="js/dashboard.js"></script>
 <script src="js/Chart.roundedBarCharts.js"></script>
+
+<script>
+/**DataTable */
+$(document).ready(function() {
+    $('#myTable').DataTable();
+});
+</script>
+
+<?php if(isset($_SESSION['message'])):?>
+<script>
+swal.fire({
+    title: "<?= $_SESSION['message']; ?>",
+    text: "<?= $_SESSION['remedy']; ?>",
+    icon: "<?= $_SESSION['msg_type']; ?>"
+})
+</script>
+<?php endif; ?>
+
+<?php unset($_SESSION['message']); ?>
+
 <?php include "auth.php"; ?>
+
 <!-- End custom js for this page-->
 </body>
 

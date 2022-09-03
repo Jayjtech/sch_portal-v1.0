@@ -1,6 +1,29 @@
 <?php 
+if($_SESSION['userId'] == false){
+$userId = "";
+$token = "";
+$name =  "";
+$log_session =  "";
+$log_term =  "";
+}else{
 $userId = $_SESSION['userId'];
 $token = $_SESSION['token'];
+$name = $_SESSION['name'];
+$log_session = $_SESSION['log_session'];
+$log_term = $_SESSION['log_term'];
+}
+
+switch($log_term){
+    case 1:
+        $term_syntax = "First";
+        break;
+    case 2:
+        $term_syntax = "Second";
+        break;
+    case 3:
+        $term_syntax = "Third";
+        break;
+}
 $callSession = $conn->query("SELECT * FROM $session_tbl ORDER BY session ASC");
 $callClass = $conn->query("SELECT * FROM $class_tbl ORDER BY class ASC");
 
@@ -36,6 +59,7 @@ switch($det->position){
 
 
 /**Courses */
-$callCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token'");
+$callCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
+$selCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token'");
 $created_course_count = $callCourses->num_rows;
 ?>

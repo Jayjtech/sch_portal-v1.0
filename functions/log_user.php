@@ -22,7 +22,8 @@
                 $_SESSION['email'] = $row->email;
                 $_SESSION['curr_class'] = $row->class;
                 $_SESSION['log_term'] = $row->term;
-                $_SESSION['log_session'] = $row->session;
+                $_SESSION['log_session'] = $session;
+                $_SESSION['log_term'] = $term;
                 $_SESSION['position'] = $row->position;
                 $_SESSION['staff_type'] = $row->staff_type;
                 $_SESSION['token'] = $row->token;
