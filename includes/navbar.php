@@ -1,3 +1,9 @@
+<?php 
+if(!$_SESSION['token']){
+    header('location:logout');
+}
+?>
+
 <body>
     <div class="container-scroller">
         <!-- partial:partials/_navbar.html -->

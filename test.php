@@ -1,4 +1,14 @@
-<!DOCTYPE html>
+<?php
+
+include "config/db.php";
+
+$insert = $conn->query("INSERT ALL 
+INTO $users_tbl
+
+");
+
+?>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -62,4 +72,4 @@
             }
         })
     }
-    </script>
+    </script> -->

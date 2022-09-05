@@ -4,9 +4,8 @@ if(isset($_GET['id'])){
     $userId = $_SESSION['userId'];
     $name = $_SESSION['name'];
     $userCategory = $_SESSION['userCategory'];
-    $pin = base64_encode($_GET['id']);
-    $check = $conn->query("SELECT * FROM $users_tbl WHERE (pin = '$pin' AND name='$name' 
-    AND userId='$userId' AND user_type='$userCategory')");
+    $userId = $_GET['id'];
+    $check = $conn->query("SELECT * FROM $users_tbl WHERE (userId='$userId')");
     while($row = $check->fetch_object()){
         $img = $row->img;
         $user = $row->name;
@@ -26,7 +25,7 @@ if(isset($_GET['id'])){
             "text" => "$user",
             "icon" => "success"
             ];
-        $_SESSION['userCategory'] = false;
+        $_SESSION['check_result'] = false;
     }else{
         $response = [
             "text" => "User does not exist!",

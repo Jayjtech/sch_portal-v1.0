@@ -195,46 +195,77 @@
                     <span class="menu-title">Dashboard</span>
                 </a>
             </li>
+
             <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
-                    aria-controls="ui-basic">
+                <a class="nav-link" data-toggle="collapse" href="#c_panel" aria-expanded="false"
+                    aria-controls="c_panel">
                     <i class="icon-layout menu-icon"></i>
-                    <span class="menu-title">UI Elements</span>
+                    <span class="menu-title">Control Panel</span>
                     <i class="menu-arrow"></i>
                 </a>
-                <div class="collapse" id="ui-basic">
+
+                <div class="collapse" id="c_panel">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_revenue">Revenue</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="adm_students">Students</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_staff">Staff</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_academic">Academic Period</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_exam">Exam Setting</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_document">Documentation</a>
                         </li>
-                        <li class="nav-item"> <a class="nav-link"
-                                href="pages/ui-features/typography.html">Typography</a></li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false"
-                    aria-controls="form-elements">
+                <a class="nav-link" data-toggle="collapse" href="#profile" aria-expanded="false"
+                    aria-controls="profile">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">Profile</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="profile">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="bio">BIO-DATA</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="document">Documents</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-controls="ui-basic" href="my_course">
+                    <i class="icon-grid menu-icon"></i>
+                    <span class="menu-title">My Course</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#e-learning" aria-expanded="false"
+                    aria-controls="e-learning">
                     <i class="icon-columns menu-icon"></i>
-                    <span class="menu-title">Form elements</span>
+                    <span class="menu-title">E-learning</span>
                     <i class="menu-arrow"></i>
                 </a>
-                <div class="collapse" id="form-elements">
+                <div class="collapse" id="e-learning">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Basic
-                                Elements</a></li>
+                        <li class="nav-item"><a class="nav-link" href="syllabus">Syllabus</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="course_materials">Course
+                                materials</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="e_exam">E-exam</a>
+                        </li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
-                    <i class="icon-bar-graph menu-icon"></i>
-                    <span class="menu-title">Charts</span>
+                <a class="nav-link" data-toggle="collapse" href="#c_result" aria-expanded="false"
+                    aria-controls="c_result">
+                    <i class="icon-file menu-icon"></i>
+                    <span class="menu-title">Check Result</span>
                     <i class="menu-arrow"></i>
                 </a>
-                <div class="collapse" id="charts">
+                <div class="collapse" id="c_result">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="pages/charts/chartjs.html">ChartJs</a>
+                        <li class="nav-item"> <a class="nav-link" href="pages/charts/chartjs.html">Approved result</a>
                         </li>
                     </ul>
                 </div>

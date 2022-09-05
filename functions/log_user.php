@@ -7,8 +7,13 @@
         $session = mysqli_real_escape_string($conn, $_POST['Session']);
         $userCategory = mysqli_real_escape_string($conn, $_POST['userCategory']);
         $hash_pswd = substr(md5($password), 4);
-        $check = $conn->query("SELECT * FROM $users_tbl WHERE (userId='$userId' OR email='$userId') AND password='$hash_pswd'");
-       
+        if($userCategory == ""){
+            $check = $conn->query("SELECT * FROM $users_tbl WHERE (userId='$userId' OR email='$userId') AND password='$hash_pswd'");
+        }else{
+            $check = $conn->query("SELECT * FROM $users_tbl WHERE (userId='$userId' OR email='$userId') AND password='$hash_pswd' AND user_type='$userCategory'");
+        }
+        
+       $_SESSION['check_result'] = $check->num_rows;
         if($check->num_rows == 0){
              $response = [
                 "title" => "User does not exist!",

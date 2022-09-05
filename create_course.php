@@ -57,7 +57,8 @@
             <div class="card position-relative">
                 <div class="card-body">
                     <h4 class="card-title">Create Course</h4>
-                    <form action="<?= $add_course;?>" class="forms-sample" method="POST" onsubmit="return addCourse()">
+                    <form action="<?= $add_course;?>" class="forms-sample" method="POST"
+                        onsubmit="return addCourse(this)">
                         <div class="row mt-3 mb-3">
                             <div class="col-sm-4">
                                 <div class="form-group">
@@ -258,37 +259,7 @@
         </div>
 
     </div>
-    <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <p class="card-title">Advanced Table</p>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="table-responsive">
-                                <table id="example" class="display expandable-table" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Quote#</th>
-                                            <th>Product</th>
-                                            <th>Business type</th>
-                                            <th>Policy holder</th>
-                                            <th>Premium</th>
-                                            <th>Status</th>
-                                            <th>Updated at</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-
-        </div>
-    </div>
 </div>
 <!-- content-wrapper ends -->
 

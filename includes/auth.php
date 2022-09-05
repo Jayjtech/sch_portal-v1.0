@@ -1,8 +1,18 @@
-<?php if($_SESSION['userCategory'] == true): ?>
+<?php if($_SESSION['check_result'] > 1): 
+    unset($_SESSION['userId']);
+    if($det->userId){
+        ?>
+<script>
+window.location.href = ""
+</script>
+<?php
+    }
+    ?>
+
 <script>
 Swal.fire({
-    title: 'Enter your five digits pin',
-    input: 'password',
+    title: 'Enter your admission number to continue',
+    input: 'text',
     inputAttributes: {
         autocapitalize: 'off',
         required: 'on'
@@ -33,7 +43,9 @@ Swal.fire({
             imageUrl: result.value.avatar_url
         })
         if (result.value.icon === "error") {
-            window.location.href = "login"
+            window.location.href = "logout"
+        } else if (result.value.icon === "success") {
+            window.location.href = "dashboard"
         }
     }
 })

@@ -2,6 +2,7 @@ let specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-=e";
 let cC = document.querySelector('#course_code');
 let cCA = document.querySelector('.cCA');
 let validCourseCode = false;
+let cT = document.querySelector("#course");
 cC.addEventListener("focus", function() {
     cCA.style.display = "block"
 })
@@ -43,6 +44,11 @@ cC.addEventListener("keyup", function() {
     }
 })
 
+cT.addEventListener('keyup', function(){
+    let courseTitle = document.getElementById("course");
+    courseTitle.value = cT.value.toUpperCase();
+})
+
 function addCourse(form){
     if(cC.value.length != 6){
     swal.fire({
@@ -55,3 +61,5 @@ function addCourse(form){
     }
     return false;
 }
+
+

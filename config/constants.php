@@ -26,6 +26,17 @@ $users_tbl = "users";
 $course_tbl = "courses";
 
 $add_course = "exam/functions/uploader";
+$course_deleter = "exam/functions/deleter";
+$enrolCourse = "exam/functions/enrol";
+$pusher = "functions/pusher.php";
+
+
+
+
+/**Settings */
+$current_term = 1;
+$current_session = "2022/2023";
+
 /**Questions */
 $questions = [
             "course_code" => "ICT401",

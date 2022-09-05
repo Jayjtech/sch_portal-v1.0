@@ -1,4 +1,6 @@
 RewriteEngine ON
 RewriteRule ^submit-exam submit_exam.php [NC,L]
 RewriteRule ^uploader uploader.php [NC,L]
+RewriteRule ^deleter deleter.php [NC,L]
+RewriteRule ^enrol enrol.php [NC,L]
 
