@@ -1,5 +1,6 @@
 <?php
 include "../../config/db.php";
+    $userId = $_SESSION['userId'];
 if ($_SESSION['userId']) {
      if($_SESSION['userCategory'] == "d29yaw=="){
                 $_SESSION['message'] = 'Thanks for registering with us ' . $sch_name . '!';
@@ -8,7 +9,7 @@ if ($_SESSION['userId']) {
                 $_SESSION['btn'] = "Ok";
                 header("location:../../dashboard");
             }else{
-    $userId = $_SESSION['userId'];
+
 
     $callUserDetails = $conn->query("SELECT * FROM $users_tbl WHERE userId = '$userId'");
     while ($row = $callUserDetails->fetch_assoc()) {
@@ -16,11 +17,14 @@ if ($_SESSION['userId']) {
         $customerEmail = $row['email'];
         $customerName = $row['name'];
     }
-
+    echo $customerEmail.'<br>';
+    echo $customerName.'<br>';
+    echo $admin_det->monnify_contract.'<br>';
     //GENERATE ACCESS TOKEN
     $curl = curl_init();
     curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://api.monnify.com/api/v1/auth/login/',
+        CURLOPT_URL => 'https://sandbox.monnify.com/api/v1/auth/login/',
+        // CURLOPT_URL => 'https://api.monnify.com/api/v1/auth/login/',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -41,11 +45,14 @@ if ($_SESSION['userId']) {
 
     $accountName = $customerName;
     $AcessToken = 'Bearer ' . $res->responseBody->accessToken;
+ 
+
     if ($res->requestSuccessful == 1) {
         //RESERVE ACCOUNT
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.monnify.com/api/v2/bank-transfer/reserved-accounts',
+            CURLOPT_URL => 'https://sandbox.monnify.com/api/v1/bank-transfer/reserved-accounts',
+            // CURLOPT_URL => 'https://api.monnify.com/api/v2/bank-transfer/reserved-accounts',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -54,14 +61,14 @@ if ($_SESSION['userId']) {
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => '{
-            "accountReference": "' . $userId . '",
+            "accountReference": "' . $userId . '344",
             "accountName": "' . $accountName . '",
             "currencyCode": "NGN",
-            "contractCode": "' . $monnify_live_contract . '",
+            "contractCode": "' . $admin_det->monnify_contract . '",
             "customerEmail": "' . $customerEmail . '",
             "customerName": "' . $customerName . '",
             "getAllAvailableBanks": false,
-            "preferredBanks": ["035", "232", "50515", "070"]
+            "preferredBanks": ["035", "232", "070"]
         }',
             CURLOPT_HTTPHEADER => array(
                 'Authorization: ' . $AcessToken . '',
@@ -73,6 +80,10 @@ if ($_SESSION['userId']) {
         curl_close($curl);
         $data = json_decode($response1);
 
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+        exit();
         //UPDATE USER TABLE
         if ($data->requestSuccessful != "success") {
             echo "YES";
@@ -80,7 +91,7 @@ if ($_SESSION['userId']) {
             $_SESSION['msg_type'] = "warning";
             $_SESSION['remedy'] = '';
             $_SESSION['btn'] = "Ok";
-            header("location:../../fund-wallet");
+            header("location:../../dashboard");
         } else {
             $update = $conn->query("UPDATE $users_tbl SET 
                                 monnify_account='$response1' 
@@ -112,7 +123,7 @@ if ($_SESSION['userId']) {
                    $_SESSION['message'] = "Service currently unavailable!";
                 }
         
-        $_SESSION['msg_type'] = "error";
+        $_SESSION['msg_type'] = "success";
         $_SESSION['remedy'] = 'Please try again later';
         $_SESSION['btn'] = "Ok";
         header("location:../../dashboard");
@@ -125,3 +136,5 @@ if ($_SESSION['userId']) {
     $_SESSION['btn'] = "Ok";
     header("location:../../login");
 }
+
+// "preferredBanks": ["035", "232", "50515", "070"]

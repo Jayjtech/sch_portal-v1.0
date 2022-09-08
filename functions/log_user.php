@@ -26,7 +26,6 @@
                 $_SESSION['name'] = $row->name;
                 $_SESSION['email'] = $row->email;
                 $_SESSION['curr_class'] = $row->class;
-                $_SESSION['log_term'] = $row->term;
                 $_SESSION['log_session'] = $session;
                 $_SESSION['log_term'] = $term;
                 $_SESSION['position'] = $row->position;

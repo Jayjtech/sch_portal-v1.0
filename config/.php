@@ -2,7 +2,11 @@
 $create_user = $conn->query("CREATE TABLE IF NOT EXISTS $users_tbl (
     id int(11) AUTO_INCREMENT NOT NULL,
     user_type varchar(255) NOT NULL,
-    staff_type varchar(255) NOT NULL,
+    staff_type varchar(50) NOT NULL,
+    award_type varchar(100) NOT NULL,
+    tuition_discount float(11) NOT NULL,
+    wallet int(11) NOT NULL,
+    privileges varchar(255) NOT NULL,
     name varchar(255) NOT NULL,
     token varchar(255) NOT NULL,
     position int(11) NOT NULL,
@@ -187,6 +191,55 @@ if ($cr_class_tbl) {
   }
 }
 
+$cr_bill_tbl= $conn->query("CREATE TABLE IF NOT EXISTS $bill_tbl (
+    id int(11) AUTO_INCREMENT NOT NULL,
+    name varchar(255)  NOT NULL,
+    userId varchar(100)  NOT NULL,
+    class varchar(50)  NOT NULL,
+    term int(11)  NOT NULL,
+    session varchar(255)  NOT NULL,
+    sch_fee int(11)  NOT NULL,
+    sport int(11)  NOT NULL,
+    ict int(11)  NOT NULL,
+    health int(11)  NOT NULL,
+    pta int(11)  NOT NULL,
+    music int(11)  NOT NULL,
+    excursion int(11)  NOT NULL,
+    transport int(11)  NOT NULL,
+    development int(11)  NOT NULL,
+    vs_fee int(11)  NOT NULL,
+    others int(11)  NOT NULL,
+    others_covers varchar(500)  NOT NULL,
+    total varchar(500)  NOT NULL,
+    ft_outstanding int(11)  NOT NULL,
+    st_outstanding int(11)  NOT NULL,
+    tt_outstanding int(11)  NOT NULL,
+    ft_paid int(11)  NOT NULL,
+    st_paid int(11)  NOT NULL,
+    tt_paid int(11)  NOT NULL,
+    PRIMARY KEY (id)
+)");
+
+$cr_student_award_tbl = $conn->query("CREATE TABLE IF NOT EXISTS `$student_award_tbl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `award` varchar(255) NOT NULL,
+  `discount` varchar(255) NOT NULL,
+  `span` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+");
+
+if ($cr_student_award_tbl) {
+  for($x = 1; $x <= count($stu_awards['award']); $x++){
+    $award = $stu_awards['award'][$x];
+    $check = $conn->query("SELECT * FROM $student_award_tbl WHERE award = '$award'");
+    if($check->num_rows == 0){
+      $insert = $conn->query("INSERT INTO $student_award_tbl (award) 
+      VALUES('$award')");
+    }
+  }
+}
+
 $cr_session_tbl = $conn->query("CREATE TABLE IF NOT EXISTS `$session_tbl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `session` varchar(255) NOT NULL,
@@ -239,9 +292,10 @@ $cr_evaluation = $conn->query("CREATE TABLE IF NOT EXISTS `$evaluation_tbl` (
 $create_settings = $conn->query("CREATE TABLE IF NOT EXISTS $settings_tbl (
     id int(11) AUTO_INCREMENT NOT NULL,
     sch_name varchar(255) NOT NULL,
+    sch_motto varchar(255) NOT NULL,
     sch_email varchar(255) NOT NULL,
     sch_support_email varchar(255) NOT NULL,
-    fb_url int(11) NOT NULL,
+    fb_url varchar(255) NOT NULL,
     ig_url varchar(255) NOT NULL,
     tw_url varchar(255) NOT NULL,
     yt_url varchar(255) NOT NULL,
@@ -259,13 +313,21 @@ $create_settings = $conn->query("CREATE TABLE IF NOT EXISTS $settings_tbl (
     manual_acct varchar(255) NOT NULL,
     manual_acct_name varchar(255) NOT NULL,
     manual_acct_holder varchar(255) NOT NULL,
-    announcement varchar(255) NOT NULL,
+    announcement varchar(10000000) NOT NULL,
     pc varchar(255) NOT NULL,
     mc varchar(255) NOT NULL,
     mc_p varchar(255) NOT NULL,
     img varchar(255) NOT NULL,
     PRIMARY KEY (id)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
+if ($create_settings) {
+    $check = $conn->query("SELECT * FROM $settings_tbl");
+    if($check->num_rows == 0){
+      $insert = $conn->query("INSERT INTO $settings_tbl (sch_name) 
+      VALUES('Jayjtech')");
+    }
+}
 
 //     for($x = 0; $x < count($questions['question']); $x++){
 //         $q_no = $x+1;

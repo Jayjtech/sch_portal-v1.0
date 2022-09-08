@@ -1,13 +1,67 @@
 <?php
-
 include "config/db.php";
+?>
 
-$insert = $conn->query("INSERT ALL 
-INTO $users_tbl
+<!DOCTYPE html>
+<html lang="en">
 
-");
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script>
+    function show() {
+        let txt = document.testForm.x.value;
+        let msg = document.querySelector(".msg");
+        msg.innerHTML = txt;
+    }
+    </script>
+
+    <form name="testForm">
+        <input type="text" id="x" name="x" onchange="show()">
+        <!-- <input type="text" id="x" name="x" onchange="show()"> -->
+    </form>
+    <div class="msg"></div>
+</body>
+
+</html>
+
+<?php 
+
 
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- <!DOCTYPE html>
 <html lang="en">
 

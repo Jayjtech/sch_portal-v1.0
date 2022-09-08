@@ -33,6 +33,7 @@ switch($log_term){
 
 $callSession = $conn->query("SELECT * FROM $session_tbl ORDER BY session ASC");
 $callClass = $conn->query("SELECT * FROM $class_tbl ORDER BY class ASC");
+$callStudentAward = $conn->query("SELECT * FROM $student_award_tbl");
 
 /**User details */
 $callUserDetails = $conn->query("SELECT * FROM $users_tbl WHERE userId='$userId'");
@@ -70,7 +71,11 @@ switch($det->position){
 $callCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
 $selCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
 $created_course_count = $callCourses->num_rows;
+/**Call all staff */
+$callStaff = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'd29yaw=='");
 
+/**Call students */
+$callStudents = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'c3R1ZHk='");
 
 /**Course student */
 $availableCourse = $conn->query("SELECT * FROM $course_tbl WHERE department='$department' OR department='general' AND (term='$log_term' AND session='$log_session')");

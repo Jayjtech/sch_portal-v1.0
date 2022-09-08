@@ -60,59 +60,8 @@ swal.fire({
 <?php endif; ?>
 
 <?php unset($_SESSION['message']); ?>
-<script>
-function delForm(form) {
-    swal.fire({
-        title: "Are you sure you want to delete this file",
-        text: "The file will no longer exist",
-        icon: "warning",
-        showDenyButton: true,
-        confirmButtonText: 'Yes'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            form.submit();
-        } else if (result.isDenied) {
-            Swal.fire('File left untouched!', '', 'info')
-        }
-    })
-    return false;
-}
 
-function bioData(form) {
-    swal.fire({
-        title: "Are you sure you have filled the correct details?",
-        text: "Details can only be updated ones",
-        icon: "warning",
-        showDenyButton: true,
-        confirmButtonText: 'Yes'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            form.submit();
-        } else if (result.isDenied) {
-            Swal.fire('Data was not updated!', 'You make your adjustment and update', 'info')
-        }
-    })
-    return false;
-}
-
-
-function enrolCourse(form) {
-    swal.fire({
-        title: `Are you sure you want to enrol for this course`,
-        text: "It will appear on the list of your registered courses",
-        icon: "warning",
-        showDenyButton: true,
-        confirmButtonText: 'Yes'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            form.submit();
-        } else if (result.isDenied) {
-            Swal.fire(`You didn't enrol!`, '', 'info')
-        }
-    })
-    return false;
-}
-</script>
+<?php include "footer_script.php"; ?>
 <?php include "auth.php"; ?>
 
 <!-- End custom js for this page-->

@@ -24,18 +24,14 @@ $session_tbl = "session";
 $class_tbl = "class";
 $users_tbl = "users";
 $course_tbl = "courses";
+$student_award_tbl = "student_award";
+$bill_tbl = "bill";
 
 $add_course = "exam/functions/uploader";
 $course_deleter = "exam/functions/deleter";
 $enrolCourse = "exam/functions/enrol";
 $pusher = "functions/pusher.php";
-
-
-
-
-/**Settings */
-$current_term = 1;
-$current_session = "2022/2023";
+$exporter = "functions/export.php";
 
 /**Questions */
 $questions = [
@@ -158,6 +154,15 @@ $sessions = [
         6 => "2026/2027"
     ]
 ];
+
+$stu_awards = [
+    "award" => [
+        1 => "Paying",
+        2 => "Full Scholarship",
+        3 => "Half Scholarship"
+    ]
+];
+
 // FUNCTION PAGES
 $score_recorder = "functions/submit-exam";
 $monnify_res = "functions/payment_gateway/monnify.php";
@@ -165,4 +170,5 @@ $monnify_res = "functions/payment_gateway/monnify.php";
 //Details
 $mailer_email = "support@ekreat.com";
 $sch_name = "Jayjtech Schools";
+$currency = "&#8358;";
 ?>

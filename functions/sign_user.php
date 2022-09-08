@@ -15,6 +15,13 @@
         $token = md5(date('Y')*time());
         $hash_pswd = substr(md5($password), 4);
         $staff_code = "d29yaw==";
+        if($myClass == true){
+            $award_type = "Paying";
+            $tuition_discount = "1.0";
+        }else{
+            $award_type = "";
+            $tuition_discount = "";
+        }
         $check = $conn->query("SELECT * FROM $users_tbl WHERE email='$email'");
         if(($userCategory == $staff_code) && ($check->num_rows > 0)){
                 $response = [
@@ -35,6 +42,8 @@
                     name = '$name',
                     email = '$email',
                     user_type = '$userCategory',
+                    tuition_discount = '$tuition_discount',
+                    award_type = '$award_type',
                     curr_class = '$myClass',
                     password = '$hash_pswd',
                     os = '$os',

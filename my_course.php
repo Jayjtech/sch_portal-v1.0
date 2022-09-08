@@ -36,7 +36,7 @@
                                         Ass:<?= $row->ass_unit; ?></td>
                                     <td><?= $row->session; ?></td>
                                     <td>
-                                        <form action="<?= $enrolCourse; ?>" method="get"
+                                        <form name="enrolC" action="<?= $enrolCourse; ?>" method="get"
                                             onsubmit="return enrolCourse(this)">
                                             <input type="hidden" name="course_code" value="<?= $row->course_code; ?>">
                                             <input type="hidden" name="course" value="<?= $row->course; ?>">
