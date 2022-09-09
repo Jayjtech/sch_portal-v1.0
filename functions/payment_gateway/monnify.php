@@ -23,8 +23,8 @@ if ($_SESSION['userId']) {
     //GENERATE ACCESS TOKEN
     $curl = curl_init();
     curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://sandbox.monnify.com/api/v1/auth/login/',
-        // CURLOPT_URL => 'https://api.monnify.com/api/v1/auth/login/',
+        // CURLOPT_URL => 'https://sandbox.monnify.com/api/v1/auth/login/',
+        CURLOPT_URL => 'https://api.monnify.com/api/v1/auth/login/',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -51,8 +51,8 @@ if ($_SESSION['userId']) {
         //RESERVE ACCOUNT
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://sandbox.monnify.com/api/v1/bank-transfer/reserved-accounts',
-            // CURLOPT_URL => 'https://api.monnify.com/api/v2/bank-transfer/reserved-accounts',
+            // CURLOPT_URL => 'https://sandbox.monnify.com/api/v1/bank-transfer/reserved-accounts',
+            CURLOPT_URL => 'https://api.monnify.com/api/v2/bank-transfer/reserved-accounts',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -61,14 +61,14 @@ if ($_SESSION['userId']) {
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => '{
-            "accountReference": "' . $userId . '344",
+            "accountReference": "' . $userId . '",
             "accountName": "' . $accountName . '",
             "currencyCode": "NGN",
             "contractCode": "' . $admin_det->monnify_contract . '",
             "customerEmail": "' . $customerEmail . '",
             "customerName": "' . $customerName . '",
             "getAllAvailableBanks": false,
-            "preferredBanks": ["035", "232", "070"]
+            "preferredBanks": ["035", "232", "50515", "070"]
         }',
             CURLOPT_HTTPHEADER => array(
                 'Authorization: ' . $AcessToken . '',
@@ -79,11 +79,10 @@ if ($_SESSION['userId']) {
         $response1 = curl_exec($curl);
         curl_close($curl);
         $data = json_decode($response1);
-
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
-        exit();
+        // echo '<pre>';
+        // print_r($data);
+        // echo '</pre>';
+        // exit();
         //UPDATE USER TABLE
         if ($data->requestSuccessful != "success") {
             echo "YES";
@@ -137,4 +136,7 @@ if ($_SESSION['userId']) {
     header("location:../../login");
 }
 
-// "preferredBanks": ["035", "232", "50515", "070"]
+/**
+ * 
+ * {"requestSuccessful":true,"responseMessage":"success","responseCode":"0","responseBody":{"contractCode":"587163315485","accountReference":"3163174548","accountName":"Ade","currencyCode":"NGN","customerEmail":"stuziejay@gmail.com","customerName":"Oluwafemi","accounts":[{"bankCode":"232","bankName":"Sterling bank","accountNumber":"8468848331","accountName":"Ade"},{"bankCode":"035","bankName":"Wema bank","accountNumber":"8637443748","accountName":"Ade"},{"bankCode":"50515","bankName":"Moniepoint Microfinance Bank","accountNumber":"6188644909","accountName":"Ade"},{"bankCode":"070","bankName":"Fidelity bank","accountNumber":"4551342743","accountName":"Ade"}],"collectionChannel":"RESERVED_ACCOUNT","reservationReference":"0A0B1SMFF6VCS6JLJ07X","reservedAccountType":"GENERAL","status":"ACTIVE","createdOn":"2022-09-09 10:05:51.086","incomeSplitConfig":[],"restrictPaymentSource":false}}
+ */

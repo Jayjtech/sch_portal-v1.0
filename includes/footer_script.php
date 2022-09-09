@@ -51,6 +51,23 @@ function enrolCourse(form) {
     return false;
 }
 
+function delCourse(form) {
+    swal.fire({
+        title: `Are you sure you want to delete this course?`,
+        text: "It will no longer appear on the list of courses you registered for",
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        } else if (result.isDenied) {
+            Swal.fire(`Course left untouched!`, '', 'info')
+        }
+    })
+    return false;
+}
+
 function revStaff(form) {
     swal.fire({
         title: `Are you sure you want to save changes?`,
@@ -118,6 +135,7 @@ function sumBill() {
     let pTA = parseInt(document.getElementById("pta").value);
     let deV = parseInt(document.getElementById("development").value);
     let oTH = parseInt(document.getElementById("others").value);
+    let sPOR = parseInt(document.getElementById("sport").value);
 
     /**If value is NaN, set value to 0 */
     if (!schFee) schFee = 0
@@ -130,8 +148,9 @@ function sumBill() {
     if (!pTA) pTA = 0
     if (!deV) deV = 0
     if (!oTH) oTH = 0
+    if (!sPOR) sPOR = 0
 
-    let totalBill = schFee + iCT + mUS + hEA + tRANS + eXC + vS + pTA + deV + oTH;
+    let totalBill = schFee + iCT + mUS + hEA + tRANS + eXC + vS + pTA + deV + oTH + sPOR;
     totalBox.innerHTML = `
         <div class="input-group">
         <span class="input-group-text">Total: <?= $currency; ?></span>

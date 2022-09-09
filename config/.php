@@ -148,6 +148,7 @@ $cr_score_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $score_tbl (
     adm_no varchar(255) NOT NULL,
     term int(11)  NOT NULL,
     session varchar(255)  NOT NULL,
+    exam_token varchar(255)  NOT NULL,
     ca1 int(11)  NOT NULL,
     ca2 int(11)  NOT NULL,
     ass int(11)  NOT NULL,
@@ -170,12 +171,32 @@ $cr_score_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $score_tbl (
     duration int(11)  NOT NULL,
     answeredQuestions varchar(100000000)  NOT NULL,
     minLeft int(11)  NOT NULL,
+    status int(11)  NOT NULL,
+    public int(11)  NOT NULL,
+    PRIMARY KEY (id)
+)");
+
+$cr_time_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $time_tbl (
+    id int(11) AUTO_INCREMENT NOT NULL,
+    uploaded_by varchar(255) NOT NULL,
+    day varchar(255) NOT NULL,
+    period_1 varchar(255) NOT NULL,
+    period_2 varchar(255) NOT NULL,
+    period_3 varchar(255) NOT NULL,
+    period_4 varchar(255) NOT NULL,
+    period_5 varchar(255) NOT NULL,
+    exam_date varchar(255) NOT NULL,
+    class_array varchar(500) NOT NULL,
+    term int(11)  NOT NULL,
+    session varchar(255)  NOT NULL,
+    line_id varchar(255)  NOT NULL,
     PRIMARY KEY (id)
 )");
 
 $cr_class_tbl = $conn->query("CREATE TABLE IF NOT EXISTS `$class_tbl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `class` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 ");
@@ -185,8 +206,8 @@ if ($cr_class_tbl) {
     $class = $classes['class'][$x];
     $check = $conn->query("SELECT * FROM $class_tbl WHERE class = '$class'");
     if($check->num_rows == 0){
-      $insert = $conn->query("INSERT INTO $class_tbl (class) 
-      VALUES('$class')");
+      $insert = $conn->query("INSERT INTO $class_tbl (class, status) 
+      VALUES('$class', '1')");
     }
   }
 }

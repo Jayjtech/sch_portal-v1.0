@@ -26,6 +26,7 @@ $users_tbl = "users";
 $course_tbl = "courses";
 $student_award_tbl = "student_award";
 $bill_tbl = "bill";
+$time_tbl = "time_table";
 
 $add_course = "exam/functions/uploader";
 $course_deleter = "exam/functions/deleter";
@@ -135,12 +136,22 @@ $instructions = [
 
 $classes = [
     "class" => [
-        1 => "JSS-1",
-        2 => "JSS-2",
-        3 => "JSS-3",
-        4 => "SSS-1",
-        5 => "SSS-2",
-        6 => "SSS-3"
+        1 => "Creche",
+        2 => "KG-1",
+        3 => "KG-2",
+        4 => "NUR-1",
+        5 => "NUR-2[Basic-1]",
+        6 => "PRY-1[Basic-2]",
+        7 => "PRY-2[Basic-3]",
+        8 => "PRY-3[Basic-4]",
+        9 => "PRY-4[Basic-5]",
+        10 => "PRY-5[Basic-6]",
+        11 => "JSS-1",
+        12 => "JSS-2",
+        13 => "JSS-3",
+        14 => "SSS-1",
+        15 => "SSS-2",
+        16 => "SSS-3"
     ]
 ];
 

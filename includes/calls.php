@@ -32,13 +32,16 @@ switch($log_term){
 }
 
 $callSession = $conn->query("SELECT * FROM $session_tbl ORDER BY session ASC");
-$callClass = $conn->query("SELECT * FROM $class_tbl ORDER BY class ASC");
+$callClass = $conn->query("SELECT * FROM $class_tbl ORDER BY id ASC");
 $callStudentAward = $conn->query("SELECT * FROM $student_award_tbl");
 
 /**User details */
 $callUserDetails = $conn->query("SELECT * FROM $users_tbl WHERE userId='$userId'");
 $det = $callUserDetails->fetch_object();
 $department = $det->department;
+$monnify_account = json_decode($det->monnify_account);
+
+$class_officiating = $det->class_officiating;
 switch($det->position){
     case 0:
         $POD = '<div class="text-danger">Yet to be assigned!</div>';
@@ -79,4 +82,12 @@ $callStudents = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'c3R1ZH
 
 /**Course student */
 $availableCourse = $conn->query("SELECT * FROM $course_tbl WHERE department='$department' OR department='general' AND (term='$log_term' AND session='$log_session')");
+$enrolledCourse = $conn->query("SELECT * FROM $score_tbl WHERE adm_no='$userId' AND term='$log_term' AND session='$log_session'");
+if($det->position == 5){
+    /**Teacher */
+    $callEnrolmentList = $conn->query("SELECT * FROM $score_tbl WHERE (class = '$class_officiating' AND term='$log_term' AND session = '$log_session')");
+}else{
+    $callEnrolmentList = $conn->query("SELECT * FROM $score_tbl WHERE (term='$log_term' AND session = '$log_session')");
+}
+
 ?>

@@ -1,8 +1,7 @@
 <?php
     include "../config/db.php";
     include "../includes/calls.php";
-    $log_term = $_SESSION['log_term'];
-    $log_session = $_SESSION['log_session'];
+    $userId = $_SESSION['userId'];
     
     if(isset($_GET['department'])){
         $department = mysqli_real_escape_string($conn, $_GET['department']);
@@ -75,6 +74,7 @@
 
     if(isset($_POST['token'])){
     $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $curr_class = mysqli_real_escape_string($conn, $_POST['curr_class']);
     $token = mysqli_real_escape_string($conn, $_POST['token']);
     $tuition_discount = mysqli_real_escape_string($conn, $_POST['tuition_discount']);
     $award_type = mysqli_real_escape_string($conn, $_POST['award_type']);
@@ -83,6 +83,7 @@
     $music = mysqli_real_escape_string($conn, $_POST['music']);
     $health = mysqli_real_escape_string($conn, $_POST['health']);
     $transport = mysqli_real_escape_string($conn, $_POST['transport']);
+    $sport = mysqli_real_escape_string($conn, $_POST['sport']);
     $excursion = mysqli_real_escape_string($conn, $_POST['excursion']);
     $vs_fee = mysqli_real_escape_string($conn, $_POST['vs_fee']);
     $pta = mysqli_real_escape_string($conn, $_POST['pta']);
@@ -90,19 +91,64 @@
     $others = mysqli_real_escape_string($conn, $_POST['others']);
     $others_covers = mysqli_real_escape_string($conn, $_POST['others_covers']);
     $adm_no = mysqli_real_escape_string($conn, $_POST['adm_no']);
-   
+  
+    switch($log_term){
+        case 1:
+        $paid = "ft_paid";
+        $outstanding = "ft_outstanding";
+        break;
+        case 2:
+        $paid = "st_paid";
+        $outstanding = "st_outstanding";
+        break;
+        case 3:
+        $paid = "tt_paid";
+        $outstanding = "tt_outstanding";
+        break;
+    }
+        $total = ($sch_fee+$ict+$health+$pta+$sport+$music+$excursion+$vs_fee+$transport+$development+$others);
+    
+
        $update = $conn->query("UPDATE $users_tbl SET 
                             name='$name',
                             tuition_discount='$tuition_discount',
+                            curr_class='$curr_class',
                             award_type='$award_type'
                             WHERE token = '$token'
-       ");
+                            ");
 
-
-       $update2 = $conn->query("UPDATE $bill_tbl SET 
-                            name='$name',
+ //To ensure that The same class is not uploaded over and again
+    $check = $conn->query("SELECT * FROM $bill_tbl WHERE (userId='$adm_no' AND session='$log_session' AND term='$log_term')");
+     
+                if($check->num_rows == 0){
+                    $insert = $conn->query("INSERT INTO $bill_tbl SET
+                                        name = '$name',
+                                        class = '$curr_class',
+                                        term = '$log_term', 
+                                        session = '$log_session', 
+                                        userId = '$adm_no', 
+                                        sch_fee = '$sch_fee', 
+                                        ict = '$ict', 
+                                        health = '$health', 
+                                        pta = '$pta', 
+                                        sport = '$sport', 
+                                        music = '$music', 
+                                        excursion = '$excursion', 
+                                        vs_fee = '$vs_fee', 
+                                        transport = '$transport', 
+                                        development = '$development', 
+                                        others = '$others', 
+                                        others_covers = '$others_covers',
+                                        total = '$total',
+                                        $paid = '$total',
+                                        $outstanding = '$total'
+                                        ");
+            }else{
+                $update2 = $conn->query("UPDATE $bill_tbl SET 
+                            name = '$name',
                             sch_fee='$sch_fee',
                             ict='$ict',
+                            sport='$sport',
                             music='$music',
                             health='$health',
                             transport='$transport',
@@ -111,9 +157,15 @@
                             pta='$pta',
                             development='$development',
                             others='$others',
-                            others_covers='$others_covers'
+                            others_covers='$others_covers',
+                            total = '$total',
+                            $paid = '$total',
+                            $outstanding = '$total'
                             WHERE userId = '$adm_no'
-       ");
+                            AND term = '$log_term' 
+                            AND session = '$log_session'
+                            ");
+    }
 
        if($update){
             $_SESSION['message'] = "Details successfully updated!";
@@ -124,7 +176,7 @@
             $_SESSION['msg_type'] = "error";
             $_SESSION['remedy'] = "";
         }
-        header('location: ../adm_students');
+        header('location: ../adm_students?rev='.$token.'&ac='.$adm_no.'');
     }
 
 
@@ -315,5 +367,81 @@
             }
         }
          header("location: ../adm_students");
+ fclose($csvFile);
+    }
+
+
+    /**Upload time table */
+    if(isset($_POST['push_time_table'])){
+      $class_category  =  mysqli_real_escape_string($conn, $_POST['class_category']);
+      $term  =  $_POST['term'];
+      if($class_category == "Junior School"){
+        $class_array = '["JSS-1", "JSS-2", "JSS-3"]';
+      }else if($class_category == "Senior School"){
+        $class_array = '["SSS-1", "SSS-2", "SSS-3"]';
+      }else if($class_category == "Primary School"){
+        $class_array = '["Creche", "KG-1", "KG-2", "NUR-1", "NUR-2[Basic-1]", "PRY-1[Basic-2]", "PRY-2[Basic-3]", "PRY-3[Basic-4]", "PRY-4[Basic-5]", "PRY-5[Basic-6]"]';
+      }else{
+        $class_array = '[]';
+      }
+      
+           // Allowed mime types
+        $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
+        // Validate whether selected file is a CSV file
+        if (!empty($_FILES['file']['name']) && in_array($_FILES['file']['type'], $csvMimes)) {
+
+            // If the file is uploaded
+            if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+
+                // Open uploaded CSV file with read-only mode
+                $csvFile = fopen($_FILES['file']['tmp_name'], 'r');
+                // Skip the first line
+                fgetcsv($csvFile);
+
+                // Parse data from CSV file line by line
+                while (($line = fgetcsv($csvFile)) !== FALSE) {
+
+                    // Get row data
+                    $day  =  mysqli_real_escape_string($conn, $line[0]);
+                    $p1  =  mysqli_real_escape_string($conn, $line[1]);
+                    $p2  =  mysqli_real_escape_string($conn, $line[2]);
+                    $p3  =  mysqli_real_escape_string($conn, $line[3]);
+                    $p4  =  mysqli_real_escape_string($conn, $line[4]);
+                    $p5  =  mysqli_real_escape_string($conn, $line[5]);
+                    $exam_date  =  mysqli_real_escape_string($conn, $line[6]);
+                    $line_id = rand(10000,99999);
+                    //To ensure that The same class is not uploaded over and again
+                    $check = $conn->query("SELECT * FROM $time_tbl WHERE (class_array='$class_array' AND session='$log_session' AND term='$log_term' AND line_id='$line_id')");
+
+                    //insert data from CSV file 
+                    if ($check->num_rows == 0) {
+                        $insert = $conn->query("INSERT INTO $time_tbl  SET
+                                                uploaded_by = '$userId',
+                                                day = '$day',
+                                                period_1 = '$p1',
+                                                period_2 = '$p2', 
+                                                period_3 = '$p3', 
+                                                period_4 = '$p4', 
+                                                period_5 = '$p5', 
+                                                exam_date = '$exam_date', 
+                                                class_array = '$class_array', 
+                                                line_id = '$line_id', 
+                                                term = '$log_term', 
+                                                session = '$log_session'
+                                              ");
+                    } else {
+                        $_SESSION['message'] = ''.$term.' | '.$log_session.' time table for '.$class_category.' already exist';
+                        $_SESSION['msg_type'] = "warning";
+                        $_SESSION['remedy'] = "";
+                    }
+                }
+                  if($insert){
+                        $_SESSION['message'] = ''.$term.' | '.$log_session.' time table for '.$class_category.' has been uploaded successfully!';
+                        $_SESSION['msg_type'] = "success";
+                        $_SESSION['remedy'] = "";
+                    }
+            }
+        }
+         header("location: ../adm_exam");
  fclose($csvFile);
     }

@@ -11,7 +11,7 @@
                     <p class="card-title mb-0">Staff List</p>
                     <?php if($callStaff->num_rows > 0){ ?>
                     <div class="table-responsive">
-                        <table id="myTable" class="table table-striped table-borderless">
+                        <table class="myTable table table-striped table-borderless">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -155,7 +155,7 @@
 
                         </div>
 
-                        <button type="submit" class="btn btn-primary mr-2" name="review_staff">Submit</button>
+                        <button type="submit" class="btn btn-primary mr-2" name="review_staff">Save changes</button>
                     </form>
                 </div>
             </div>

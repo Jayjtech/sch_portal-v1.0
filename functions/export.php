@@ -3,6 +3,28 @@ require "../config/db.php";
 $log_term = $_SESSION['log_term'];
 $log_session = $_SESSION['log_session'];
 
+if ($_GET['table'] == $time_tbl) {
+     $term = $_GET['term'];
+     $session = $_GET['session'];
+     $class_category = $_GET['class_category'];
+    
+
+     header('Content-Type: text/csv; charset=utf-8');
+     header('Content-Disposition: attachment; filename='.$term.' ['.$session.'] time-table.csv');
+     $output = fopen("php://output", "w");
+     fputcsv($output, array('DAY', 'PERIOD 1', 'PERIOD 2', 'PERIOD 3', 'PERIOD 4', 'PERIOD 5', 'CLASS-CATEGORY', 'DATE[eg. '.$date.']'));
+
+      if($class_category== "SS"){
+          $query = $conn->query("SELECT day, period_1, period_2, period_3, period_4, period_5, class_category, exam_date
+     FROM $time_tbl WHERE (term='$log_term' AND session='$log_session')");
+     }
+      
+      while ($row = $query->fetch_assoc()) {
+          fputcsv($output, $row);
+     }
+     fclose($output);
+}
+
 if ($_GET['table'] == $question_tbl_a) {
     $token = $_GET['token'];
      header('Content-Type: text/csv; charset=utf-8');

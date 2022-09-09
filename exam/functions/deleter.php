@@ -39,3 +39,20 @@ if(isset($_GET['del'])){
         }
     header('location:../../dashboard');
 }
+
+if(isset($_GET['del_course'])){
+    $course_code = $_GET['del_course'];
+    $course = $_GET['course'];
+    $del = $conn->query("DELETE FROM $score_tbl WHERE adm_no='$userId' AND course_code='$course_code' AND term='$log_term' AND session='$log_session'");
+
+    if($del){
+        $_SESSION['message'] = 'Your score sheet for '.$course.'['.$course_code.'] has been deleted!';
+        $_SESSION['msg_type'] = "success";
+        $_SESSION['remedy'] = "";
+    }else{
+        $_SESSION['message'] = "Score sheet for '.$course.'['.$course_code.'] could not be deleted!";
+        $_SESSION['msg_type'] = "error";
+        $_SESSION['remedy'] = "";
+    }
+    header('location:../../my_course');
+}

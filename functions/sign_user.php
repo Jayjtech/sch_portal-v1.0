@@ -14,6 +14,16 @@
         $userId = rand(1000000000,9999999999);
         $token = md5(date('Y')*time());
         $hash_pswd = substr(md5($password), 4);
+        switch($userCategory){
+            case "c3R1ZHk=":
+                $user_type = "Student";
+                break;
+            case "d29yaw==":
+                $user_type = "Staff";
+                break;
+            }
+        $_SESSION['user_type'] = $user_type;
+        
         $staff_code = "d29yaw==";
         if($myClass == true){
             $award_type = "Paying";

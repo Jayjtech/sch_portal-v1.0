@@ -11,7 +11,7 @@
                     <p class="card-title mb-0">Student List</p>
                     <?php if($callStudents->num_rows > 0){ ?>
                     <div class="table-responsive">
-                        <table id="myTable" class="table table-striped table-borderless">
+                        <table class="myTable table table-striped table-borderless">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -125,7 +125,8 @@
                                         <div class="input-group">
                                             <span class="input-group-text"><?= $currency; ?></span>
                                             <input type="number" class="form-control" id="sch_fee" name="sch_fee"
-                                                placeholder="Enter school fee" value="<?= $bil->sch_fee; ?>">
+                                                placeholder="Enter school fee"
+                                                value="<?= !empty($bil->sch_fee) ? $bil->sch_fee: null; ?>">
                                         </div>
 
                                     </div>
@@ -136,7 +137,8 @@
                                         <div class="input-group">
                                             <span class="input-group-text"><?= $currency; ?></span>
                                             <input type="number" class="form-control" id="ict" name="ict"
-                                                placeholder="Enter ICT fee" value="<?= $bil->ict; ?>">
+                                                placeholder="Enter ICT fee"
+                                                value="<?= !empty($bil->ict) ? $bil->ict : null; ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -156,7 +158,19 @@
                                         <div class="input-group">
                                             <span class="input-group-text"><?= $currency; ?></span>
                                             <input type="number" class="form-control" id="health" name="health"
-                                                placeholder="Enter health fee" value="<?= $bil->health; ?>">
+                                                placeholder="Enter health fee"
+                                                value="<?= !empty($bil->health) ? $bil->health :null; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="">Sport fee</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><?= $currency; ?></span>
+                                            <input type="number" class="form-control" id="sport" name="sport"
+                                                placeholder="Enter sport fee"
+                                                value="<?= !empty($bil->sport) ? $bil->sport :null; ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -166,7 +180,8 @@
                                         <div class="input-group">
                                             <span class="input-group-text"><?= $currency; ?></span>
                                             <input type="number" class="form-control" id="transport" name="transport"
-                                                placeholder="Enter transport fee" value="<?= $bil->transport; ?>">
+                                                placeholder="Enter transport fee"
+                                                value="<?= !empty($bil->transport) ? $bil->transport:null; ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -176,7 +191,8 @@
                                         <div class="input-group">
                                             <span class="input-group-text"><?= $currency; ?></span>
                                             <input type="number" class="form-control" id="excursion" name="excursion"
-                                                placeholder="Enter transport fee" value="<?= $bil->excursion; ?>">
+                                                placeholder="Enter transport fee"
+                                                value="<?= !empty($bil->excursion)? $bil->excursion : null; ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -187,7 +203,7 @@
                                             <span class="input-group-text"><?= $currency; ?></span>
                                             <input type="number" class="form-control" id="vs_fee" name="vs_fee"
                                                 placeholder="Enter valedictory service fee"
-                                                value="<?= $bil->vs_fee; ?>">
+                                                value="<?= !empty($bil->vs_fee) ?$bil->vs_fee:null; ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -197,7 +213,8 @@
                                         <div class="input-group">
                                             <span class="input-group-text"><?= $currency; ?></span>
                                             <input type="number" class="form-control" id="pta" name="pta"
-                                                placeholder="Enter PTA fee" value="<?= $bil->pta; ?>">
+                                                placeholder="Enter PTA fee"
+                                                value="<?= !empty($bil->pta) ? $bil->pta:null; ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -208,7 +225,7 @@
                                             <span class="input-group-text"><?= $currency; ?></span>
                                             <input type="number" class="form-control" id="development"
                                                 name="development" placeholder="Enter development fee"
-                                                value="<?= $bil->development; ?>">
+                                                value="<?= !empty($bil->development) ?$bil->development:null; ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -218,7 +235,8 @@
                                         <div class="input-group">
                                             <span class="input-group-text"><?= $currency; ?></span>
                                             <input type="number" class="form-control" id="others" name="others"
-                                                placeholder="Enter other fee" value="<?= $bil->others; ?>">
+                                                placeholder="Enter other fee"
+                                                value="<?= !empty($bil->others) ?$bil->others:null; ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -227,7 +245,7 @@
                                         <label for="">What does other fees cover?</label>
                                         <textarea id="others_covers" name="others_covers" cols="3" class="form-control"
                                             rows="2"
-                                            placeholder="What does other fees cover?"><?= $bil->others_covers;?></textarea>
+                                            placeholder="What does other fees cover?"><?= !empty($bil->others_covers) ?$bil->others_covers :null;?></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -235,8 +253,7 @@
 
                         <hr>
                         <div class="" align="right">
-                            <button type="submit" class="btn btn-primary mr-2" name="review_staff"><i
-                                    class="mdi mdi-safe"></i> Save Changes</button>
+                            <button type="submit" class="btn btn-primary mr-2" name="review_staff">Save Changes</button>
                         </div>
 
                     </form>
