@@ -18,8 +18,8 @@
                                     <th>Course[code]</th>
                                     <th>Exam Token</th>
                                     <th>ASS | CA1 | CA2</th>
-                                    <th>Action</th>
                                     <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -68,10 +68,12 @@
                 </div>
             </div>
         </div>
+        <?php if($exp_acad_period == false):?>
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card position-relative">
                 <div class="card-body">
-                    <h4 class="card-title">Available courses for <?= $term_syntax; ?> Term |
+                    <h4 class="card-title">Available courses for <?= $log_term; ?>
+                        Term |
                         <?= $log_session; ?> | <?= $det->curr_class ;?></h4>
 
                     <div class="table-responsive">
@@ -104,6 +106,53 @@
                                     </td>
                                 </tr>
                                 <?php endwhile; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card position-relative">
+                <div class="card-body">
+                    <h4 class="card-title">Exam time-table for <?= $term_syntax; ?> Term |
+                        <?= $log_session; ?> | <?= $det->curr_class ;?></h4>
+
+                    <div class="table-responsive">
+                        <table class="myTable table table-striped table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>DAY</th>
+                                    <th>1st Period</th>
+                                    <th>2nd Period</th>
+                                    <th>3rd Period</th>
+                                    <th>4th Period</th>
+                                    <th>5th Period</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while($tim = $callTimeTable->fetch_object()):
+                                    $class_array = explode(",", $tim->class_array);
+                                        if(in_array($det->curr_class, $class_array)){
+                                    ?>
+                                <tr>
+                                    <td><?= $tim->day; ?></td>
+                                    <td><?= $tim->period_1; ?></td>
+                                    <td><?= $tim->period_2; ?></td>
+                                    <td><?= $tim->period_3; ?></td>
+                                    <td><?= $tim->period_4; ?></td>
+                                    <td><?= $tim->period_5; ?></td>
+                                    <td><?= $tim->exam_date; ?></td>
+                                </tr>
+
+                                <?php 
+                                        }
+                            endwhile; ?>
                             </tbody>
                         </table>
                     </div>

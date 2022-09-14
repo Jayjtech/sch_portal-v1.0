@@ -33,9 +33,20 @@ include "config/db.php";
 </html>
 
 <?php 
-$class = ["JSS-1", "JSS-2", "JSS-3", "SSS-1", "SSS-2", "SSS-3"];
-if (in_array("JSS-", $class)){
-echo true;
+// $class = ["JSS-1", "JSS-2", "JSS-3", "SSS-1", "SSS-2", "SSS-3"];
+// if (in_array("JSS-1", $class)){
+// echo true;
+// }
+
+$callTimeTable = $conn->query("SELECT * FROM $time_tbl");
+while($tim = $callTimeTable->fetch_object()){
+$class_array = explode(",", $tim->class_array);
+if(in_array("JSS-1", $class_array)){
+    echo $tim->period_1;
+}
+// echo '<pre>';
+// print_r($class_array);
+// echo '</pre>';
 }
 
 

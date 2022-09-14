@@ -68,6 +68,23 @@ function delCourse(form) {
     return false;
 }
 
+function delTimeTbl(form) {
+    swal.fire({
+        title: `Are you sure you want to delete this time table?`,
+        text: "It will no longer exist",
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        } else if (result.isDenied) {
+            Swal.fire(`Time-table left untouched!`, '', 'info')
+        }
+    })
+    return false;
+}
+
 function revStaff(form) {
     swal.fire({
         title: `Are you sure you want to save changes?`,

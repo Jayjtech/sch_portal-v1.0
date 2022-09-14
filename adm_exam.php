@@ -62,14 +62,55 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6 stretch-card grid-margin">
+        <div class="col-md-12 stretch-card grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title">Exam time-table</p>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="myTable table table-striped table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>DAY[Date]</th>
+                                    <th>1st Period</th>
+                                    <th>2nd Period</th>
+                                    <th>3rd Period</th>
+                                    <th>4th Period</th>
+                                    <th>5th Period</th>
+                                    <th>Class</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while($tim = $callTimeTable->fetch_object()): ?>
+                                <tr>
+                                    <td><?= $tim->day; ?>[<?= $tim->exam_date; ?>]</td>
+                                    <td><?= $tim->period_1; ?></td>
+                                    <td><?= $tim->period_2; ?></td>
+                                    <td><?= $tim->period_3; ?></td>
+                                    <td><?= $tim->period_4; ?></td>
+                                    <td><?= $tim->period_5; ?></td>
+                                    <td><?= $tim->class_array; ?></td>
+                                </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 stretch-card grid-margin">
             <div class="card">
                 <div class="card-body">
                     <p class="card-title mb-0">Upload Exam Time-table</p>
+                    <hr>
                     <div class="mt-2">
                         <div class="container">
                             <p>Click the green button to download the time-table format as an Excel CSV file.</p>
-                            <p class="text-info">Note: Time-table will be downloaded for the term and session you logged
+                            <p class="text-info">Note: Time-table will be downloaded for the term and session you
+                                logged
                                 in to.</p>
                             <form action="<?= $exporter; ?>" method="get">
                                 <div class="row">
@@ -78,9 +119,9 @@
                                             <select name="class_category" id="class_category" class="form-control"
                                                 required>
                                                 <option value="">Class category</option>
-                                                <option value="SS">Senior School</option>
-                                                <option value="JS">Junior School</option>
-                                                <option value="PR">Primary School</option>
+                                                <option value="Senior-School">Senior School</option>
+                                                <option value="Junior-School">Junior School</option>
+                                                <option value="Primary-School">Primary School</option>
                                             </select>
                                         </div>
                                     </div>
@@ -99,23 +140,22 @@
                         <hr>
                         <div class="container mt-3">
                             <P class="card-title">Upload</P>
-                            <form action="<?= $pusher;?>" method="POST" enctype="multipart/form-data">
+                            <form action="<?= $add_course;?>" method="POST" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <select name="class_category" id="class_category" class="form-control"
                                                 required>
                                                 <option value="">Class category</option>
-                                                <option value="Senior School">Senior School</option>
-                                                <option value="Junior School">Junior School</option>
-                                                <option value="Primary School">Primary School</option>
+                                                <option value="Senior-School">Senior School</option>
+                                                <option value="Junior-School">Junior School</option>
+                                                <option value="Primary-School">Primary School</option>
                                             </select>
                                         </div>
                                     </div>
                                     <input type="hidden" name="term" value="<?= $term_syntax; ?> term">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="">Choose Time-table Excel File</label>
                                             <input type="file" name="file" class="form-control btn btn-dark" required>
                                         </div>
                                     </div>
@@ -129,55 +169,43 @@
                                 </div>
                             </form>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 stretch-card grid-margin">
-            <div class="row">
-                <div class="grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-title">Uploaded Courses</p>
-                            <div class="table-responsive">
-                                <table id="myTable" class="table table-striped table-borderless">
-                                    <thead>
-                                        <tr>
-                                            <th>Course</th>
-                                            <th>Type</th>
-                                            <th>No. of Q</th>
-                                            <th>Department</th>
-                                            <th colspan="2">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php $coursesT=$conn->query("SELECT * FROM $course_tbl WHERE term='$log_term' AND session='$log_session'");
-                                                while($row = $coursesT->fetch_object()):
-                                                    $cCode = $row->course_code;
-                                                $selectUpload = $conn->query("SELECT * FROM $question_tbl_a WHERE course_code='$cCode' AND session='$log_session' LIMIT 1");
-                                        ?>
-                                        <tr>
-                                            <?php while($sel = $selectUpload->fetch_object()){ ?>
-                                            <td><?= $row->course; ?>[<?= $sel->course_code; ?>]</td>
-                                            <td><?= $sel->quest_type; ?></td>
-                                            <td><?= $row->no_of_quest; ?></td>
-                                            <td><?= $row->department; ?></td>
-                                            <td></td>
-
-                                        </tr>
-                                        <?php } ?>
-                                        <?php endwhile; ?>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <hr>
+                        <div class="container mt-3">
+                            <P class="card-title">Clear time-table</P>
+                            <form action="<?= $course_deleter; ?>" onsubmit="return delTimeTbl(this)" method="get">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <select name="class_category" id="class_category" class="form-control"
+                                                required>
+                                                <option value="">Class category</option>
+                                                <option value="Senior-School">Senior School</option>
+                                                <option value="Junior-School">Junior School</option>
+                                                <option value="Primary-School">Primary School</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="del_table" value="<?= $time_tbl; ?>">
+                                    <input type="hidden" name="term" value="<?= $term_syntax; ?> term">
+                                    <input type="hidden" name="session" value="<?= $log_session; ?>">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <button class="btn btn-danger"><i class="mdi mdi-delete"></i>
+                                                Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
+
                     </div>
                 </div>
-
             </div>
         </div>
-
     </div>
 
 
-    <?php include "includes/footer.php"; ?>
+</div>
+
+
+<?php include "includes/footer.php"; ?>

@@ -208,10 +208,11 @@
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="adm_info">School Info</a></li>
                         <li class="nav-item"> <a class="nav-link" href="adm_revenue">Revenue</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="adm_students">Students</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_staff">Staff</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_students">Students Info</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_staff">Staff Info</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_academic">Academic Period</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_exam">Exam Setting</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_exam">Exam Setup</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_prepare_result">Prepare Result</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_document">Documentation</a>
                         </li>
                     </ul>

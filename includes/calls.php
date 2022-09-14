@@ -12,7 +12,8 @@ $name = $_SESSION['name'];
 $log_session = $_SESSION['log_session'];
 $log_term = $_SESSION['log_term'];
 }
-
+$exp_acad_period = false;
+$unapproved_acad_period = false;
 
 if($_SESSION['log_term'] == false || $_SESSION['log_session'] == false){
     $log_term = $current_term;
@@ -73,6 +74,7 @@ switch($det->position){
 /**Courses Staff*/
 $callCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
 $selCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
+$selCourses1 = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
 $created_course_count = $callCourses->num_rows;
 /**Call all staff */
 $callStaff = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'd29yaw=='");
@@ -81,8 +83,11 @@ $callStaff = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'd29yaw=='
 $callStudents = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'c3R1ZHk='");
 
 /**Course student */
-$availableCourse = $conn->query("SELECT * FROM $course_tbl WHERE department='$department' OR department='general' AND (term='$log_term' AND session='$log_session')");
+$availableCourse = $conn->query("SELECT * FROM $course_tbl WHERE (term='$log_term' AND session='$log_session') AND (department='$department' OR department='general')");
 $enrolledCourse = $conn->query("SELECT * FROM $score_tbl WHERE adm_no='$userId' AND term='$log_term' AND session='$log_session'");
+/**Time table */
+$callTimeTable = $conn->query("SELECT * FROM $time_tbl WHERE (term='$log_term' AND session='$log_session')");
+
 if($det->position == 5){
     /**Teacher */
     $callEnrolmentList = $conn->query("SELECT * FROM $score_tbl WHERE (class = '$class_officiating' AND term='$log_term' AND session = '$log_session')");
@@ -90,4 +95,12 @@ if($det->position == 5){
     $callEnrolmentList = $conn->query("SELECT * FROM $score_tbl WHERE (term='$log_term' AND session = '$log_session')");
 }
 
+$callScoreSheet = $conn->query("SELECT * FROM $score_tbl WHERE (term='$log_term' AND session = '$log_session' AND teacher_token='$token') ORDER BY class ASC");
+
+$exp_c_s = explode("/", $current_session);
+$exp_l_s = explode("/", $log_session);
+
+if($exp_l_s[1] < $exp_c_s[1]){
+    $exp_acad_period = true;
+}
 ?>

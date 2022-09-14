@@ -1,8 +1,7 @@
 <?php include "../config/db.php"; ?>
 <?php include "functions/question_pull.php"; ?>
 <?php
-$_SESSION['name'] = "Solomon Adeosun";
-$_SESSION['adm_no'] = "AD7859785985";
+
 switch($exam_term){
     case 1 :
     $termSyntax = "First Term";
@@ -30,7 +29,7 @@ switch($exam_term){
 <body>
     <div class="main">
         <div class="nav">
-            <span id="course-el">Subject: <?= $subject; ?> | Course code: <?= $course_code; ?> |
+            <span id="course-el">Course: <?= $exam_course; ?> | Course code: <?= $exam_course_code; ?> |
                 <?= $no_of_question; ?> questions</span>
             <span id="questCount-el"></span>
             <span>Paper type: <?= $user_paper_type; ?></span>
@@ -38,6 +37,7 @@ switch($exam_term){
         </div>
         <div class="userDetails">
             <span>Name: <?= $_SESSION['name']; ?></span><br>
+            <span>Adm. No: <?= $_SESSION['userId']; ?></span><br>
             <span>Class: <?= $class; ?></span><br>
             <span>Academic Period: <?= $termSyntax; ?> | <?= $exam_session; ?></span>
         </div>
@@ -46,9 +46,10 @@ switch($exam_term){
                 <input type="hidden" id="score-holder" name="score" value="">
                 <input type="hidden" id="min-left" name="minLeft" value="">
                 <textarea id="answeredQuest" name="answered_quest" style="display:none;" value=""></textarea>
-                <input type="hidden" id="examDet" name="examDet" value="<?= base64_encode('{"userId":"'. $_SESSION['adm_no'].'","name":"'. $_SESSION['name'].'",
+                <input type="hidden" id="examDet" name="examDet"
+                    value="<?= base64_encode('{"userId":"'. $_SESSION['userId'].'","name":"'. $_SESSION['name'].'","quest_type":"'. $quest_type .'",
                     "class":"'. $class .'","examTerm":"'. $exam_term .'","examSession":"'. $exam_session .'","paper_type":"'. $user_paper_type .'",
-                    "course_code":"'. $course_code .'","subject":"'. $subject .'","duration":"'. $duration .'"}');?>">
+                    "course_code":"'. $exam_course_code .'","subject":"'. $exam_course .'","duration":"'. $duration .'"}');?>">
                 <button type="submit" name="submit_score" class="btn btn-submit">Submit</button>
             </form>
         </div>

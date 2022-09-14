@@ -1,12 +1,21 @@
 <?php
 include "constants.php";
 include "UserInfo.php";
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS);
+
+$query = "CREATE DATABASE IF NOT EXISTS " . DB_NAME . "";
+
+$run = mysqli_query($conn, $query);
+
+if ($run) {
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+}
+
 include ".php";
 
 $adminDetails = $conn->query("SELECT * FROM $settings_tbl");
 $admin_det = $adminDetails->fetch_object();
-$token = base64_encode('' . $admin_det->monnify_key . ':' . $admin_det->monnify_secret . '');
+$monnify_token = base64_encode('' . $admin_det->monnify_key . ':' . $admin_det->monnify_secret . '');
 $current_term = $admin_det->current_term;
 $current_session = $admin_det->current_session;
 

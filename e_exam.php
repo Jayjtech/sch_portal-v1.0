@@ -8,32 +8,55 @@
             <div class="card position-relative">
                 <div class="card-body">
                     <h4 class="card-title">Available E- Exam [Assignment | Test | Exam] </h4>
+                    <p class="text-info"><strong>NOTE:</strong> You must have enrolled in order to be able to
+                        take tests and Assignments.</p>
                     <div class="table-responsive">
-                        <table id="myTable" class="table table-striped table-borderless">
+                        <table class="myTable table table-striped table-borderless">
                             <thead>
                                 <tr>
                                     <th>Course</th>
                                     <th>Type</th>
                                     <th>No. of Q</th>
-                                    <th>Department</th>
-                                    <th colspan="2">Action</th>
+                                    <th>Enrolment</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $coursesT=$conn->query("SELECT * FROM $course_tbl WHERE department='$department' OR department='general' AND (term='$log_term' AND session='$log_session')");
-                                                while($row = $coursesT->fetch_object()):
-                                                    $cCode = $row->course_code;
-                                                $selectUpload = $conn->query("SELECT * FROM $question_tbl_a WHERE course_code='$cCode' AND session='$log_session' LIMIT 1");
-                                        ?>
+                                <?php $coursesT=$conn->query("SELECT * FROM $course_tbl WHERE (term='$log_term' AND session='$log_session') AND (department='$department' OR department='general')");
+                                        while($row = $coursesT->fetch_object()):
+                                            $cCode = $row->course_code;
+                                        $selectUpload = $conn->query("SELECT * FROM $question_tbl_a WHERE (course_code='$cCode' AND session='$log_session') LIMIT 1");
+                                    ?>
                                 <tr>
-                                    <?php while($sel = $selectUpload->fetch_object()){ ?>
+                                    <?php while($sel = $selectUpload->fetch_object()){ 
+                                          $checkScoreSheet = $conn->query("SELECT * FROM $score_tbl WHERE (course_code='$cCode' AND adm_no='$userId' AND session='$log_session' AND term='$log_term')");
+                                        $chk = $checkScoreSheet->fetch_object();
+                                        switch($checkScoreSheet->num_rows){
+                                        case 0: 
+                                            $status = "Not enrolled";
+                                            $col = "badge badge-warning";
+                                            break;
+                                        case 1: 
+                                            $status = "Enrolled";
+                                            $col = "badge badge-success";
+                                            break;
+                                    }
+                                        ?>
                                     <td><?= $row->course; ?>[<?= $sel->course_code; ?>]</td>
                                     <td><?= $sel->quest_type; ?></td>
                                     <td><?= $row->no_of_quest; ?></td>
-                                    <td><?= $row->department; ?></td>
                                     <td>
-                                        <form action="" method="get" onsubmit="return enrolCourse(this)">
-                                            <input type="text" name="userId" value="<?= $userId ;?>">
+                                        <p class="<?= $col; ?>"><?= $status; ?></p>
+                                    </td>
+                                    <td>
+                                        <form action="<?= $cbe_request; ?>" method="POST"
+                                            onsubmit="return startTest(this)">
+                                            <input type="hidden" name="userId" value="<?= $userId ;?>">
+                                            <input type="hidden" name="paper_type" value="<?= $chk->paper_type ;?>">
+                                            <input type="hidden" name="course_code" value="<?= $row->course_code ;?>">
+                                            <input type="hidden" name="course" value="<?= $row->course ;?>">
+                                            <input type="hidden" name="quest_type" value="<?= $sel->quest_type;?>">
+                                            <button type="submit" class="btn-sm btn-success">Start</button>
                                         </form>
                                     </td>
 

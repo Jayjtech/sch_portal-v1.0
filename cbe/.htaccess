@@ -1,5 +1,5 @@
 RewriteEngine ON
-
+RewriteRule ^test index.php [NC,L]
 
 
 php_value date.timezone 'Africa/lagos'

@@ -28,9 +28,10 @@ $student_award_tbl = "student_award";
 $bill_tbl = "bill";
 $time_tbl = "time_table";
 
-$add_course = "exam/functions/uploader";
-$course_deleter = "exam/functions/deleter";
-$enrolCourse = "exam/functions/enrol";
+$add_course = "cbe/functions/uploader";
+$cbe_request = "cbe/functions/receive_request";
+$course_deleter = "cbe/functions/deleter";
+$enrolCourse = "cbe/functions/enrol";
 $pusher = "functions/pusher.php";
 $exporter = "functions/export.php";
 
