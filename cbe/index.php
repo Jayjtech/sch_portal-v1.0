@@ -24,34 +24,62 @@ switch($exam_term){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../vendors/ti-icons/css/themify-icons.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="../vendors/ti-icons/css/themify-icons.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../css/vertical-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="../images/favicon.png" />
+    <link rel="stylesheet" href="../vendors/mdi/css/materialdesignicons.min.css">
 </head>
 
 <body>
-    <div class="main">
-        <div class="nav">
-            <span id="course-el">Course: <?= $exam_course; ?> | Course code: <?= $exam_course_code; ?> |
-                <?= $no_of_question; ?> questions</span>
+    <div class="main col-lg-9 bg-light">
+        <div class="nav bg-primary">
+            <span id="course-el">Course: <?= $exam_course; ?> [<?= $exam_course_code; ?>]
+                | <?= $no_of_question; ?> questions | Category: <?= $_SESSION['quest_type']; ?></span>
             <span id="questCount-el"></span>
             <span>Paper type: <?= $user_paper_type; ?></span>
-            <span id="countDown-el">Exam duration: <?= $duration; ?> minutes</span>
         </div>
-        <div class="userDetails">
-            <span>Name: <?= $_SESSION['name']; ?></span><br>
-            <span>Adm. No: <?= $_SESSION['userId']; ?></span><br>
-            <span>Class: <?= $class; ?></span><br>
-            <span>Academic Period: <?= $termSyntax; ?> | <?= $exam_session; ?></span>
-        </div>
-        <div class="submit-div" align="right">
-            <form action="<?= $score_recorder; ?>" method="POST" onsubmit="return submitExam(this)">
-                <input type="hidden" id="score-holder" name="score" value="">
-                <input type="hidden" id="min-left" name="minLeft" value="">
-                <textarea id="answeredQuest" name="answered_quest" style="display:none;" value=""></textarea>
-                <input type="hidden" id="examDet" name="examDet"
-                    value="<?= base64_encode('{"userId":"'. $_SESSION['userId'].'","name":"'. $_SESSION['name'].'","quest_type":"'. $quest_type .'",
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="userDetails mt-2 p-3 bg-light">
+                    <span>Name: <?= $_SESSION['name']; ?></span><br>
+                    <span>Adm. No: <?= $_SESSION['userId']; ?></span><br>
+                    <span>Class: <?= $class; ?></span><br>
+                    <span>Academic Period: <?= $termSyntax; ?> | <?= $exam_session; ?></span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="container row">
+                    <div class="col-8 mt-3">
+                        <h4 id="countDown-el">Exam duration: <?= $duration; ?> minutes</h4>
+                        <div class="progress mt-3" style="height:30%;">
+
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="submit-div" align="right">
+                            <form action="<?= $score_recorder; ?>" id="reportForm" method="POST"
+                                onsubmit="return submitExam(this)">
+                                <input type="hidden" id="score-holder" name="score" value="">
+                                <input type="hidden" id="min-left" name="minLeft" value="">
+                                <textarea id="answeredQuest" name="answered_quest" style="display:none;"
+                                    value=""></textarea>
+                                <input type="hidden" id="examDet" name="examDet"
+                                    value="<?= base64_encode('{"userId":"'. $_SESSION['userId'].'","name":"'. $_SESSION['name'].'","quest_type":"'. $quest_type .'",
                     "class":"'. $class .'","examTerm":"'. $exam_term .'","examSession":"'. $exam_session .'","paper_type":"'. $user_paper_type .'",
                     "course_code":"'. $exam_course_code .'","subject":"'. $exam_course .'","duration":"'. $duration .'"}');?>">
-                <button type="submit" name="submit_score" class="btn btn-submit">Submit</button>
-            </form>
+                                <button type="submit" name="submit_score"
+                                    class="btn btn-success btn-submit">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="container">
@@ -65,14 +93,16 @@ switch($exam_term){
                         <!-- Render instructions -->
                     </ul>
                 </div>
-                <button id="start-btn" class="nav-btn">START EXAM</button>
+                <button id="start-btn" class="nav-btn btn btn-primary">START EXAM</button>
             </div>
 
             <div class="primary-nav">
-                <button id="prev-btn" class="nav-btn" style="display:none;" onclick="prevQuest()">Previous</button>
-                <button id="next-btn" class="nav-btn" style="display:none;" onclick="nextQuest()">Next</button>
+                <button id="prev-btn" class="nav-btn btn btn-primary" style="display:none;" onclick="prevQuest()"><i
+                        class="mdi mdi-arrow-left">Previous</i> </button>
+                <button id="next-btn" class="nav-btn btn btn-primary" style="display:none;" onclick="nextQuest()">
+                    <i class="mdi mdi-arrow-right">Next</i> </button>
             </div>
-            <div class="answered-el">
+            <div class="answered-el mt-3">
                 <!-- Render already answered questions in here -->
             </div>
         </div>

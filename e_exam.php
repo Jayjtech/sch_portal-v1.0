@@ -16,6 +16,7 @@
                                 <tr>
                                     <th>Course</th>
                                     <th>Type</th>
+                                    <th>Access key</th>
                                     <th>No. of Q</th>
                                     <th>Enrolment</th>
                                     <th>Action</th>
@@ -41,9 +42,21 @@
                                             $col = "badge badge-success";
                                             break;
                                     }
-                                        ?>
+                                    ?>
+
                                     <td><?= $row->course; ?>[<?= $sel->course_code; ?>]</td>
                                     <td><?= $sel->quest_type; ?></td>
+                                    <td class="font-weight-bold">
+                                        <?php
+                                        
+                                            if($chk->public == 0){
+                                                echo '<p class="badge badge-warning">Hidden<p>';
+                                            }else{
+                                                echo '<p class="text-success">'.$chk->exam_token.'</p>';
+                                            } 
+                                        
+                                        ?>
+                                    </td>
                                     <td><?= $row->no_of_quest; ?></td>
                                     <td>
                                         <p class="<?= $col; ?>"><?= $status; ?></p>
@@ -51,12 +64,12 @@
                                     <td>
                                         <form action="<?= $cbe_request; ?>" method="POST"
                                             onsubmit="return startTest(this)">
-                                            <input type="hidden" name="userId" value="<?= $userId ;?>">
                                             <input type="hidden" name="paper_type" value="<?= $chk->paper_type ;?>">
                                             <input type="hidden" name="course_code" value="<?= $row->course_code ;?>">
                                             <input type="hidden" name="course" value="<?= $row->course ;?>">
+                                            <input type="hidden" name="teacher_token" value="<?= $row->token ;?>">
                                             <input type="hidden" name="quest_type" value="<?= $sel->quest_type;?>">
-                                            <button type="submit" class="btn-sm btn-success">Start</button>
+                                            <button type="submit" class="btn-sm btn-success">Proceed</button>
                                         </form>
                                     </td>
 

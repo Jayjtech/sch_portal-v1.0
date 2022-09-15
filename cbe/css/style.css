@@ -77,7 +77,7 @@ button:active {
     cursor: pointer;
 }
 #ans{
-    background-color: rgb(177, 232, 236);
+    /* background-color: rgb(177, 232, 236); */
     border: none;
     padding: 0.7em ;
     margin-top: 4px;
@@ -89,7 +89,7 @@ button:active {
     /* width: 100%; */
 }
 #ans:hover{
-    background-color: aliceblue;
+    background-color: rgb(19, 97, 164);
 }
 
 ul li{
@@ -125,7 +125,7 @@ ul li{
 @media screen and (max-width: 768px){
     .main{
         width: 90vw;
-        height: 100vw;
+        height: 150vw;
         margin: auto;
     }
 }

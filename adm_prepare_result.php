@@ -16,7 +16,7 @@
                                     <th>Name[Adm No.]</th>
                                     <th>Class</th>
                                     <th>Course[Code]</th>
-                                    <th>[ASS]+[CA1]+[CA2]+[EXAM] = [TOTAL]</th>
+                                    <th>[ASS]+[CA1]+[CA2]+[THEORY+OBJ] = [TOTAL]</th>
                                     <th>Position</th>
                                     <th>Grade</th>
                                     <th>Remark</th>
@@ -29,7 +29,7 @@
                                     <td class="font-weight-bold"><?= $scr->class; ?></td>
                                     <td><?= $scr->course; ?>[<?= $scr->course_code; ?>]</td>
                                     <td>[ <?= $scr->ass; ?> ] + [ <?= $scr->ca1; ?> ] + [ <?= $scr->ca2; ?> ] + [
-                                        <?= $scr->exam; ?> ] =
+                                        <?= $scr->theory; ?> + <?= $scr->score; ?> ] =
                                         [ <?= $scr->total; ?> ]</td>
                                     <td><?= $scr->position; ?></td>
                                     <td><?= $scr->grade; ?></td>

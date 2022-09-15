@@ -20,3 +20,6 @@ RewriteRule ^adm_document adm_document.php [NC,L]
 RewriteRule ^adm_info adm_info.php [NC,L] 
 RewriteRule ^adm_exam adm_exam.php [NC,L] 
 RewriteRule ^adm_prepare_result adm_prepare_result.php [NC,L] 
+RewriteRule ^test_proceed test_proceed.php [NC,L] 
+
+php_value date.timezone 'Africa/lagos'

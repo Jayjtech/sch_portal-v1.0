@@ -22,9 +22,7 @@ let scoreHolder = document.querySelector("#score-holder");
 let countDown = document.querySelector("#countDown-el");
 let answeredQuest = document.querySelector("#answeredQuest");
 let remainingMin = document.querySelector("#min-left");
-
-console.log(questions);
-
+let progressBar = document.querySelector(".progress");
 let questNo = 0
 let qNo = questNo + 1
 isCorrect = ""
@@ -45,7 +43,9 @@ if (localStorage.getItem('score')) {
 /**Display continue exam if score array is not empty */
 if (score.length != 0) {
     startBtn.textContent = "CONTINUE EXAM"
-    startBtn.style.backgroundColor = "rgb(234, 181, 46)"
+    // startBtn.style.backgroundColor = "rgb(234, 181, 46)"
+    startBtn.classList.remove("btn-primary")
+    startBtn.classList.add("btn-warning")
 }
 
 const questionLength = questions.length
@@ -112,7 +112,7 @@ let selectAns = (chosenOpt) => {
         } else if (myChoice === 3) {
             option = "D"
         }
-        let nav = `<button onclick="navigate(${i})">${i+1} ${option}</button>`
+        let nav = `<button class="btn btn-primary p-2" onclick="navigate(${i})">${i+1} ${option}</button>`
         answeredEl.innerHTML += nav
     }
 
@@ -154,7 +154,7 @@ startBtn.addEventListener("click", function() {
 /**Render question */
 function renderQuestion() {
     /*save question*/
-    showQuest = `<p> ${qNo}. ${questions[questNo].quest}</p>`
+    showQuest = `<h4 class="p-2 mt-2 mb-2"> ${qNo}. ${questions[questNo].quest}</h4>`
     questEl.innerHTML += showQuest
     isCorrect = questions[questNo].quest
     /*Call Options*/
@@ -180,7 +180,7 @@ function renderAnswers() {
     for (i = 0; i < questions[questNo].ans.length; i++) {
         assignLetterToOptions()
         showOptions = `<div class="answer-btn">
-                            <button id="ans" onclick="selectAns(${i})">${option}. ${questions[questNo].ans[i]}</button>
+                            <button id="ans" class="btn btn-primary" onclick="selectAns(${i})">${option}. ${questions[questNo].ans[i]}</button>
                         </div>`
         questEl.innerHTML += showOptions
     }
@@ -274,10 +274,12 @@ let startingMinute = durationVal;
 let time = startingMinute * 60;
 
 let timeLeft = [];
+const initialDuration = time;
 
 function updateCountDown() {
     let minutes = Math.floor(time / 60);
     let seconds = (time % 60);
+
     /**Get time left from local storage */
     if (localStorage.getItem('timeLeft')) {
         timeLeft = JSON.parse(localStorage.getItem('timeLeft'))
@@ -292,34 +294,54 @@ function updateCountDown() {
     }
 
     seconds = seconds < 10 ? '0' + seconds : seconds;
-    countDown.innerHTML = `Time left: ${minutes} : ${seconds}`;
+    countDown.innerHTML = `Time left: ${minutes}m : ${seconds}s`;
     time--;
+
+    let progress = (time / initialDuration) * 100;
+    let proCol = "";
+    if (progress < 10) {
+        proCol = "danger"
+    } else if (progress < 50) {
+        proCol = "warning"
+    } else if (progress >= 50) {
+        proCol = "success"
+    }
     /**Save time to local storage */
+    progressBar.innerHTML = `<div class="progress-bar progress-bar-striped bg-${proCol} progress-bar-animated"
+                                role="progressbar" style="width: ${progress}%;" aria-valuenow="25" aria-valuemin="0"
+                                aria-valuemax="100"></div>`
     timeLeft.push(time);
     localStorage.setItem('timeLeft', JSON.stringify(timeLeft));
     minLeft = Math.floor(time / 60);
-    if (time === 300) {
+    if (time === 180) {
         notification();
     } else if (time <= 0) {
-
+        /**Auto submit when time is up */
+        answeredQuest.value = JSON.stringify(answeredQuestions);
+        remainingMin.value = minLeft;
+        document.querySelector("#reportForm").submit();
+        localStorage.clear();
     }
-}
 
+    function notification() {
+        if (progress > 0) {
+            swal({
+                title: `You have less than 3 minutes left`,
+                text: `Exam will be submitted in less than 5 minutes`,
+                icon: "warning",
+                buttons: ["Continue", "Submit"],
+                dangerMode: true
 
-function notification() {
-    swal({
-        title: `You have less than 5 minutes left`,
-        text: `Exam will be submitted in less than 5 minutes`,
-        icon: "warning",
-        buttons: ["Continue", "Submit"],
-        dangerMode: true
-
-    }).then((isOkay) => {
-        if (isOkay) {
+            }).then((isOkay) => {
+                if (isOkay) {
+                    submitExam();
+                }
+            })
+        } else {
             submitExam();
         }
-    })
-    return false;
+        return false;
+    }
 }
 
 function submitExam(form) {

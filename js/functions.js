@@ -11,6 +11,34 @@ function viewPassword(){
     }
 }
 
+
+/**Test Proceed */
+$("form#testProceed").on("submit", function(e){
+    e.preventDefault();
+    let accessKey = $("#accessKey").val();
+    
+    if(accessKey === "" || accessKey.length < 6){
+        swal({title: `Invalid Access key!`, text: `Provide the correct Access key to proceed.`, icon: "info"})
+    }else{
+        $.post(`${baseUrl}/functions/test_access.php`, {
+                key: "testAccess",
+                accessKey: accessKey
+        },
+        function(response){
+            let swalResponse = JSON.parse(response);
+            swal({title: `${swalResponse[0].title}`, 
+            text: `${swalResponse[0].text}`, 
+            icon: `${swalResponse[0].icon}`,  
+            dangerMode: false
+            })
+            if(swalResponse[0].icon === "success"){
+                window.location.href = `${baseUrl}/cbe/test`
+            }
+        });
+    };
+});
+
+
 function viewPassword2(){
     let x = document.querySelector("#rPassword");
     let eyeEl = document.querySelector("#eye-el2");
@@ -247,5 +275,8 @@ function check(){
         userCat.style.display = "none"
     }
 }
+
+
+
 
 

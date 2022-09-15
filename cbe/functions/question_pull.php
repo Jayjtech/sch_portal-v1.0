@@ -1,7 +1,7 @@
 <?php
 /**Request requirements */
 $user_paper_type = $_SESSION['paper_type'];
-$exam_course = $_SESSION['course'];
+$exam_course = $_SESSION['exam_course'];
 $exam_course_code = $_SESSION['exam_course_code'];
 $exam_term = $_SESSION['log_term'];
 $exam_session = $_SESSION['log_session'];

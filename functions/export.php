@@ -45,9 +45,9 @@ if ($_GET['table'] == $score_tbl) {
      header('Content-Type: text/csv; charset=utf-8');
      header('Content-Disposition: attachment; filename='.$term.' ['.$session.'] score-sheet for '.$course_code.'.csv');
      $output = fopen("php://output", "w");
-     fputcsv($output, array('NAME', 'ADM NO', 'COURSE CODE', 'ASS', 'CA1', 'CA2', 'THEORY SCORE'));
+     fputcsv($output, array('NAME', 'ADM NO', 'COURSE CODE', 'ASS', 'CA1', 'CA2', 'THEORY SCORE', 'OBJECTIVE SCORE'));
 
-     $query = $conn->query("SELECT name, adm_no, course_code, ass, ca1, ca2, theory FROM $score_tbl 
+     $query = $conn->query("SELECT name, adm_no, course_code, ass, ca1, ca2, theory, score FROM $score_tbl 
      WHERE (course_code='$course_code' AND teacher_token='$token' AND term='$log_term' AND session='$log_session')");
       while ($row = $query->fetch_assoc()) {
           fputcsv($output, $row);

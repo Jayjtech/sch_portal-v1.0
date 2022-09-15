@@ -172,7 +172,6 @@ function sumBill() {
         <div class="input-group">
         <span class="input-group-text">Total: <?= $currency; ?></span>
         <input readonly value="${totalBill}" class="form-control"></div>`;
-
 }
 
 /**To view bills */
@@ -193,5 +192,23 @@ function closeBills() {
     <a class="btn btn-light" onclick="openBills();"><i class="mdi mdi-receipt"></i> Click to
                                 view
                                 student's bills</a>`;
+}
+
+
+function startTest(form) {
+    swal.fire({
+        title: `Are you sure you want to proceed to exam page?`,
+        text: ``,
+        icon: "info",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit()
+        } else if (result.isDenied) {
+            Swal.fire(`You didn't proceed!`, '', 'info')
+        }
+    })
+    return false;
 }
 </script>
