@@ -1,5 +1,6 @@
 <?php
 require "../config/db.php";
+require "../includes/calls.php";
 $log_term = $_SESSION['log_term'];
 $log_session = $_SESSION['log_session'];
 $token = $_SESSION['token'];
@@ -114,38 +115,56 @@ if ($_GET['table'] == $bill_tbl) {
 }
 
 
-// if ($_GET['table'] == "evaluation") {
-//      $class = $_GET['class'];
-//      header('Content-Type: text/csv; charset=utf-8');
-//      header("Content-Disposition: attachment; filename=Teacher's comment.csv");
-//      $output = fopen("php://output", "w");
-//      fputcsv($output, array(
-//           'Student Name', 'Admission NO', 'Class', 'Term', 'Session', 'No Absent', 'No Present',
-//           'Punctuality', 'Attentiveness', 'Neatness', 'Honesty', 'Relationship with others', 'Skills in Co-curriculars', 'Sports/games', 'Club', 'Fluency', 'Handwriting', 'Position', 'Comment', 'Promoted-to'
-//      ));
+if ($_GET['table'] == $evaluation_tbl && $_GET['type'] == "teacher") {
+     header('Content-Type: text/csv; charset=utf-8');
+     header("Content-Disposition: attachment; filename=Teacher's comment for ".$class_officiating." ".$term_syntax." ".$log_session.".csv");
+     $output = fopen("php://output", "w");
+     if($log_term == 1 || $log_term == 2){
+ fputcsv($output, array(
+          'Name', 'Admission NO', 'Class', 'Overall Score', 'Out of', 'Percent Score', 'No Absent', 'No Present',
+          'Punctuality', 'Attentiveness', 'Neatness', 'Honesty', 'Relationship with others', 'Skills in Co-curricular', 'Sports/games', 'Club', 'Fluency', 'Handwriting', 'Comment'
+     ));
 
-//      $query = "SELECT fullname, adm_no, class, term, session, n_absent, n_present, punctuality, attentiveness,
-//  neatness, honesty, relationship, skills, sport, clubs, fluency, handwriting, position, t_comment, promoted_to FROM evaluation WHERE session='$current_session' AND term='$current_term' AND class='$class' ORDER BY class ASC";
-//      $result = mysqli_query($conn, $query);
-//      while ($row = mysqli_fetch_assoc($result)) {
-//           fputcsv($output, $row);
-//      }
-//      fclose($output);
-// }
+     $query = "SELECT name, adm_no, class, overall_score, out_of, percent_score, n_absent, n_present, punctuality, attentiveness,
+ neatness, honesty, relationship, skills, sport, clubs, fluency, handwriting, t_comment FROM $evaluation_tbl WHERE session='$log_session' AND term='$log_term' AND class='$class_officiating' ORDER BY percent_score DESC";
+     }else if($log_term == 3){
+ fputcsv($output, array(
+          'Name', 'Admission NO', 'Class', 'Overall Score', 'Out of', 'Percent Score', 'No Absent', 'No Present',
+          'Punctuality', 'Attentiveness', 'Neatness', 'Honesty', 'Relationship with others', 'Skills in Co-curricular', 'Sports/games', 'Club', 'Fluency', 'Handwriting', 'Comment', 'Promoted-to'
+     ));
 
-// if ($_GET['table'] == "p_evaluation") {
-//      header('Content-Type: text/csv; charset=utf-8');
-//      header("Content-Disposition: attachment; filename=Principal's comment.csv");
-//      $output = fopen("php://output", "w");
-//      fputcsv($output, array('Student Name', 'Admission NO', 'Class', 'Term', 'Session', 'Comment from Principal', 'Next resumption date'));
+     $query = "SELECT name, adm_no, class, overall_score, out_of, percent_score, n_absent, n_present, punctuality, attentiveness,
+ neatness, honesty, relationship, skills, sport, clubs, fluency, handwriting, t_comment, promoted_to FROM $evaluation_tbl WHERE session='$log_session' AND term='$log_term' AND class='$class_officiating' ORDER BY percent_score DESC";
+     }
+    
+     $result = mysqli_query($conn, $query);
+     while ($row = mysqli_fetch_assoc($result)) {
+          fputcsv($output, $row);
+     }
+     fclose($output);
+}
 
-//      $query = "SELECT fullname, adm_no, class, term, session, p_comment, next_term_date FROM evaluation WHERE session='$current_session' AND term='$current_term'";
-//      $result = mysqli_query($conn, $query);
-//      while ($row = mysqli_fetch_assoc($result)) {
-//           fputcsv($output, $row);
-//      }
-//      fclose($output);
-// }
+if ($_GET['table'] == $evaluation_tbl && $_GET['type'] == "head_teacher") {
+     header('Content-Type: text/csv; charset=utf-8');
+      header("Content-Disposition: attachment; filename=Head teacher's comment for ".$class_officiating." ".$term_syntax." ".$log_session.".csv");
+     $output = fopen("php://output", "w");
+       if($log_term == 1 || $log_term == 2){
+     fputcsv($output, array('Name', 'Admission NO', 'Class', 'Percent score', 'Position', 'Comment by class teacher', 'Comment by head teacher'));
+
+     $query = "SELECT name, adm_no, class, percent_score, position, t_comment, p_comment FROM $evaluation_tbl WHERE session='$log_session' AND term='$log_term' ORDER BY percent_score DESC";
+       }else if($log_term == 3){
+ fputcsv($output, array('Name', 'Admission NO', 'Class', 'Percent score', 'Position', 'Comment by class teacher', 'Comment by head teacher', 'Promoted to', 'Next resumption date'));
+
+     $query = "SELECT name, adm_no, class, percent_score, position, t_comment, p_comment, promoted_to, next_term_date FROM $evaluation_tbl WHERE session='$log_session' AND term='$log_term' ORDER BY percent_score DESC";
+       }
+     $result = mysqli_query($conn, $query);
+     while ($row = mysqli_fetch_assoc($result)) {
+          fputcsv($output, $row);
+     }
+     fclose($output);
+}
+
+
 // if ($_GET['table'] == "result_checker") {
 //      header('Content-Type: text/csv; charset=utf-8');
 //      header("Content-Disposition: attachment; filename=Result-Pin " . $current_term . " " . $current_session . ".csv");

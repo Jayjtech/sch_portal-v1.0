@@ -112,6 +112,7 @@ if(isset($_GET['course_code'])){
                                 name ='$name',
                                 out_of ='$out_of',
                                 term ='$log_term',
+                                class ='$curr_class',
                                 session ='$log_session'
                             ");
     }else{

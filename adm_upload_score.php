@@ -54,7 +54,7 @@
         <div class="col-md-12 stretch-card grid-margin">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0">Upload Score-sheet</p>
+                    <p class="card-title mb-0">Score-sheet uploader</p>
                     <hr>
                     <div class="mt-2">
                         <div class="container">
@@ -112,31 +112,6 @@
                             </form>
                         </div>
                         <hr>
-                        <div class="container mt-3">
-                            <P class="card-title">Teacher's Comment</P>
-                            <p>Select the score-sheet you want to upload</p>
-                            <p class="text-info">Note: Score will be inserted into the spots that has the course codes
-                                in the score sheet.</p>
-                            <form action="<?= $add_course;?>" method="POST" enctype="multipart/form-data">
-                                <div class="row">
-                                    <input type="hidden" name="term" value="<?= $term_syntax; ?> term">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <input type="file" name="file" class="form-control btn btn-dark" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <button type="submit" name="push_score_sheet" class="btn btn-primary"><i
-                                                    class="mdi mdi-upload"></i> Upload</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <hr>
-
                     </div>
                 </div>
             </div>

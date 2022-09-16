@@ -38,16 +38,27 @@ include "config/db.php";
 // echo true;
 // }
 
-$callTimeTable = $conn->query("SELECT * FROM $time_tbl");
-while($tim = $callTimeTable->fetch_object()){
-$class_array = explode(",", $tim->class_array);
-if(in_array("JSS-1", $class_array)){
-    echo $tim->period_1;
-}
+// $callTimeTable = $conn->query("SELECT * FROM $time_tbl");
+// while($tim = $callTimeTable->fetch_object()){
+// $class_array = explode(",", $tim->class_array);
+// if(in_array("JSS-1", $class_array)){
+//     echo $tim->period_1;
+// }
 // echo '<pre>';
 // print_r($class_array);
 // echo '</pre>';
-}
+// }
+
+                         
+    /**To update the evaluation table */
+    $checkRows = $conn->query("SELECT * FROM $score_tbl WHERE adm_no='5490703669' AND term='1' AND session='2022/2023'");
+    $checkAllScore = $conn->query("SELECT sum(total) as overall_score  FROM $score_tbl WHERE adm_no='5490703669' AND term='1' AND session='2022/2023'");
+    $cal = $checkAllScore->fetch_object();
+     $overall_score = $cal->overall_score;
+     $out_of = ($checkRows->num_rows*100);
+     $percent_score = (($overall_score/$out_of)*100);
+    echo stripcslashes($percent_score);
+
 
 
 ?>

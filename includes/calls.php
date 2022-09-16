@@ -40,6 +40,7 @@ $callStudentAward = $conn->query("SELECT * FROM $student_award_tbl");
 $callUserDetails = $conn->query("SELECT * FROM $users_tbl WHERE userId='$userId'");
 $det = $callUserDetails->fetch_object();
 $department = $det->department;
+$curr_class = $det->curr_class;
 $monnify_account = json_decode($det->monnify_account);
 
 $class_officiating = $det->class_officiating;
@@ -96,6 +97,8 @@ if($det->position == 5){
 }
 
 $callScoreSheet = $conn->query("SELECT * FROM $score_tbl WHERE (term='$log_term' AND session = '$log_session' AND teacher_token='$token') ORDER BY class ASC");
+
+$callEvaluation = $conn->query("SELECT * FROM $evaluation_tbl WHERE (term='$log_term' AND session = '$log_session' AND class='$class_officiating') ORDER BY percent_score DESC");
 
 $exp_c_s = explode("/", $current_session);
 $exp_l_s = explode("/", $log_session);

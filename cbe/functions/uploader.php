@@ -234,12 +234,12 @@ if(isset($_POST['push_instruct'])){
                 while (($line = fgetcsv($csvFile)) !== FALSE) {
 
                     // Get row data
-                    $instruct1   =  mysqli_real_escape_string($conn, $line[0]);
-                    $instruct2  =  mysqli_real_escape_string($conn, $line[1]);
-                    $instruct3  =  mysqli_real_escape_string($conn, $line[2]);
-                    $instruct4  =  mysqli_real_escape_string($conn, $line[3]);
-                    $instruct5  =  mysqli_real_escape_string($conn, $line[4]);
-                    $instruct6  =  mysqli_real_escape_string($conn, $line[5]);
+                    $instruct1   =  mysqli_real_escape_string($conn, stripcslashes($line[0]));
+                    $instruct2  =  mysqli_real_escape_string($conn, stripcslashes($line[1]));
+                    $instruct3  =  mysqli_real_escape_string($conn, stripcslashes($line[2]));
+                    $instruct4  =  mysqli_real_escape_string($conn, stripcslashes($line[3]));
+                    $instruct5  =  mysqli_real_escape_string($conn, stripcslashes($line[4]));
+                    $instruct6  =  mysqli_real_escape_string($conn, stripcslashes($line[5]));
 
                     $instructions = '["'.$instruct1.'","'.$instruct2.'","'.$instruct3.'","'.$instruct4.'","'.$instruct5.'","'.$instruct6.'"]';
                     
@@ -317,13 +317,13 @@ if(isset($_POST['push_instruct'])){
                 while (($line = fgetcsv($csvFile)) !== FALSE) {
 
                     // Get row data
-                    $day  =  mysqli_real_escape_string($conn, $line[0]);
-                    $p1  =  mysqli_real_escape_string($conn, $line[1]);
-                    $p2  =  mysqli_real_escape_string($conn, $line[2]);
-                    $p3  =  mysqli_real_escape_string($conn, $line[3]);
-                    $p4  =  mysqli_real_escape_string($conn, $line[4]);
-                    $p5  =  mysqli_real_escape_string($conn, $line[5]);
-                    $exam_date  =  mysqli_real_escape_string($conn, $line[6]);
+                    $day  =  mysqli_real_escape_string($conn, stripcslashes($line[0]));
+                    $p1  =  mysqli_real_escape_string($conn, stripcslashes($line[1]));
+                    $p2  =  mysqli_real_escape_string($conn, stripcslashes($line[2]));
+                    $p3  =  mysqli_real_escape_string($conn, stripcslashes($line[3]));
+                    $p4  =  mysqli_real_escape_string($conn, stripcslashes($line[4]));
+                    $p5  =  mysqli_real_escape_string($conn, stripcslashes($line[5]));
+                    $exam_date  =  mysqli_real_escape_string($conn, stripcslashes($line[6]));
                     $line_id = rand(10000,99999);
                     //To ensure that The same class is not uploaded over and again
                     $check = $conn->query("SELECT * FROM $time_tbl WHERE (class_array='$class_array' AND session='$log_session' AND term='$log_term' AND line_id='$line_id')");
@@ -367,7 +367,7 @@ if(isset($_POST['push_instruct'])){
 
     /**Upload score */
     if(isset($_POST['push_score_sheet'])){
-             // Allowed mime types
+        // Allowed mime types
         $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
         // Validate whether selected file is a CSV file
         if (!empty($_FILES['file']['name']) && in_array($_FILES['file']['type'], $csvMimes)) {
@@ -385,10 +385,10 @@ if(isset($_POST['push_instruct'])){
 
                     // Get row data
                     $adm_no  =  mysqli_real_escape_string($conn, $line[1]);
-                    $course_code  =  mysqli_real_escape_string($conn, $line[2]);
-                    $ass  =  mysqli_real_escape_string($conn, $line[3]);
-                    $ca1  =  mysqli_real_escape_string($conn, $line[4]);
-                    $ca2  =  mysqli_real_escape_string($conn, $line[5]);
+                    $course_code  =  mysqli_real_escape_string($conn, stripcslashes($line[2]));
+                    $ass  =  mysqli_real_escape_string($conn, stripcslashes($line[3]));
+                    $ca1  =  mysqli_real_escape_string($conn, stripcslashes($line[4]));
+                    $ca2  =  mysqli_real_escape_string($conn, stripcslashes($line[5]));
                     $theory  =  mysqli_real_escape_string($conn, $line[6]);
                     $obj_score  =  mysqli_real_escape_string($conn, $line[7]);
                     $total = $ass+$ca1+$ca2+$theory+$obj_score;
@@ -459,82 +459,10 @@ if(isset($_POST['push_instruct'])){
                             $cumulative = (($ft_score+$st_score+$tt_score)/3);
                             break;
                     }
-                    
-                    /**GRADES AND REMARKS */
-                    if ($class == 'SSS-1' || $class == 'SSS-2' || $class == 'SSS-3') {
-                        if ($total <= 39) {
-                            $grade = "F9";
-                            $remark = "Poor";
-                            $color = "Red";
-                        } else if ($total == 40 || $total == 41 || $total == 42 || $total == 43 || $total == 43 || $total == 44) {
-                            $grade = "E8";
-                            $remark = "Fair";
-                            $color = "Red";
-                        } else if ($total == 45 || $total == 46 || $total == 47 || $total == 48 || $total == 49) {
-                            $grade = "D7";
-                            $remark = "Pass";
-                            $color = "Orange";
-                        } else if ($total == 50 || $total == 51 || $total == 52 || $total == 53 || $total == 54 || $total == 55 || $total == 56 || $total == 57 || $total == 58 || $total == 59) {
-                            $grade = "C6";
-                            $remark = "Credit";
-                            $color = "Yellow";
-                        } else if (
-                            $total == 60 || $total == 61 || $total == 62 || $total == 63 || $total == 64
-                        ) {
-                            $grade = "C5";
-                            $remark = "Credit";
-                            $color = "LightSeaGreen";
-                        } else if ($total == 65 || $total == 66 || $total == 67 || $total == 68 || $total == 69) {
-                            $grade = "C4";
-                            $remark = "Credit";
-                            $color = "LightSeaGreen";
-                        } else if ($total == 70 || $total == 71 || $total == 72 || $total == 73 || $total == 74) {
-                            $grade = "B3";
-                            $remark = "V.Good";
-                            $color = "Lime";
-                        } else if ($total == 75 || $total == 76 || $total == 77 || $total == 78 || $total == 79) {
-                            $grade = "B2";
-                            $remark = "Distinction";
-                            $color = "green";
-                            $color = "LimeGreen";
-                        } else if ($total >= 80) {
-                            $grade = "A";
-                            $remark = "Excellent";
-                            $color = "darkGreen";
-                        }
-                    } else if ($class == 'JSS-1' || $class == 'JSS-2' || $class == 'JSS-3') {
-                        if ($total <= 39) {
-                            $grade = "E";
-                            $remark = "Poor";
-                            $color = "Red";
-                        } else if (
-                            $total == 40 || $total == 41 || $total == 42 || $total == 43 || $total == 43 || $total == 44 || $total == 45 || $total == 46 || $total == 47 || $total == 48 || $total == 49
-                        ) {
-                            $grade = "D";
-                            $remark = "Average";
-                            $color = "Orange";
-                        } else if ($total == 50 || $total == 51 || $total == 52 || $total == 53 || $total == 54 || $total == 55 || $total == 56 || $total == 57 || $total == 58 || $total == 59) {
-                            $grade = "C";
-                            $remark = "Good";
-                            $color = "Yellow";
-                        } else if (
-                            $total == 60 || $total == 61 || $total == 62 || $total == 63 || $total == 64 || $total == 65 || $total == 66 || $total == 67 || $total == 68 || $total == 69
-                        ) {
-                            $grade = "B";
-                            $remark = "V.Good";
-                            $color = "Green";
-                        } else if ($total >= 70) {
-                            $grade = "A";
-                            $remark = "Excellent";
-                            $color = "darkGreen";
-                        } else {
-                            $grade = "";
-                            $remark = "";
-                            $color = "";
-                        }
-                    }
+                    /**Grade */
+                    include "grade.php";
+                    /**End of grade */
 
-                    /**END OF GRADES AND REMARKS */
                     $update2 = $conn->query("UPDATE $score_tbl SET
                                             cumulative = '$cumulative',
                                             grade = '$grade',
@@ -545,6 +473,26 @@ if(isset($_POST['push_instruct'])){
                                             AND session = '$log_session'
                                             AND teacher_token = '$token')
                                             ");
+                                            
+                    /**To update the evaluation table */
+                    $checkRows = $conn->query("SELECT * FROM $score_tbl WHERE adm_no='$adm_no' AND term='$log_term' AND session='$log_session'");
+                    $checkAllScore = $conn->query("SELECT sum(total) as overall_score  FROM $score_tbl WHERE adm_no='$adm_no' AND term='$log_term' AND session='$log_session'");
+                    $cal = $checkAllScore->fetch_object();
+                    $overall_score = $cal->overall_score;
+                    $out_of = ($checkRows->num_rows*100);
+                    $percent_score = (($overall_score/$out_of)*100);
+                    $percent_score;
+
+                    /**Update Evaluation */
+                    $updateEva = $conn->query("UPDATE $evaluation_tbl SET 
+                                            overall_score = '$overall_score',
+                                            out_of = '$out_of',
+                                            percent_score = '$percent_score'
+                                            WHERE adm_no = '$adm_no'
+                                            AND term = '$log_term'
+                                            AND session = '$log_session'
+                                            ");
+
                         }
             /**Positioning */            
         $callList = $conn->query("SELECT * FROM $score_tbl WHERE course_code='$course_code' AND term='$log_term' AND session='$log_session' AND teacher_token='$token'");
@@ -559,7 +507,9 @@ if(isset($_POST['push_instruct'])){
         arsort($rankArray);
         $pos = 1;
         foreach($rankArray as $key => $score){
+            /**Positioner */
             include "position.php";
+            /**End of ... */
             $pos ++;
         $setPosition = $conn->query("UPDATE $score_tbl SET
                 position = '$position'
@@ -582,6 +532,202 @@ if(isset($_POST['push_instruct'])){
                     }
             }
         }
-         header("location: ../../adm_prepare_result");
+         header("location: ../../adm_upload_score");
+ fclose($csvFile);
+    }
+
+
+    /**Upload teacher's comment */
+    if(isset($_POST['upload_t_comment'])){
+// Allowed mime types
+        $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
+        // Validate whether selected file is a CSV file
+        if (!empty($_FILES['file']['name']) && in_array($_FILES['file']['type'], $csvMimes)) {
+
+            // If the file is uploaded
+            if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+
+                // Open uploaded CSV file with read-only mode
+                $csvFile = fopen($_FILES['file']['tmp_name'], 'r');
+                // Skip the first line
+                fgetcsv($csvFile);
+
+                // Parse data from CSV file line by line
+                while (($line = fgetcsv($csvFile)) !== FALSE) {
+
+                    // Get row data
+                    $adm_no  =  mysqli_real_escape_string($conn, $line[1]);
+                    $class  =  mysqli_real_escape_string($conn, $line[2]);
+                    $n_absent  =  mysqli_real_escape_string($conn, $line[6]);
+                    $n_present  =  mysqli_real_escape_string($conn, $line[7]);
+                    $punctuality  =  mysqli_real_escape_string($conn, $line[8]);
+                    $attentiveness  =  mysqli_real_escape_string($conn, $line[9]);
+                    $neatness  =  mysqli_real_escape_string($conn, $line[10]);
+                    $honesty  =  mysqli_real_escape_string($conn, $line[11]);
+                    $relationship  =  mysqli_real_escape_string($conn, $line[12]);
+                    $skills  =  mysqli_real_escape_string($conn, $line[13]);
+                    $sport  =  mysqli_real_escape_string($conn, $line[14]);
+                    $clubs  =  mysqli_real_escape_string($conn, $line[15]);
+                    $fluency  =  mysqli_real_escape_string($conn, $line[16]);
+                    $handwriting  =  mysqli_real_escape_string($conn, $line[17]);
+                    $t_comment  =  mysqli_real_escape_string($conn, stripcslashes($line[18]));
+                    $prom  = mysqli_real_escape_string($conn, stripcslashes($line[19]));
+
+                if ($prom == 1 || $prom == "JSS-1" || $prom == "JSS1" || $prom == "JS-1" || $prom == "JS1" || $prom == "J-1" || $prom == "J1" || $prom == "jss-1" || $prom == "jss1" || $prom == "js-1" || $prom == "j-1" || $prom == "j1") {
+                    $promoted_to = "JSS-1";
+                } else if ($prom == 2 || $prom == "JSS-2" || $prom == "JSS2" || $prom == "JS-2" || $prom == "JS2" || $prom == "J-2" || $prom == "J2" || $prom == "jss-2" || $prom == "jss2" || $prom == "js-2" || $prom == "j-2" || $prom == "j2") {
+                    $promoted_to = "JSS-2";
+                } else if ($prom == 3 || $prom == "JSS-3" || $prom == "JSS3" || $prom == "JS-3" || $prom == "JS3" || $prom == "J-3" || $prom == "J3" || $prom == "jss-3" || $prom == "jss3" || $prom == "js-3" || $prom == "j-3" || $prom == "j3") {
+                    $promoted_to = "JSS-3";
+                } else if ($prom == 4 || $prom == "SSS-1" || $prom == "SSS1" || $prom == "SS-1" || $prom == "SS1" || $prom == "S-1" || $prom == "S1" || $prom == "sss-1" || $prom == "sss1" || $prom == "ss-1" || $prom == "s-1" || $prom == "s1") {
+                    $promoted_to = "SSS-1";
+                } else if ($prom == 5 || $prom == "SSS-2" || $prom == "SSS2" || $prom == "SS-2" || $prom == "SS2" || $prom == "S-2" || $prom == "S2" || $prom == "sss-2" || $prom == "sss2" || $prom == "ss-2" || $prom == "s-2" || $prom == "s2") {
+                    $promoted_to = "SSS-2";
+                } else if ($prom == 6 || $prom == "SSS-3" || $prom == "SSS3" || $prom == "SS-3" || $prom == "SS3" || $prom == "S-3" || $prom == "S3" || $prom == "sss-3" || $prom == "sss3" || $prom == "ss-3" || $prom == "s-3" || $prom == "s3") {
+                    $promoted_to = "SSS-3";
+                } else {
+                    $promoted_to = $class;
+                }
+                   
+                $updateEva = $conn->query("UPDATE $evaluation_tbl SET
+                                            t_comment = '$t_comment',
+                                            n_absent = '$n_absent',
+                                            n_present = '$n_present',
+                                            punctuality = '$punctuality',
+                                            attentiveness = '$attentiveness',
+                                            neatness = '$neatness',
+                                            honesty = '$honesty',
+                                            relationship = '$relationship',
+                                            skills = '$skills',
+                                            sport = '$sport',
+                                            clubs = '$clubs',
+                                            fluency = '$fluency',
+                                            handwriting = '$handwriting',
+                                            promoted_to = '$promoted_to'
+                                            WHERE adm_no = '$adm_no'
+                                            AND term='$log_term'
+                                            AND session='$log_session'
+                                        ");
+
+                    $updateUser = $conn->query("UPDATE $users_tbl SET 
+                                                curr_class = '$promoted_to'
+                                                WHERE userId = '$adm_no'
+                    ");
+
+                        }
+            /**Positioning */            
+        $callList = $conn->query("SELECT * FROM $evaluation_tbl WHERE (term='$log_term' AND session='$log_session' AND class='$class_officiating')");
+            while($li = $callList->fetch_assoc()){
+                $data[] = $li;
+            }
+
+        $rankArray = array();
+            for($x = 0; $x<count($data); $x++){
+                $rankArray[$data[$x]['adm_no']] = $data[$x]['percent_score'];   
+            }
+        arsort($rankArray);
+    
+        $pos = 1;
+        foreach($rankArray as $key => $score){
+            /**Positioner */
+            include "position.php";
+            /**End of ... */
+            $pos ++;
+        $setPosition = $conn->query("UPDATE $evaluation_tbl SET
+                position = '$position'
+                WHERE adm_no = '$key'
+                AND term = '$log_term'
+                AND session = '$log_session'
+    "); 
+        }
+                    
+                if($setPosition){
+                    $_SESSION['message'] = "".$term_syntax." term | ".$log_session." teacher's comment for ".$class_officiating." has been uploaded successfully!";
+                    $_SESSION['msg_type'] = "success";
+                    $_SESSION['remedy'] = "";
+                }else{
+                    $_SESSION['message'] = "".$term_syntax." term | ".$log_session." teacher's comment for ".$class_officiating." could not be uploaded!";
+                    $_SESSION['msg_type'] = "error";
+                    $_SESSION['remedy'] = "There may be error in the file you tried to upload.";
+                }
+            }
+        }
+         header("location: ../../adm_upload_comment");
+ fclose($csvFile);
+    }
+
+
+     /**Upload teacher's comment */
+    if(isset($_POST['upload_h_comment'])){
+// Allowed mime types
+        $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
+        // Validate whether selected file is a CSV file
+        if (!empty($_FILES['file']['name']) && in_array($_FILES['file']['type'], $csvMimes)) {
+
+            // If the file is uploaded
+            if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+
+                // Open uploaded CSV file with read-only mode
+                $csvFile = fopen($_FILES['file']['tmp_name'], 'r');
+                // Skip the first line
+                fgetcsv($csvFile);
+
+                // Parse data from CSV file line by line
+                while (($line = fgetcsv($csvFile)) !== FALSE) {
+
+                    // Get row data
+                    $adm_no  =  mysqli_real_escape_string($conn, $line[1]);
+                    $class  =  mysqli_real_escape_string($conn, $line[2]);
+                    $t_comment  =  mysqli_real_escape_string($conn, stripcslashes($line[5]));
+                    $p_comment  =  mysqli_real_escape_string($conn, stripcslashes($line[6]));
+                    $prom  = mysqli_real_escape_string($conn, stripcslashes($line[7]));
+                    $next_term_date  = mysqli_real_escape_string($conn, $line[8]);
+
+                if ($prom == 1 || $prom == "JSS-1" || $prom == "JSS1" || $prom == "JS-1" || $prom == "JS1" || $prom == "J-1" || $prom == "J1" || $prom == "jss-1" || $prom == "jss1" || $prom == "js-1" || $prom == "j-1" || $prom == "j1") {
+                    $promoted_to = "JSS-1";
+                } else if ($prom == 2 || $prom == "JSS-2" || $prom == "JSS2" || $prom == "JS-2" || $prom == "JS2" || $prom == "J-2" || $prom == "J2" || $prom == "jss-2" || $prom == "jss2" || $prom == "js-2" || $prom == "j-2" || $prom == "j2") {
+                    $promoted_to = "JSS-2";
+                } else if ($prom == 3 || $prom == "JSS-3" || $prom == "JSS3" || $prom == "JS-3" || $prom == "JS3" || $prom == "J-3" || $prom == "J3" || $prom == "jss-3" || $prom == "jss3" || $prom == "js-3" || $prom == "j-3" || $prom == "j3") {
+                    $promoted_to = "JSS-3";
+                } else if ($prom == 4 || $prom == "SSS-1" || $prom == "SSS1" || $prom == "SS-1" || $prom == "SS1" || $prom == "S-1" || $prom == "S1" || $prom == "sss-1" || $prom == "sss1" || $prom == "ss-1" || $prom == "s-1" || $prom == "s1") {
+                    $promoted_to = "SSS-1";
+                } else if ($prom == 5 || $prom == "SSS-2" || $prom == "SSS2" || $prom == "SS-2" || $prom == "SS2" || $prom == "S-2" || $prom == "S2" || $prom == "sss-2" || $prom == "sss2" || $prom == "ss-2" || $prom == "s-2" || $prom == "s2") {
+                    $promoted_to = "SSS-2";
+                } else if ($prom == 6 || $prom == "SSS-3" || $prom == "SSS3" || $prom == "SS-3" || $prom == "SS3" || $prom == "S-3" || $prom == "S3" || $prom == "sss-3" || $prom == "sss3" || $prom == "ss-3" || $prom == "s-3" || $prom == "s3") {
+                    $promoted_to = "SSS-3";
+                } else {
+                    $promoted_to = $class;
+                }
+                   
+                $updateEva = $conn->query("UPDATE $evaluation_tbl SET
+                                            t_comment = '$t_comment',
+                                            p_comment = '$p_comment',
+                                            promoted_to = '$promoted_to',
+                                            next_term_date = '$next_term_date'
+                                            WHERE adm_no = '$adm_no'
+                                            AND term='$log_term'
+                                            AND session='$log_session'
+                                        ");
+
+                    $updateUser = $conn->query("UPDATE $users_tbl SET 
+                                                curr_class = '$promoted_to'
+                                                WHERE userId = '$adm_no'
+                    ");
+
+                        }
+    
+                    
+                if($updateUser){
+                    $_SESSION['message'] = "".$term_syntax." term | ".$log_session." head teacher's comment has been uploaded successfully!";
+                    $_SESSION['msg_type'] = "success";
+                    $_SESSION['remedy'] = "";
+                }else{
+                    $_SESSION['message'] = "".$term_syntax." term | ".$log_session." head teacher's comment could not be uploaded!";
+                    $_SESSION['msg_type'] = "error";
+                    $_SESSION['remedy'] = "There may be error in the file you tried to upload.";
+                }
+            }
+        }
+         header("location: ../../adm_upload_comment");
  fclose($csvFile);
     }

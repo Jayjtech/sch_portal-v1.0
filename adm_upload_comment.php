@@ -8,38 +8,34 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0">Score sheet for <?= $term_syntax?> term | <?= $log_session; ?></p>
+                    <p class="card-title mb-0">Comment table for <?= $term_syntax?> term | <?= $log_session; ?></p>
                     <div class="table-responsive">
                         <table class="myTable table table-striped table-borderless">
                             <thead>
                                 <tr>
                                     <th>Name[Adm No.]</th>
                                     <th>Class</th>
-                                    <th>Course[Code]</th>
-                                    <th>[ASS]+[CA1]+[CA2]+[THEORY+OBJ] = [TOTAL]</th>
-                                    <th>Scores[FT][ST][TT]</th>
-                                    <th>Cumulative</th>
+                                    <th>Overall</th>
+                                    <th>Out of</th>
+                                    <th>% Score</th>
                                     <th>Position</th>
-                                    <th>Grade</th>
-                                    <th>Remark</th>
+                                    <th>Promoted-to</th>
+                                    <th>Teacher's Comment</th>
+                                    <th>Head-teacher's Comment</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php while($scr = $callScoreSheet->fetch_object()):?>
+                                <?php while($scr = $callEvaluation->fetch_object()):?>
                                 <tr>
                                     <td><?= $scr->name; ?>[<?= $scr->adm_no; ?>]</td>
                                     <td class="font-weight-bold"><?= $scr->class; ?></td>
-                                    <td><?= $scr->course; ?>[<?= $scr->course_code; ?>]</td>
-                                    <td>[ <?= $scr->ass; ?> ] + [ <?= $scr->ca1; ?> ] + [ <?= $scr->ca2; ?> ] + [
-                                        <?= $scr->theory; ?> + <?= $scr->score; ?> ] =
-                                        [ <?= $scr->total; ?> ]
-                                    </td>
-                                    <td>FT:[<?= $scr->ft_score; ?>] ST:[<?= $scr->st_score; ?>]
-                                        TT:[<?= $scr->tt_score; ?>]</td>
-                                    <td><?= $scr->cumulative; ?></td>
+                                    <td><?= $scr->overall_score; ?></td>
+                                    <td><?= $scr->out_of; ?></td>
+                                    <td><?= $scr->percent_score; ?></td>
                                     <td><?= $scr->position; ?></td>
-                                    <td><?= $scr->grade; ?></td>
-                                    <td><?= $scr->remark; ?></td>
+                                    <td><?= $scr->promoted_to; ?></td>
+                                    <td><?= $scr->t_comment; ?></td>
+                                    <td><?= $scr->p_comment; ?></td>
                                 </tr>
                                 <?php endwhile; ?>
                             </tbody>
@@ -54,34 +50,34 @@
         <div class="col-md-12 stretch-card grid-margin">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0">Upload Score-sheet</p>
+                    <p class="card-title mb-0">Comment uploader</p>
                     <hr>
                     <div class="mt-2">
                         <div class="container">
-                            <p>Click the green button to download the score-sheet format as an Excel CSV file.</p>
-                            <p class="text-info">Note: Score-sheet will be downloaded for the term and session you
-                                logged in to and based on your choice of class.</p>
+                            <p>Click the green button to download the comment format as an Excel CSV file.</p>
+                            <p class="text-info">Note: Comment will be downloaded for the term and session you
+                                logged in to and based on the class you officiate.</p>
                             <form action="<?= $exporter; ?>" method="get">
                                 <div class="row">
+                                    <input type="hidden" name="table" value="<?= $evaluation_tbl; ?>">
+                                    <input type="hidden" name="type" value="teacher">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <select name="course_code" id="course_code" class="form-control" required>
-                                                <option value="">Course code</option>
-                                                <?php while($sel = $selCourses->fetch_object()):?>
-                                                <option value="<?= $sel->course_code; ?>">
-                                                    <?= $sel->course_code; ?> [<?= $sel->course; ?>]
-                                                </option>
-                                                <?php endwhile; ?>
-                                            </select>
+                                            <button class="btn btn-success"><i class="mdi mdi-download"></i> Teacher's
+                                                comment format</button>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="table" value="<?= $score_tbl; ?>">
-                                    <input type="hidden" name="term" value="<?= $term_syntax; ?> term">
-                                    <input type="hidden" name="session" value="<?= $log_session; ?>">
+                                </div>
+                            </form>
+
+                            <form action="<?= $exporter; ?>" method="get">
+                                <div class="row">
+                                    <input type="hidden" name="table" value="<?= $evaluation_tbl; ?>">
+                                    <input type="hidden" name="type" value="head_teacher">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <button class="btn btn-success"><i class="mdi mdi-download"></i> Excel
-                                                Format</button>
+                                            <button class="btn btn-success"><i class="mdi mdi-download"></i> Head
+                                                teacher's comment format</button>
                                         </div>
                                     </div>
                                 </div>
@@ -89,10 +85,10 @@
                         </div>
                         <hr>
                         <div class="container mt-3">
-                            <P class="card-title">Upload Score sheet</P>
-                            <p>Select the score-sheet you want to upload</p>
-                            <p class="text-info">Note: Score will be inserted into the spots that has the course codes
-                                in the score sheet.</p>
+                            <P class="card-title">Upload teacher's comment</P>
+                            <p>Select the comment file you want to upload</p>
+                            <p class="text-info">Note: Comment will be inserted into the spots that has the admission
+                                number in the comment file.</p>
                             <form action="<?= $add_course;?>" method="POST" enctype="multipart/form-data">
                                 <div class="row">
                                     <input type="hidden" name="term" value="<?= $term_syntax; ?> term">
@@ -101,11 +97,11 @@
                                             <input type="file" name="file" class="form-control btn btn-dark" required>
                                         </div>
                                     </div>
-
+                                    <input type="hidden" value="1" name="upload_t_comment">
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                            <button type="submit" name="push_score_sheet" class="btn btn-primary"><i
-                                                    class="mdi mdi-upload"></i> Upload</button>
+                                            <button type="submit" name="" class="btn btn-primary"><i
+                                                    class="mdi mdi-upload"></i> Upload teacher's comment</button>
                                         </div>
                                     </div>
                                 </div>
@@ -113,10 +109,10 @@
                         </div>
                         <hr>
                         <div class="container mt-3">
-                            <P class="card-title">Teacher's Comment</P>
-                            <p>Select the score-sheet you want to upload</p>
-                            <p class="text-info">Note: Score will be inserted into the spots that has the course codes
-                                in the score sheet.</p>
+                            <P class="card-title">Upload Head Teacher's Comment</P>
+                            <p>Select the comment file you want to upload</p>
+                            <p class="text-info">Note: Comment will be inserted into the spots that has the admission
+                                number in the comment file.</p>
                             <form action="<?= $add_course;?>" method="POST" enctype="multipart/form-data">
                                 <div class="row">
                                     <input type="hidden" name="term" value="<?= $term_syntax; ?> term">
@@ -125,11 +121,11 @@
                                             <input type="file" name="file" class="form-control btn btn-dark" required>
                                         </div>
                                     </div>
-
+                                    <input type="hidden" value="1" name="upload_h_comment">
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                            <button type="submit" name="push_score_sheet" class="btn btn-primary"><i
-                                                    class="mdi mdi-upload"></i> Upload</button>
+                                            <button type="submit" name="" class="btn btn-primary"><i
+                                                    class="mdi mdi-upload"></i> Upload head teacher's comment</button>
                                         </div>
                                     </div>
                                 </div>
