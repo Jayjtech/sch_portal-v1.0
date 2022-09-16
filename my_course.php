@@ -16,7 +16,7 @@
                             <thead>
                                 <tr>
                                     <th>Course[code]</th>
-                                    <th>Exam Token</th>
+                                    <th>Teacher</th>
                                     <th>ASS | CA1 | CA2</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -24,6 +24,11 @@
                             </thead>
                             <tbody>
                                 <?php while($row = $enrolledCourse->fetch_object()):
+                                /**Get staff */
+                                $teacher_token = $row->teacher_token;
+                                $getTeacher = $conn->query("SELECT * FROM $users_tbl WHERE token='$teacher_token'");
+                                $teacherDet = $getTeacher->fetch_object(); 
+
                                     switch($row->status){
                                         case 0: 
                                             $status = "Not taken";
@@ -37,14 +42,7 @@
                                     ?>
                                 <tr>
                                     <td><?= $row->course; ?>[<?= $row->course_code; ?>]</td>
-                                    <td class="font-weight-bold">
-
-                                        <?php if($row->public == 0){
-                                            echo '<p class="badge badge-warning">Hidden<p>';
-                                        }else{
-                                            echo '<p class="text-success">'.$row->exam_token.'</p>';
-                                        } ?>
-                                    </td>
+                                    <td class="font-weight-bold"><?= $teacherDet->name; ?></td>
                                     <td><?= $row->ass; ?> | <?= $row->ca1; ?> | <?= $row->ca2; ?></td>
                                     <td>
                                         <p class="<?= $col; ?>"><?= $status; ?></p>
@@ -81,6 +79,7 @@
                             <thead>
                                 <tr>
                                     <th>Course[code][No. of Question]</th>
+                                    <th>Teacher</th>
                                     <th>Duration[Minute]</th>
                                     <th>Mark[EXAM|CA|ASS]</th>
                                     <th>Action</th>
@@ -90,6 +89,7 @@
                                 <?php while($row = $availableCourse->fetch_object()):?>
                                 <tr>
                                     <td><?= $row->course; ?>[<?= $row->course_code; ?>] [<?= $row->no_of_quest; ?>]</td>
+                                    <td class="font-weight-bold"><?= $row->taken_by; ?></td>
                                     <td>Exam:<?= $row->exam_duration; ?> | Test:<?= $row->test_duration; ?> |
                                         Ass:<?= $row->ass_duration; ?>
                                     </td>
@@ -100,6 +100,7 @@
                                             onsubmit="return enrolCourse(this)">
                                             <input type="hidden" name="course_code" value="<?= $row->course_code; ?>">
                                             <input type="hidden" name="course" value="<?= $row->course; ?>">
+                                            <input type="hidden" name="teacher_token" value="<?= $row->token; ?>">
                                             <button type="submit" class="btn-sm btn-success">Enrol <i
                                                     class="mdi mdi-plus"></i></button>
                                         </form>

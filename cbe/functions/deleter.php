@@ -37,7 +37,7 @@ if(isset($_GET['del'])){
             $_SESSION['msg_type'] = "error";
             $_SESSION['remedy'] = "";
         }
-    header('location:../../dashboard');
+    header('location:../../create_course');
 }
 
 if(isset($_GET['del_course'])){
@@ -94,4 +94,28 @@ if(isset($_GET['del_table'])){
         $_SESSION['remedy'] = "";
       }
       header('location:../../adm_exam');
+}
+
+if(isset($_GET['del_quest'])){
+  $course_code = $_GET['del_quest'];
+  $quest_type = $_GET['quest_type'];
+
+  $del = $conn->query("DELETE FROM $question_tbl_a WHERE 
+  (course_code='$course_code' AND session='$log_session' AND token='$token' AND quest_type='$quest_type')");
+  $del1 = $conn->query("DELETE FROM $question_tbl_b WHERE 
+  (course_code='$course_code' AND session='$log_session' AND token='$token' AND quest_type='$quest_type')");
+  $del2 = $conn->query("DELETE FROM $question_tbl_c WHERE 
+  (course_code='$course_code' AND session='$log_session' AND token='$token' AND quest_type='$quest_type')");
+
+
+if($del2){
+        $_SESSION['message'] = ''.$course_code.' questions have been deleted!';
+        $_SESSION['msg_type'] = "success";
+        $_SESSION['remedy'] = "";
+      }else{
+        $_SESSION['message'] = 'Questions on '.$course_code.' could not be deleted!';
+        $_SESSION['msg_type'] = "error";
+        $_SESSION['remedy'] = "";
+      }
+       header('location:../../create_course');
 }

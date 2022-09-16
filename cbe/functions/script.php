@@ -30,7 +30,8 @@ let score = []
 let minLeft = 0;
 let newScore = 0
 let durationVal = examDetails.duration;
-// console.log(durationVal);
+
+
 /**Checking the initial value of the score on the local storage */
 if (localStorage.getItem('score')) {
     score = JSON.parse(localStorage.getItem('score'))
@@ -82,15 +83,15 @@ let selectAns = (chosenOpt) => {
         if (prevAns === isCorrect && newAns === isCorrect) {
             newScore = newScore
         } else if (prevAns === isCorrect && newAns != isCorrect) {
-            newScore = newScore - 1
+            newScore = newScore - <?= $unit; ?>
         } else if (prevAns != isCorrect && newAns === isCorrect) {
-            newScore = newScore + 1
+            newScore = newScore + <?= $unit; ?>
         }
         answeredQuestions[questNo] = answeredStorage
     } else if (foundQuest != questNo) {
         /**Calculate newScore */
         if (chosenOpt === isCorrect) {
-            newScore = newScore + 1
+            newScore = newScore + <?= $unit; ?>
         }
         answeredQuestions[questNo] = answeredStorage
         score.push(newScore)
@@ -320,7 +321,9 @@ function updateCountDown() {
         answeredQuest.value = JSON.stringify(answeredQuestions);
         remainingMin.value = minLeft;
         document.querySelector("#reportForm").submit();
-        localStorage.clear();
+        localStorage.removeItem('score');
+        localStorage.removeItem('answeredQuestions');
+        localStorage.removeItem('timeLeft');
     }
 
     function notification() {
@@ -357,7 +360,9 @@ function submitExam(form) {
             answeredQuest.value = JSON.stringify(answeredQuestions);
             remainingMin.value = minLeft;
             form.submit();
-            localStorage.clear();
+            localStorage.removeItem('score');
+            localStorage.removeItem('answeredQuestions');
+            localStorage.removeItem('timeLeft');
         }
     })
     return false;

@@ -17,6 +17,8 @@
                                     <th>Class</th>
                                     <th>Course[Code]</th>
                                     <th>[ASS]+[CA1]+[CA2]+[THEORY+OBJ] = [TOTAL]</th>
+                                    <th>Scores[FT][ST][TT]</th>
+                                    <th>Cumulative</th>
                                     <th>Position</th>
                                     <th>Grade</th>
                                     <th>Remark</th>
@@ -30,7 +32,11 @@
                                     <td><?= $scr->course; ?>[<?= $scr->course_code; ?>]</td>
                                     <td>[ <?= $scr->ass; ?> ] + [ <?= $scr->ca1; ?> ] + [ <?= $scr->ca2; ?> ] + [
                                         <?= $scr->theory; ?> + <?= $scr->score; ?> ] =
-                                        [ <?= $scr->total; ?> ]</td>
+                                        [ <?= $scr->total; ?> ]
+                                    </td>
+                                    <td>FT:[<?= $scr->ft_score; ?>] ST:[<?= $scr->st_score; ?>]
+                                        TT:[<?= $scr->tt_score; ?>]</td>
+                                    <td><?= $scr->cumulative; ?></td>
                                     <td><?= $scr->position; ?></td>
                                     <td><?= $scr->grade; ?></td>
                                     <td><?= $scr->remark; ?></td>
@@ -48,7 +54,7 @@
         <div class="col-md-12 stretch-card grid-margin">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0">Upload Exam Time-table</p>
+                    <p class="card-title mb-0">Upload Score-sheet</p>
                     <hr>
                     <div class="mt-2">
                         <div class="container">
@@ -83,7 +89,7 @@
                         </div>
                         <hr>
                         <div class="container mt-3">
-                            <P class="card-title">Upload</P>
+                            <P class="card-title">Upload Score sheet</P>
                             <p>Select the score-sheet you want to upload</p>
                             <p class="text-info">Note: Score will be inserted into the spots that has the course codes
                                 in the score sheet.</p>
@@ -107,32 +113,29 @@
                         </div>
                         <hr>
                         <div class="container mt-3">
-                            <P class="card-title">Clear time-table</P>
-                            <form action="<?= $course_deleter; ?>" onsubmit="return delTimeTbl(this)" method="get">
+                            <P class="card-title">Teacher's Comment</P>
+                            <p>Select the score-sheet you want to upload</p>
+                            <p class="text-info">Note: Score will be inserted into the spots that has the course codes
+                                in the score sheet.</p>
+                            <form action="<?= $add_course;?>" method="POST" enctype="multipart/form-data">
                                 <div class="row">
+                                    <input type="hidden" name="term" value="<?= $term_syntax; ?> term">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <select name="class_category" id="class_category" class="form-control"
-                                                required>
-                                                <option value="">Class category</option>
-                                                <option value="Senior-School">Senior School</option>
-                                                <option value="Junior-School">Junior School</option>
-                                                <option value="Primary-School">Primary School</option>
-                                            </select>
+                                            <input type="file" name="file" class="form-control btn btn-dark" required>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="del_table" value="<?= $time_tbl; ?>">
-                                    <input type="hidden" name="term" value="<?= $term_syntax; ?> term">
-                                    <input type="hidden" name="session" value="<?= $log_session; ?>">
-                                    <div class="col-sm-6">
+
+                                    <div class="col-sm-4">
                                         <div class="form-group">
-                                            <button class="btn btn-danger"><i class="mdi mdi-delete"></i>
-                                                Delete</button>
+                                            <button type="submit" name="push_score_sheet" class="btn btn-primary"><i
+                                                    class="mdi mdi-upload"></i> Upload</button>
                                         </div>
                                     </div>
                                 </div>
                             </form>
                         </div>
+                        <hr>
 
                     </div>
                 </div>

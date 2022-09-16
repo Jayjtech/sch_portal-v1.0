@@ -37,7 +37,7 @@ if(isset($_POST['exam_unit'])){
     }
        echo $class;
     /**CHECK */
-    $check = $conn->query("SELECT * FROM $course_tbl WHERE (course_code ='$course_code' AND session='$log_session')");
+    $check = $conn->query("SELECT * FROM $course_tbl WHERE (course_code ='$course_code' AND token='$token' AND session='$log_session')");
     if($check->num_rows > 0){
         $_SESSION['message'] = "This course already exist!";
         $_SESSION['msg_type'] = "warning";
@@ -60,7 +60,6 @@ if(isset($_POST['exam_unit'])){
                             taken_by = '$name',
                             created_at = '$date',
                             class = '$class'");
-
             if($insert){
                 $_SESSION['message'] = "Course has been added successfully!";
                 $_SESSION['msg_type'] = "success";
@@ -80,6 +79,7 @@ if(isset($_POST['push_quest'])){
      $course_code = mysqli_real_escape_string($conn, $_POST['course_code']);
      $classNo = substr($course_code, 3, 1);
      $term = substr($course_code, 5, 1);
+     $quest_id = rand(100000,999999);
     
     switch($classNo){
         case 1;
@@ -145,26 +145,22 @@ if(isset($_POST['push_quest'])){
                     // NEEDED TO SHUFFLE QUESTION NUMBERS
                     include "../../config/q_type.php";
 
-                    if($quest == false){
-                            $_SESSION['message'] = "The uploaded file seems to be empty!";
-                            $_SESSION['msg_type'] = "error";
-                            $_SESSION['remedy'] = "Check the file you uploaded";
-                        }
+        
                     //To ensure that The same class is not uploaded over and again
-                    $checkQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE (course_code='$course_code' AND session='$log_session' AND quest_no='$q_no' AND quest_type='$quest_type')");
+                    $checkQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE (course_code='$course_code' AND session='$log_session' AND term='$log_term' AND quest_no='$q_no' AND quest_type='$quest_type'  AND token='$token')");
 
                     //insert data from CSV file 
                     if ($checkQuestion->num_rows == 0) {
-                        $query_a = "INSERT INTO $question_tbl_a (session, token, term, course_code, class, quest_no, quest, ans, isCorrect, q_id, quest_type)
-     VALUES ('$log_session','$token', '$term', '$course_code', '$class', '$q_no','$quest', '$ans', '$isCorrect', '$q_id', '$quest_type')";
+                        $query_a = "INSERT INTO $question_tbl_a (session, token, term, course_code, class, quest_no, quest, ans, isCorrect, q_id, quest_type, quest_id)
+     VALUES ('$log_session','$token', '$term', '$course_code', '$class', '$q_no','$quest', '$ans', '$isCorrect', '$q_id', '$quest_type', '$quest_id')";
                         mysqli_query($conn, $query_a);
 
-                        $query_b = "INSERT INTO $question_tbl_b (session, token, term, course_code, class, quest_no, quest, ans, isCorrect, q_id, quest_type)
-     VALUES ('$log_session','$token', '$term', '$course_code', '$class', '$q_no_B','$quest', '$ans', '$isCorrect', '$q_id', '$quest_type')";
+                        $query_b = "INSERT INTO $question_tbl_b (session, token, term, course_code, class, quest_no, quest, ans, isCorrect, q_id, quest_type, quest_id)
+     VALUES ('$log_session','$token', '$term', '$course_code', '$class', '$q_no_B','$quest', '$ans', '$isCorrect', '$q_id', '$quest_type', '$quest_id')";
                         mysqli_query($conn, $query_b);
 
-                        $query_c = "INSERT INTO $question_tbl_c (session, token, term, course_code, class, quest_no, quest, ans, isCorrect, q_id, quest_type)
-     VALUES ('$log_session','$token', '$term', '$course_code', '$class', '$q_no_C','$quest', '$ans', '$isCorrect', '$q_id', '$quest_type')";
+                        $query_c = "INSERT INTO $question_tbl_c (session, token, term, course_code, class, quest_no, quest, ans, isCorrect, q_id, quest_type, quest_id)
+     VALUES ('$log_session','$token', '$term', '$course_code', '$class', '$q_no_C','$quest', '$ans', '$isCorrect', '$q_id', '$quest_type', '$quest_id')";
                         mysqli_query($conn, $query_c);
 
                        
@@ -254,18 +250,18 @@ if(isset($_POST['push_instruct'])){
                         $instructions = '["'.$instruct1.'","'.$instruct2.'","'.$instruct3.'","'.$instruct4.'"]';
                     }
                     //To ensure that The same class is not uploaded over and again
-                    $checkInstruction = $conn->query("SELECT * FROM $instruction_tbl WHERE (course_code='$course_code' AND session='$log_session' AND quest_type='$quest_type')");
-
+                    $checkInstruction = $conn->query("SELECT * FROM $instruction_tbl WHERE (course_code='$course_code' AND session='$log_session' AND term='$log_term' AND quest_type='$quest_type')");
+                    if($checkInstruction->num_rows == 0){
                     //insert data from CSV file 
                     $insert = $conn->query("INSERT INTO $instruction_tbl SET
                                             course_code = '$course_code',
+                                            teacher_token = '$token',
                                             quest_type = '$quest_type',
                                             instruction = '$instructions',
                                             term = '$log_term',
                                             session = '$log_session',
                                             class = '$class'
                                         ");
-
                        
                 if($insert){
                     $_SESSION['message'] = "Instructions have been Uploaded!";
@@ -277,7 +273,12 @@ if(isset($_POST['push_instruct'])){
                         $_SESSION['remedy'] = "Try again later";
                     }
                         
+                }else{
+                    $_SESSION['message'] = 'Instructions for the selected '.$quest_type.' already exist!';
+                    $_SESSION['msg_type'] = "error";
+                    $_SESSION['remedy'] = "";
                 }
+            }
             }
         }
     
@@ -360,6 +361,10 @@ if(isset($_POST['push_instruct'])){
  fclose($csvFile);
     }
 
+
+
+
+
     /**Upload score */
     if(isset($_POST['push_score_sheet'])){
              // Allowed mime types
@@ -385,17 +390,49 @@ if(isset($_POST['push_instruct'])){
                     $ca1  =  mysqli_real_escape_string($conn, $line[4]);
                     $ca2  =  mysqli_real_escape_string($conn, $line[5]);
                     $theory  =  mysqli_real_escape_string($conn, $line[6]);
+                    $obj_score  =  mysqli_real_escape_string($conn, $line[7]);
+                    $total = $ass+$ca1+$ca2+$theory+$obj_score;
+                    $exam = $theory+$obj_score;
+                    switch($log_term){
+                        case 1:
+                            $slot = "ft_score";
+                            break;
+                        case 2:
+                            $slot = "st_score";
+                            break;
+                        case 3:
+                            $slot = "tt_score";
+                            break;
+                    }
 
-                    
+                    $cl = substr($course_code, 3, 1);
+                    //FOR SECONDARY SCHOOL
+                    if ($cl == 1) {
+                        $class = "JSS-1";
+                    }else if ($cl == 2) {
+                        $class = "JSS-2";
+                    }else if ($cl == 3) {
+                        $class = "JSS-3";
+                    }else if ($cl == 4) {
+                        $class = "SSS-1";
+                    }else if ($cl == 5) {
+                        $class = "SSS-2";
+                    }else if ($cl == 6) {
+                        $class = "SSS-3";
+                    }else {
+                        $class = "";
+                    }
                     //update score-sheet 
                         $update1 = $conn->query("UPDATE $score_tbl SET
                                                 ass = '$ass',
                                                 ca1 = '$ca1',
                                                 ca2 = '$ca2',
+                                                ca2 = '$ca2',
+                                                exam = '$exam',
                                                 theory = '$theory', 
-                                                period_3 = '$p3', 
-                                                period_4 = '$p4', 
-                                                period_5 = '$p5', 
+                                                score = '$obj_score', 
+                                                total = '$total',
+                                                $slot = '$total'
                                                 WHERE course_code = '$course_code'
                                                 AND adm_no = '$adm_no'
                                                 AND term = '$log_term'
@@ -403,47 +440,148 @@ if(isset($_POST['push_instruct'])){
                                                 AND teacher_token = '$token'
                                               ");
 
-                    $getOtherScore = $conn->query("SELECT * FROM $score_tbl 
-                    WHERE (course_code= '$course_code' AND teacher_token='$token' AND term='$log_term' AND session='$log_session')");
+            $getOtherScore = $conn->query("SELECT * FROM $score_tbl 
+                    WHERE (course_code= '$course_code' AND teacher_token='$token' AND adm_no='$adm_no' AND term='$log_term' AND session='$log_session')");
                     $oth = $getOtherScore->fetch_object();
                     $ft_score = $oth->ft_score;
                     $st_score = $oth->st_score;
                     $tt_score = $oth->tt_score;
-                    $score = $oth->score;
-                    $total = $ass+$ca1+$ca2+$theory+$score;
+                    // $score = $oth->score;
+
                     switch($log_term){
                         case 1:
                             $cumulative = $ft_score;
-                            $slot = "ft_score";
                             break;
                         case 2:
-                            $cumulative = $ft_score+$st_score;
-                            $slot = "st_score";
+                            $cumulative = (($ft_score+$st_score)/2);
                             break;
                         case 3:
-                            $cumulative = $ft_score+$st_score+$tt_score;
-                            $slot = "tt_score";
+                            $cumulative = (($ft_score+$st_score+$tt_score)/3);
                             break;
                     }
-
-                    $update2 = $conn->query("UPDATE $score_tbl SET
-                                                total = '$total',
-                                                $slot = '$total',
-                                                cumulative = '$cumulative'
-                                                WHERE (course_code = '$course_code'
-                                                AND adm_no = '$adm_no'
-                                                AND term = '$log_term'
-                                                AND session = '$log_session'
-                                                AND teacher_token = '$token')
-                                              ");
+                    
+                    /**GRADES AND REMARKS */
+                    if ($class == 'SSS-1' || $class == 'SSS-2' || $class == 'SSS-3') {
+                        if ($total <= 39) {
+                            $grade = "F9";
+                            $remark = "Poor";
+                            $color = "Red";
+                        } else if ($total == 40 || $total == 41 || $total == 42 || $total == 43 || $total == 43 || $total == 44) {
+                            $grade = "E8";
+                            $remark = "Fair";
+                            $color = "Red";
+                        } else if ($total == 45 || $total == 46 || $total == 47 || $total == 48 || $total == 49) {
+                            $grade = "D7";
+                            $remark = "Pass";
+                            $color = "Orange";
+                        } else if ($total == 50 || $total == 51 || $total == 52 || $total == 53 || $total == 54 || $total == 55 || $total == 56 || $total == 57 || $total == 58 || $total == 59) {
+                            $grade = "C6";
+                            $remark = "Credit";
+                            $color = "Yellow";
+                        } else if (
+                            $total == 60 || $total == 61 || $total == 62 || $total == 63 || $total == 64
+                        ) {
+                            $grade = "C5";
+                            $remark = "Credit";
+                            $color = "LightSeaGreen";
+                        } else if ($total == 65 || $total == 66 || $total == 67 || $total == 68 || $total == 69) {
+                            $grade = "C4";
+                            $remark = "Credit";
+                            $color = "LightSeaGreen";
+                        } else if ($total == 70 || $total == 71 || $total == 72 || $total == 73 || $total == 74) {
+                            $grade = "B3";
+                            $remark = "V.Good";
+                            $color = "Lime";
+                        } else if ($total == 75 || $total == 76 || $total == 77 || $total == 78 || $total == 79) {
+                            $grade = "B2";
+                            $remark = "Distinction";
+                            $color = "green";
+                            $color = "LimeGreen";
+                        } else if ($total >= 80) {
+                            $grade = "A";
+                            $remark = "Excellent";
+                            $color = "darkGreen";
                         }
-                  if($insert){
-                        $_SESSION['message'] = ''.$term.' | '.$log_session.' time table for '.$class_category.' has been uploaded successfully!';
+                    } else if ($class == 'JSS-1' || $class == 'JSS-2' || $class == 'JSS-3') {
+                        if ($total <= 39) {
+                            $grade = "E";
+                            $remark = "Poor";
+                            $color = "Red";
+                        } else if (
+                            $total == 40 || $total == 41 || $total == 42 || $total == 43 || $total == 43 || $total == 44 || $total == 45 || $total == 46 || $total == 47 || $total == 48 || $total == 49
+                        ) {
+                            $grade = "D";
+                            $remark = "Average";
+                            $color = "Orange";
+                        } else if ($total == 50 || $total == 51 || $total == 52 || $total == 53 || $total == 54 || $total == 55 || $total == 56 || $total == 57 || $total == 58 || $total == 59) {
+                            $grade = "C";
+                            $remark = "Good";
+                            $color = "Yellow";
+                        } else if (
+                            $total == 60 || $total == 61 || $total == 62 || $total == 63 || $total == 64 || $total == 65 || $total == 66 || $total == 67 || $total == 68 || $total == 69
+                        ) {
+                            $grade = "B";
+                            $remark = "V.Good";
+                            $color = "Green";
+                        } else if ($total >= 70) {
+                            $grade = "A";
+                            $remark = "Excellent";
+                            $color = "darkGreen";
+                        } else {
+                            $grade = "";
+                            $remark = "";
+                            $color = "";
+                        }
+                    }
+
+                    /**END OF GRADES AND REMARKS */
+                    $update2 = $conn->query("UPDATE $score_tbl SET
+                                            cumulative = '$cumulative',
+                                            grade = '$grade',
+                                            remark = '$remark'
+                                            WHERE (course_code = '$course_code'
+                                            AND adm_no = '$adm_no'
+                                            AND term = '$log_term'
+                                            AND session = '$log_session'
+                                            AND teacher_token = '$token')
+                                            ");
+                        }
+            /**Positioning */            
+        $callList = $conn->query("SELECT * FROM $score_tbl WHERE course_code='$course_code' AND term='$log_term' AND session='$log_session' AND teacher_token='$token'");
+            while($li = $callList->fetch_assoc()){
+                $data[] = $li;
+            }
+
+        $rankArray = array();
+            for($x = 0; $x<count($data); $x++){
+                $rankArray[$data[$x]['adm_no']] = $data[$x]['cumulative'];   
+            }
+        arsort($rankArray);
+        $pos = 1;
+        foreach($rankArray as $key => $score){
+            include "position.php";
+            $pos ++;
+        $setPosition = $conn->query("UPDATE $score_tbl SET
+                position = '$position'
+                WHERE course_code= '$course_code'
+                AND adm_no = '$key'
+                AND term = '$log_term'
+                AND session = '$log_session'
+                AND teacher_token = '$token'
+    "); 
+        }
+                    
+                  if($setPosition){
+                        $_SESSION['message'] = ''.$term_syntax.' term | '.$log_session.' score-sheet for '.$course_code.' has been uploaded successfully!';
                         $_SESSION['msg_type'] = "success";
                         $_SESSION['remedy'] = "";
+                    }else{
+                        $_SESSION['message'] = ''.$term_syntax.' term | '.$log_session.' score-sheet for '.$course_code.' could not be uploaded!';
+                        $_SESSION['msg_type'] = "error";
+                        $_SESSION['remedy'] = "There may be error in the file you tried to upload.";
                     }
             }
         }
-         header("location: ../../adm_exam");
+         header("location: ../../adm_prepare_result");
  fclose($csvFile);
     }

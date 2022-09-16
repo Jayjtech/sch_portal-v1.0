@@ -1,7 +1,6 @@
 <?php include "../config/db.php"; ?>
-<?php include "functions/question_pull.php"; ?>
-<?php
-
+<?php include "../includes/calls.php"; ?>
+<?php include "functions/question_pull.php"; 
 switch($exam_term){
     case 1 :
     $termSyntax = "First Term";

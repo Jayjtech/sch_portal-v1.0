@@ -4,6 +4,7 @@ include "../../includes/calls.php";
 if(isset($_GET['course_code'])){
     $course_code = $_GET['course_code'];
     $course = $_GET['course'];
+    $teacher_token = $_GET['teacher_token'];
     $exam_token = rand(100000,999999); 
     $check_paper_type = $conn->query("SELECT * FROM $score_tbl ORDER BY id DESC LIMIT 1");
     $PT = $check_paper_type->fetch_object();
@@ -24,9 +25,6 @@ if(isset($_GET['course_code'])){
             break;
     }
 
-    $getTeacherToken = $conn->query("SELECT * FROM $course_tbl WHERE course_code = '$course_code'");
-    $t_token = $getTeacherToken->fetch_object();
-    $teacher_token = $t_token->token;
     $check = $conn->query("SELECT * FROM $score_tbl 
     WHERE (adm_no = '$userId' AND course_code='$course_code' AND session='$log_session' AND term='$log_term')");
     if($check->num_rows == 0){

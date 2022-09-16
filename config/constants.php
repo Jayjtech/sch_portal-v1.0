@@ -27,6 +27,7 @@ $course_tbl = "courses";
 $student_award_tbl = "student_award";
 $bill_tbl = "bill";
 $time_tbl = "time_table";
+$cbe_report_tbl = "cbe_report";
 
 $add_course = "cbe/functions/uploader";
 $cbe_request = "cbe/functions/receive_request";

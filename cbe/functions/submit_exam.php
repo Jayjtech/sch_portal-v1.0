@@ -5,6 +5,7 @@ if(isset($_POST['examDet'])){
     echo $score = $_POST['score'];
     $answered_quest = $_POST['answered_quest'];
     $minLeft = $_POST['minLeft'];
+    $quest_id = $_SESSION['quest_id'];
 
     $examDet = base64_decode($_POST['examDet']);
     $examDet = json_decode($examDet);
@@ -28,6 +29,7 @@ if(isset($_POST['examDet'])){
     }else{
         $ca_slot = 'ca2';
     }
+    
     // echo '<pre>';
     // print_r($examDet);
     // echo '</pre>';
@@ -47,7 +49,7 @@ if(isset($_POST['examDet'])){
                     date = '$date'
                     WHERE (course_code = '$course_code' 
                     AND adm_no = '$adm_no' 
-                    AND term='$examTerm' 
+                    AND term='$examTerm'
                     AND session='$examSession')
                 ");
     }else if($quest_type == "Ass"){
@@ -69,10 +71,24 @@ if(isset($_POST['examDet'])){
                                 AND session='$examSession')
                             ");
     }
+
+    $record = $conn->query("INSERT INTO $cbe_report_tbl SET 
+                        adm_no = '$adm_no',
+                        test_taken = '$quest_id'
+                            ");
     if($save){
         $_SESSION['message'] = "Exam submitted successfully!";
         $_SESSION['msg_type'] = "success";
         $_SESSION['remedy'] = "";
+
+        unset($_SESSION['exam_course_code']);
+        unset($_SESSION['exam_course']);
+        unset($_SESSION['paper_type']);
+        unset($_SESSION['quest_type']);
+        unset($_SESSION['teacher_token']);
+        unset($_SESSION['quest_id']);
+        unset($_SESSION['exam_duration']);
+        unset($_SESSION['exam_unit']);
     }else{
         $_SESSION['message'] = "There was an error with your submission!";
         $_SESSION['msg_type'] = "error";
@@ -80,7 +96,9 @@ if(isset($_POST['examDet'])){
     }
      ?>
 <script>
-localStorage.clear();
+localStorage.removeItem('score');
+localStorage.removeItem('answeredQuestions');
+localStorage.removeItem('timeLeft');
 </script>
 <?php
     header('location:../../e_exam');

@@ -83,8 +83,8 @@ $cr_course_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $course_tbl (
 $cr_question_tbl_a = $conn->query("CREATE TABLE IF NOT EXISTS $question_tbl_a (
     id int(11) AUTO_INCREMENT NOT NULL,
     quest_no int(11)  NOT NULL,
-    quest varchar(10000)  NOT NULL,
-    ans varchar(100000)  NOT NULL,
+    quest varchar(100000)  NOT NULL,
+    ans varchar(1000000)  NOT NULL,
     img varchar(255)  NOT NULL,
     isCorrect int(11)  NOT NULL,
     course_code varchar(50)  NOT NULL,
@@ -94,14 +94,15 @@ $cr_question_tbl_a = $conn->query("CREATE TABLE IF NOT EXISTS $question_tbl_a (
     class varchar(50)  NOT NULL,
     quest_type varchar(50)  NOT NULL,
     token varchar(255)  NOT NULL,
+    quest_id varchar(255)  NOT NULL,
     PRIMARY KEY (id)
 )");
 
 $cr_question_tbl_b = $conn->query("CREATE TABLE IF NOT EXISTS $question_tbl_b (
     id int(11) AUTO_INCREMENT NOT NULL,
     quest_no int(11)  NOT NULL,
-    quest varchar(10000)  NOT NULL,
-    ans varchar(100000)  NOT NULL,
+    quest varchar(100000)  NOT NULL,
+    ans varchar(1000000)  NOT NULL,
     img varchar(255)  NOT NULL,
     isCorrect int(11)  NOT NULL,
     course_code varchar(50)  NOT NULL,
@@ -111,6 +112,7 @@ $cr_question_tbl_b = $conn->query("CREATE TABLE IF NOT EXISTS $question_tbl_b (
     class varchar(50)  NOT NULL,
     quest_type varchar(50)  NOT NULL,
     token varchar(255)  NOT NULL,
+    quest_id varchar(255)  NOT NULL,
     PRIMARY KEY (id)
 )");
 
@@ -128,12 +130,13 @@ $cr_question_tbl_c= $conn->query("CREATE TABLE IF NOT EXISTS $question_tbl_c (
     class varchar(50)  NOT NULL,
     quest_type varchar(50)  NOT NULL,
     token varchar(255)  NOT NULL,
+    quest_id varchar(255)  NOT NULL,
     PRIMARY KEY (id)
 )");
 
 $cr_instruction_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $instruction_tbl (
     id int(11) AUTO_INCREMENT NOT NULL,
-    num int(11) NOT NULL,
+    teacher_token varchar(255) NOT NULL,
     course_code varchar(50)  NOT NULL,
     quest_type varchar(50)  NOT NULL,
     instruction varchar(100000)  NOT NULL,
@@ -163,7 +166,7 @@ $cr_score_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $score_tbl (
     ft_score int(11)  NOT NULL,
     st_score int(11)  NOT NULL,
     tt_score int(11)  NOT NULL,
-    cumulative int(11)  NOT NULL,
+    cumulative varchar(255)  NOT NULL,
     grade text(50)  NOT NULL,
     remark varchar(50)  NOT NULL,
     paper_type text(50)  NOT NULL,
@@ -181,6 +184,13 @@ $cr_score_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $score_tbl (
     public int(11)  NOT NULL,
     PRIMARY KEY (id)
 )");
+
+$cr_cbe_report_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $cbe_report_tbl
+  (id int(11) AUTO_INCREMENT NOT NULL,
+  test_taken varchar(1000) NOT NULL,
+  adm_no varchar(255) NOT NULL,
+  PRIMARY KEY (id))
+");
 
 $cr_time_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $time_tbl (
     id int(11) AUTO_INCREMENT NOT NULL,
