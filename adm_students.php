@@ -9,6 +9,7 @@
             <div class="card">
                 <div class="card-body">
                     <p class="card-title mb-0">Student List</p>
+                    <hr>
                     <?php if($callStudents->num_rows > 0){ ?>
                     <div class="table-responsive">
                         <table class="myTable table table-striped table-borderless">
@@ -50,6 +51,7 @@
             <div class="card position-relative">
                 <div class="card-body">
                     <h4 class="card-title">Review Student</h4>
+                    <hr>
                     <form action="<?= $pusher;?>" class="forms-sample" method="POST" onsubmit="return revStu(this)">
                         <div class="row mt-3 mb-3">
                             <div class="col-sm-6">
@@ -267,7 +269,8 @@
         <div class="col-md-6 stretch-card grid-margin">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0">Upload Bills</p>
+                    <p class="card-title mb-0">Bill uploader</p>
+                    <hr>
                     <div class="mt-2">
                         <div class="container">
                             <p>Click the green button to download the bill format as an Excel CSV file.</p>
@@ -322,49 +325,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 stretch-card grid-margin">
-            <div class="row">
-                <div class="grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-title">Uploaded Courses</p>
-                            <div class="table-responsive">
-                                <table id="myTable" class="table table-striped table-borderless">
-                                    <thead>
-                                        <tr>
-                                            <th>Course</th>
-                                            <th>Type</th>
-                                            <th>No. of Q</th>
-                                            <th>Department</th>
-                                            <th colspan="2">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php $coursesT=$conn->query("SELECT * FROM $course_tbl WHERE term='$log_term' AND session='$log_session'");
-                                                while($row = $coursesT->fetch_object()):
-                                                    $cCode = $row->course_code;
-                                                $selectUpload = $conn->query("SELECT * FROM $question_tbl_a WHERE course_code='$cCode' AND session='$log_session' LIMIT 1");
-                                        ?>
-                                        <tr>
-                                            <?php while($sel = $selectUpload->fetch_object()){ ?>
-                                            <td><?= $row->course; ?>[<?= $sel->course_code; ?>]</td>
-                                            <td><?= $sel->quest_type; ?></td>
-                                            <td><?= $row->no_of_quest; ?></td>
-                                            <td><?= $row->department; ?></td>
-                                            <td></td>
 
-                                        </tr>
-                                        <?php } ?>
-                                        <?php endwhile; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
 
     </div>
 

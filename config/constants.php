@@ -11,7 +11,7 @@ $month = date("m");
 $year = date("Y");
 $time = date("g:ia ", time());
 session_start();
-error_reporting(0);
+// error_reporting(0);
 
 $question_tbl_a = "quest_type_a";
 $question_tbl_b = "quest_type_b";
@@ -28,6 +28,7 @@ $student_award_tbl = "student_award";
 $bill_tbl = "bill";
 $time_tbl = "time_table";
 $cbe_report_tbl = "cbe_report";
+$banks_tbl = "banks";
 
 $add_course = "cbe/functions/uploader";
 $cbe_request = "cbe/functions/receive_request";
@@ -35,6 +36,10 @@ $course_deleter = "cbe/functions/deleter";
 $enrolCourse = "cbe/functions/enrol";
 $pusher = "functions/pusher.php";
 $exporter = "functions/export.php";
+$account_details = "functions/payment_gateway/fetch_banks.php";
+
+$monnify_base_url = "https://api.monnify.com";
+// $monnify_base_url = "https://sandbox.monnify.com";
 
 /**Questions */
 $questions = [
@@ -96,29 +101,7 @@ $questions = [
                             "Water"
                     ],
                     "isCorrect" => 1,
-                    ],
-                        
-                    // [
-                    // "quest" => "ICT stands for ________",
-                    // "ans" => [
-                    //         "Information and Community Technology",
-                    //         "Information and Communication Technology",
-                    //         "Informal Communication Technology",
-                    //         "Independent Commission Telecommunication"
-                    // ],
-                    // "isCorrect" => 1
-                    // ],
-
-                    // [
-                    // "quest" => "_______ has made the world a global society",
-                    // "ans" => [
-                    //         "Food",
-                    //         "Vacations",
-                    //         "Entertainment",
-                    //         "Computer"
-                    // ],
-                    // "isCorrect" => 3
-                    // ]
+                    ]
                 ]
             ];
 

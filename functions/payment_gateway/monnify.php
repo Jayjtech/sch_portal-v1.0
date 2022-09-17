@@ -3,7 +3,7 @@ include "../../config/db.php";
     $userId = $_SESSION['userId'];
 if ($_SESSION['userId']) {
      if($_SESSION['userCategory'] == "d29yaw=="){
-                $_SESSION['message'] = 'Thanks for registering with us ' . $sch_name . '!';
+                $_SESSION['message'] = 'Thanks for registering with ' . $sch_name . '!';
                 $_SESSION['msg_type'] = "success";
                 $_SESSION['remedy'] = '';
                 $_SESSION['btn'] = "Ok";
@@ -17,42 +17,15 @@ if ($_SESSION['userId']) {
         $customerEmail = $row['email'];
         $customerName = $row['name'];
     }
-    echo $customerEmail.'<br>';
-    echo $customerName.'<br>';
-    echo $admin_det->monnify_contract.'<br>';
-    //GENERATE ACCESS TOKEN
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-        // CURLOPT_URL => 'https://sandbox.monnify.com/api/v1/auth/login/',
-        CURLOPT_URL => 'https://api.monnify.com/api/v1/auth/login/',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_HTTPHEADER => array(
-            'Authorization: Basic ' . $monnify_token . '',
-            'Accept: application/json',
-            'Content-Type: application/json'
-        ),
-    ));
-    $response = curl_exec($curl);
-    curl_close($curl);
-    $res = json_decode($response);
 
-
-    $accountName = $customerName;
-    $AcessToken = 'Bearer ' . $res->responseBody->accessToken;
- 
+    include "monnify_auth.php";
+  $accountName = $customerName;
 
     if ($res->requestSuccessful == 1) {
         //RESERVE ACCOUNT
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            // CURLOPT_URL => 'https://sandbox.monnify.com/api/v1/bank-transfer/reserved-accounts',
-            CURLOPT_URL => 'https://api.monnify.com/api/v2/bank-transfer/reserved-accounts',
+            CURLOPT_URL => ''.$monnify_base_url.'/api/v2/bank-transfer/reserved-accounts',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

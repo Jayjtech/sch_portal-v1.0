@@ -100,6 +100,9 @@ $callScoreSheet = $conn->query("SELECT * FROM $score_tbl WHERE (term='$log_term'
 
 $callEvaluation = $conn->query("SELECT * FROM $evaluation_tbl WHERE (term='$log_term' AND session = '$log_session' AND class='$class_officiating') ORDER BY percent_score DESC");
 
+
+$callBills = $conn->query("SELECT * FROM $bill_tbl WHERE (term='$log_term' AND session = '$log_session') ORDER BY total DESC");
+
 $exp_c_s = explode("/", $current_session);
 $exp_l_s = explode("/", $log_session);
 

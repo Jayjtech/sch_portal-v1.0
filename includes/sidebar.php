@@ -241,6 +241,7 @@
                     <span class="menu-title">My Course</span>
                 </a>
             </li>
+
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#e-learning" aria-expanded="false"
                     aria-controls="e-learning">
@@ -273,6 +274,12 @@
                         </li>
                     </ul>
                 </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-controls="ui-basic" href="<?= $account_details; ?>">
+                    <i class="icon-grid menu-icon"></i>
+                    <span class="menu-title">Account details</span>
+                </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">

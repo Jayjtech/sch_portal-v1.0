@@ -397,4 +397,24 @@ if ($create_settings) {
 //     include "functions/instruction_push.php";
 //    }
 
+if ($create_settings) {
+    $check = $conn->query("SELECT * FROM $settings_tbl");
+    if($check->num_rows == 0){
+      $insert = $conn->query("INSERT INTO $settings_tbl (sch_name) 
+      VALUES('Jayjtech')");
+    }
+}
+
+
+$cr_banks_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $banks_tbl (
+    id int(11) AUTO_INCREMENT NOT NULL,
+    bank varchar(255) NOT NULL,
+    bank_code varchar(255) NOT NULL,
+    ussdTemplate varchar(255) NOT NULL,
+    baseUssdCode varchar(255) NOT NULL,
+    transferUssdTemplate varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
+
 ?>
