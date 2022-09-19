@@ -23,5 +23,6 @@ RewriteRule ^adm_upload_score adm_upload_score.php [NC,L]
 RewriteRule ^adm_upload_comment adm_upload_comment.php [NC,L] 
 RewriteRule ^test_proceed test_proceed.php [NC,L] 
 RewriteRule ^account_details account_details.php [NC,L] 
+RewriteRule ^adm_disbursement adm_disbursement.php [NC,L] 
 
 php_value date.timezone 'Africa/lagos'

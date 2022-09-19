@@ -210,6 +210,8 @@
                         <li class="nav-item"> <a class="nav-link" href="adm_revenue">Revenue</a></li>
                         <li class="nav-item"> <a class="nav-link" href="adm_students">Students Info</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_staff">Staff Info</a>
+                        <li class="nav-item"> <a class="nav-link"
+                                href="adm_disbursement?key=staff_list">Disbursement</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_academic">Academic Period</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_exam">Exam Setup</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_upload_score">Upload Score</a>
@@ -278,7 +280,7 @@
             <li class="nav-item">
                 <a class="nav-link" aria-controls="ui-basic" href="<?= $account_details; ?>">
                     <i class="icon-grid menu-icon"></i>
-                    <span class="menu-title">Account details</span>
+                    <span class="menu-title">Bank details</span>
                 </a>
             </li>
             <li class="nav-item">

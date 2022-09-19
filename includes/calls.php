@@ -42,7 +42,7 @@ $det = $callUserDetails->fetch_object();
 $department = $det->department;
 $curr_class = $det->curr_class;
 $monnify_account = json_decode($det->monnify_account);
-
+$bank_account = json_decode($det->bank_details);
 $class_officiating = $det->class_officiating;
 switch($det->position){
     case 0:
@@ -101,7 +101,9 @@ $callScoreSheet = $conn->query("SELECT * FROM $score_tbl WHERE (term='$log_term'
 $callEvaluation = $conn->query("SELECT * FROM $evaluation_tbl WHERE (term='$log_term' AND session = '$log_session' AND class='$class_officiating') ORDER BY percent_score DESC");
 
 
-$callBills = $conn->query("SELECT * FROM $bill_tbl WHERE (term='$log_term' AND session = '$log_session') ORDER BY total DESC");
+$callBills = $conn->query("SELECT * FROM $bill_tbl WHERE (term='$log_term' AND session = '$log_session') ORDER BY total ASC");
+
+$bankList = $conn->query("SELECT * FROM $banks_tbl ORDER BY bank ASC");
 
 $exp_c_s = explode("/", $current_session);
 $exp_l_s = explode("/", $log_session);

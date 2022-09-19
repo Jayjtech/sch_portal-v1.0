@@ -152,7 +152,13 @@
                                     </select>
                                 </div>
                             </div>
-
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="">Salary</label>
+                                    <input type="number" class="form-control" id="salary" name="salary"
+                                        placeholder="Enter staff's salary" value="<?=$edS->salary; ?>">
+                                </div>
+                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary mr-2" name="review_staff">Save changes</button>

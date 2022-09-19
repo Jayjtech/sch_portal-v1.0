@@ -192,6 +192,23 @@ function schInfo(form) {
     return false;
 }
 
+function addToDisburse(form) {
+    swal.fire({
+        title: `Are you sure you want to add this staff to the disbursement list?`,
+        text: ``,
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        } else if (result.isDenied) {
+            Swal.fire(`User was not added to the list!`, '', 'info')
+        }
+    })
+    return false;
+}
+
 let totalBox = document.querySelector(".total-box");
 
 setInterval(sumBill, 1000);

@@ -50,11 +50,13 @@
        $privileges = mysqli_real_escape_string($conn, $_POST['privileges']);
        $position = mysqli_real_escape_string($conn, $_POST['position']);
        $token = mysqli_real_escape_string($conn, $_POST['token']);
+       $salary = mysqli_real_escape_string($conn, $_POST['salary']);
 
        $update = $conn->query("UPDATE $users_tbl SET 
                         name='$name',
                         class_officiating='$class_officiating',
                         privileges='$privileges',
+                        salary='$salary',
                         position='$position'
                         WHERE token = '$token'
        ");
@@ -68,7 +70,7 @@
             $_SESSION['msg_type'] = "error";
             $_SESSION['remedy'] = "Try again";
         }
-        header('location: ../adm_staff');
+        header('location: ../adm_staff?pod='.$token.'');
     }
 
 
