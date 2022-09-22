@@ -16,6 +16,25 @@ function delForm(form) {
     return false;
 }
 
+/**Calculate Salary to be disbursed */
+$(document).ready(function() {
+    $(".payroll-period").change(function() {
+        var payRollPeriod = $(this).val();
+        var request = 'payRollPeriod=' + payRollPeriod;
+        // alert(request);
+        $.ajax({
+            type: "POST",
+            url: `<?= BASE_URL?>/functions/calculate_salary.php`,
+            data: request,
+            cache: false,
+            success: function(station) {
+                $(".salary_response").html(station);
+            }
+        });
+    });
+});
+
+
 function bioData(form) {
     swal.fire({
         title: "Are you sure you have filled the correct details?",
@@ -204,6 +223,67 @@ function addToDisburse(form) {
             form.submit();
         } else if (result.isDenied) {
             Swal.fire(`User was not added to the list!`, '', 'info')
+        }
+    })
+    return false;
+}
+
+function removeFromDisburse(form) {
+    swal.fire({
+        title: `Are you sure you want to remove this staff from the disbursement list?`,
+        text: ``,
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        } else if (result.isDenied) {
+            Swal.fire(`User was not removed from the list!`, '', 'info')
+        }
+    })
+    return false;
+}
+
+function disburse(form) {
+    Swal.fire({
+        title: 'Disbursement key',
+        input: 'password',
+        inputAttributes: {
+            autocapitalize: 'off',
+            required: 'on',
+            placeholder: 'Disbursement key'
+        },
+        showCancelButton: false,
+        confirmButtonText: 'Verify',
+        showLoaderOnConfirm: true,
+        preConfirm: (disburseKey) => {
+            return fetch(`functions/verifyKey.php?id=${disburseKey}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(response.statusText)
+                    }
+                    return response.json()
+                })
+                .catch(error => {
+                    Swal.showValidationMessage(
+                        `Request failed: ${error}`
+                    )
+                })
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: result.value.text,
+                icon: result.value.icon,
+                imageUrl: result.value.avatar_url
+            })
+            if (result.value.icon === "error") {
+                window.location.href = "logout"
+            } else if (result.value.icon === "success") {
+                window.location.href = "dashboard"
+            }
         }
     })
     return false;

@@ -43,6 +43,9 @@
                     case "d29yaw==":
                         $user_type = "Staff";
                         break;
+                    case "QWRtaW4=":
+                        $user_type = "Admin";
+                        break;
                 }
                 $_SESSION['user_type'] = $user_type;
                 $_SESSION['userCategory'] = $userCategory;

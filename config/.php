@@ -353,6 +353,7 @@ $create_settings = $conn->query("CREATE TABLE IF NOT EXISTS $settings_tbl (
     manual_acct_name varchar(255) NOT NULL,
     manual_acct_holder varchar(255) NOT NULL,
     announcement varchar(10000000) NOT NULL,
+    disbursement_key varchar(255) NOT NULL,
     pc varchar(255) NOT NULL,
     mc varchar(255) NOT NULL,
     mc_p varchar(255) NOT NULL,
@@ -418,14 +419,26 @@ $cr_banks_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $banks_tbl (
     PRIMARY KEY (id)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 
+$cr_staff_level_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $staff_level_tbl (
+    id int(11) AUTO_INCREMENT NOT NULL,
+    level int(11) NOT NULL,
+    salary_amount varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
 $cr_payroll_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $payroll_tbl (
     id int(11) AUTO_INCREMENT NOT NULL,
     userId varchar(255) NOT NULL,
+    staffToken varchar(255) NOT NULL,
     name varchar(255) NOT NULL,
-    receiving_account varchar(255) NOT NULL,
-    amount varchar(255) NOT NULL,
+    bankDet varchar(255) NOT NULL,
+    salary varchar(255) NOT NULL,
     paid_by varchar(255) NOT NULL,
+    payment_month varchar(255) NOT NULL,
+    description varchar(255) NOT NULL,
+    disbursement_id varchar(255) NOT NULL,
     date varchar(255) NOT NULL,
+    status int(11) NOT NULL,
     PRIMARY KEY (id)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 

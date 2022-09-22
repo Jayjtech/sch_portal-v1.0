@@ -138,7 +138,7 @@
                                     <td class="font-weight-bold"><?= $det->curr_class; ?></td>
                                 </tr>
                                 <?php endif; ?>
-                                <?php if($_SESSION['user_type'] == "Staff"):?>
+                                <?php if($_SESSION['user_type'] == "Staff" || $_SESSION['user_type'] == "Admin"):?>
                                 <tr>
                                     <th>Post of Duty</th>
                                     <td class="font-weight-bold">|</td>

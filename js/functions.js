@@ -62,6 +62,8 @@ function pin(){
     }
 }
 
+
+
 /**Validating Password */
 var myInput = document.getElementById("password");
 var letter = document.getElementById("letter");
@@ -121,6 +123,7 @@ myInput.onkeyup = function() {
   }
 }
 
+
 /**Select User-type for registration */
  $(document).ready(function() {
         $(".user-category").change(function() {
@@ -138,6 +141,8 @@ myInput.onkeyup = function() {
             });
         });
     });
+
+
 
 /**Process Registration */
 $("form#registerForm").on("submit", function (e) {

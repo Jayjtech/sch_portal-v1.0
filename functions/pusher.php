@@ -373,4 +373,94 @@
     }
 
 
-    
+if(isset($_POST['disburser'])){
+    $disburser = $_POST['disburser'];
+    $disbursement_id = $_POST['disbursement_id'];
+    $pay_month = mysqli_real_escape_string($conn, $_POST['month']);
+    $description = mysqli_real_escape_string($conn, $_POST['description']);
+
+    $insert = $conn->query("INSERT INTO $payroll_title_tbl SET
+                            disburser = '$disburser',
+                            disbursement_id = '$disbursement_id',
+                            month = '$pay_month',
+                            description = '$description'
+    ");
+    if($insert){
+        $_SESSION['message'] = 'Payroll successfully created for the month of '.$pay_month.'.';
+        $_SESSION['msg_type'] = "success";
+        $_SESSION['remedy'] = "";
+    }else{
+        $_SESSION['message'] = 'Payroll could not be created for the month of '.$pay_month.'.';
+        $_SESSION['msg_type'] = "error";
+        $_SESSION['remedy'] = "";
+    }
+    header('location: ../adm_disbursement?key=create_payroll');
+}
+
+
+if(isset($_POST['bankDet'])){
+    $bankDet = base64_decode($_POST['bankDet']);
+    $staffName = $_POST['name'];
+    $token = mysqli_real_escape_string($conn, $_POST['token']);
+    $staffId = mysqli_real_escape_string($conn, $_POST['userId']);
+    $staffToken = mysqli_real_escape_string($conn, $_POST['token']);
+    $salary = mysqli_real_escape_string($conn, $_POST['salary']);
+    $payrollTitle = $_POST['payrollTitle'];
+
+    $check = $conn->query("SELECT * FROM $payroll_title_tbl WHERE disbursement_id='$payrollTitle'");
+    $desc = $check->fetch_object();
+    $description = $desc->description;
+    $pay_month = $desc->month;
+
+    $check_staff = $conn->query("SELECT * FROM $payroll_tbl WHERE userId='$staffId' AND disbursement_id='$payrollTitle'");
+    if($check_staff->num_rows == 0){
+    $insert = $conn->query("INSERT INTO $payroll_tbl SET
+                            userId = '$staffId',
+                            staffToken = '$staffToken',
+                            bankDet = '$bankDet',
+                            name = '$staffName',
+                            salary = '$salary',
+                            payment_month = '$pay_month',
+                            disbursement_id = '$payrollTitle',
+                            description = '$description'
+                            ");
+    if($insert){
+        $_SESSION['message'] = ''.$staffName.' successfully added to the disbursement list for '.$pay_month.'.';
+        $_SESSION['msg_type'] = "success";
+        $_SESSION['remedy'] = "";
+    }else{
+        $_SESSION['message'] = ''.$staffName.' could not be added to the disbursement list for '.$pay_month.'.';
+        $_SESSION['msg_type'] = "error";
+        $_SESSION['remedy'] = "";
+    }
+}else{
+    $_SESSION['message'] = ''.$staffName.' already exist on the disbursement list for '.$pay_month.'.';
+    $_SESSION['msg_type'] = "warning";
+    $_SESSION['remedy'] = "";
+}
+    header('location: ../adm_disbursement?key=staff_list');
+}
+
+if(isset($_POST['staff_level'])){
+    $level = $_POST['staff_level'];
+    $salary = mysqli_real_escape_string($conn, stripcslashes($_POST['salary']));
+
+    $check = $conn->query("SELECT * FROM $staff_level_tbl WHERE level='$level'");
+    if($check->num_rows == 0){
+        $insert = $conn->query("INSERT INTO $staff_level_tbl SET 
+                                 level='$level',
+                                salary='$salary'
+                            ");
+    }else{
+        $update = $conn->query("UPDATE $staff_level_tbl SET 
+                            salary='$salary'
+                            WHERE level='$level'
+                            ");
+        }
+
+        if($insert || $update){
+            $_SESSION['message'] = 'Level has been saved.';
+            $_SESSION['msg_type'] = "success";
+            $_SESSION['remedy'] = "";
+        }
+}

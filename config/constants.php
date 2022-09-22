@@ -3,7 +3,7 @@ define("DB_NAME", "sm_system");
 define("DB_HOST", "localhost");
 define("DB_USER", "root");
 define("DB_PASS", "");
-define("BASE_URL", "http://localhost/my_cbe_app");
+define("BASE_URL", "http://localhost/sch_portal-v1.0");
 
 $date = date("d-m-Y");
 $day = date("d");
@@ -31,10 +31,12 @@ $cbe_report_tbl = "cbe_report";
 $banks_tbl = "banks";
 $payroll_tbl = "payroll";
 $payroll_title_tbl = "payroll_title";
+$staff_level_tbl = "staff_level";
 
 $add_course = "cbe/functions/uploader";
 $cbe_request = "cbe/functions/receive_request";
 $course_deleter = "cbe/functions/deleter";
+$deleter = "functions/deleter.php";
 $enrolCourse = "cbe/functions/enrol";
 $pusher = "functions/pusher.php";
 $exporter = "functions/export.php";

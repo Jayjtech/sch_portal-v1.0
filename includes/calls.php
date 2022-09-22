@@ -79,6 +79,16 @@ $selCourses1 = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND 
 $created_course_count = $callCourses->num_rows;
 /**Call all staff */
 $callStaff = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'd29yaw=='");
+/**Total Salary */
+$salaryTotal = $conn->query("SELECT sum(salary) as total_salary FROM $users_tbl WHERE user_type='d29yaw=='");
+$salTol = $salaryTotal->fetch_object();
+
+$payrollList = $conn->query("SELECT * FROM $payroll_title_tbl");
+while($payR = $payrollList->fetch_object()){
+    $payRData[]= $payR;
+}
+
+$callDisList = $conn->query("SELECT * FROM $payroll_tbl");
 
 /**Call students */
 $callStudents = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'c3R1ZHk='");
