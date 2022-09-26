@@ -2,6 +2,7 @@
 $choose_pod = "Choose POD";
 $choose_pod_val = "";
 $assign_priv = "Assign Privileges";
+$assign_level = "Assign Level";
 $assign_class = "Assign Class";
 $curr_class = "Change Class";
 $award_val = "Give award";
@@ -64,6 +65,8 @@ switch($edS->privileges){
     $assign_priv = $priv;
     $assign_priv_val = $edS->privileges;
     $assign_class_val = $edS->class_officiating;
+    $assign_level_val = $edS->staff_level;
+    $assign_level = 'Level-'.$edS->staff_level;
     $assign_class = $edS->class_officiating;
 }
 

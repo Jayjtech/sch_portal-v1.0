@@ -44,6 +44,7 @@ $curr_class = $det->curr_class;
 $monnify_account = json_decode($det->monnify_account);
 $bank_account = json_decode($det->bank_details);
 $class_officiating = $det->class_officiating;
+
 switch($det->position){
     case 0:
         $POD = '<div class="text-danger">Yet to be assigned!</div>';
@@ -113,7 +114,21 @@ $callEvaluation = $conn->query("SELECT * FROM $evaluation_tbl WHERE (term='$log_
 
 $callBills = $conn->query("SELECT * FROM $bill_tbl WHERE (term='$log_term' AND session = '$log_session') ORDER BY total ASC");
 
+$callStaffLevels = $conn->query("SELECT * FROM $staff_level_tbl ORDER BY salary_amount DESC");
+
 $bankList = $conn->query("SELECT * FROM $banks_tbl ORDER BY bank ASC");
+
+/**Loan request list */
+$callLoanList = $conn->query("SELECT * FROM $loan_tbl WHERE amount != 0 ORDER BY id DESC");
+$callLoanDisburseList = $conn->query("SELECT * FROM $loan_disbursement_tbl ORDER BY id DESC");
+$myLoanReq = $conn->query("SELECT * FROM $loan_tbl WHERE (token='$token' AND amount != 0) ORDER BY id DESC");
+
+/**Loan Availability */
+if($admin_det->loan_availability == 0){
+    $loan_availability = "Unavailable";
+}else{
+     $loan_availability = "Available";
+}
 
 $exp_c_s = explode("/", $current_session);
 $exp_l_s = explode("/", $log_session);

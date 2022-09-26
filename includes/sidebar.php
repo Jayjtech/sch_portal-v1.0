@@ -210,13 +210,15 @@
                         <li class="nav-item"> <a class="nav-link" href="adm_revenue">Revenue</a></li>
                         <li class="nav-item"> <a class="nav-link" href="adm_students">Students Info</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_staff">Staff Info</a>
-                        <li class="nav-item"> <a class="nav-link"
-                                href="adm_disbursement?key=staff_list">Disbursement</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_disbursement?key=staff_list">Salary</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_academic">Academic Period</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_exam">Exam Setup</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_upload_score">Upload Score</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_upload_comment">Upload comment</a>
                         <li class="nav-item"> <a class="nav-link" href="create_course">Create course</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_incentive?key=take_loan">Incentive/Loan</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_loan_approval?key=approve_loan">Loan
+                                Approval</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_document">Documentation</a>
                         </li>
                     </ul>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="668ce978-74e7-4cbb-ac0b-b82e737e800c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/.htaccess" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adm_disbursement.php" beforeDir="false" afterPath="$PROJECT_DIR$/adm_disbursement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adm_staff.php" beforeDir="false" afterPath="$PROJECT_DIR$/adm_staff.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/constants.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/pusher.php" beforeDir="false" afterPath="$PROJECT_DIR$/functions/pusher.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/sign_user.php" beforeDir="false" afterPath="$PROJECT_DIR$/functions/sign_user.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/calls.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/calls.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/edit_calls.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/edit_calls.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/footer_script.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/footer_script.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/sidebar.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/sidebar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/status_const.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/status_const.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2FIGQw1FN6mTUvSctkeDFI2jyDE" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="668ce978-74e7-4cbb-ac0b-b82e737e800c" name="Changes" comment="" />
+      <created>1664172174366</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1664172174366</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

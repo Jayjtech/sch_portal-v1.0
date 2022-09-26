@@ -24,5 +24,7 @@ RewriteRule ^adm_upload_comment adm_upload_comment.php [NC,L]
 RewriteRule ^test_proceed test_proceed.php [NC,L] 
 RewriteRule ^account_details account_details.php [NC,L] 
 RewriteRule ^adm_disbursement adm_disbursement.php [NC,L] 
+RewriteRule ^adm_incentive adm_incentive.php [NC,L] 
+RewriteRule ^adm_loan_approval adm_loan_approval.php [NC,L] 
 
 php_value date.timezone 'Africa/lagos'

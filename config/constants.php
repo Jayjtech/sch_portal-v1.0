@@ -11,7 +11,7 @@ $month = date("m");
 $year = date("Y");
 $time = date("g:ia ", time());
 session_start();
-error_reporting(0);
+// error_reporting(0);
 
 $question_tbl_a = "quest_type_a";
 $question_tbl_b = "quest_type_b";
@@ -32,6 +32,8 @@ $banks_tbl = "banks";
 $payroll_tbl = "payroll";
 $payroll_title_tbl = "payroll_title";
 $staff_level_tbl = "staff_level";
+$loan_tbl = "loan";
+$loan_disbursement_tbl = "loan_disbursement";
 
 $add_course = "cbe/functions/uploader";
 $cbe_request = "cbe/functions/receive_request";
@@ -42,6 +44,9 @@ $pusher = "functions/pusher.php";
 $exporter = "functions/export.php";
 $account_details = "functions/payment_gateway/fetch_banks.php";
 $bank_details = "functions/payment_gateway/bank_details.php";
+$loan_query = "functions/loan_query.php";
+$disburser = "functions/payment_gateway/disburser.php";
+
 
 $monnify_base_url = "https://api.monnify.com";
 // $monnify_base_url = "https://sandbox.monnify.com";
@@ -172,4 +177,5 @@ $monnify_res = "functions/payment_gateway/monnify.php";
 $mailer_email = "support@ekreat.com";
 $sch_name = "Jayjtech Schools";
 $currency = "&#8358;";
+$currency_type = "NGN";
 ?>

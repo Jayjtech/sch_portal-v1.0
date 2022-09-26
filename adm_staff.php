@@ -142,6 +142,17 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
+                                    <label for="">Level</label>
+                                    <select name="level" id="" required class="form-control">
+                                        <option value="<?= $assign_level_val; ?>"><?= $assign_level; ?></option>
+                                        <?php while($lev = $callStaffLevels->fetch_object()):?>
+                                        <option value="<?= $lev->level?>">Level-<?= $lev->level?></option>
+                                        <?php endwhile; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
                                     <label for="">Class Officiating</label>
                                     <select name="class_officiating" id="class_officiating" class="form-control"
                                         required>
@@ -155,8 +166,11 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">Salary</label>
-                                    <input type="number" class="form-control" id="salary" name="salary"
-                                        placeholder="Enter staff's salary" value="<?=$edS->salary; ?>">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><?= $currency; ?></span>
+                                        <input type="number" class="form-control" id="salary" name="salary"
+                                            placeholder="Enter staff's salary" readonly value="<?=$edS->salary; ?>">
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -55,6 +55,7 @@
                     tuition_discount = '$tuition_discount',
                     award_type = '$award_type',
                     curr_class = '$myClass',
+                    reg_date = '$date',
                     password = '$hash_pswd',
                     os = '$os',
                     ip = '$ip',

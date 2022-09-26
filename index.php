@@ -25,6 +25,7 @@
                                         <option value="d29yaw==">Staff</option>
                                     </select>
                                 </div>
+
                                 <div class="form-group">
                                     <div class="input-group">
                                         <input type="password" class="form-control form-control-lg" id="password"
@@ -33,17 +34,19 @@
                                                 class="mdi mdi-eye"></i></span>
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <select class="form-control form-control-lg" id="term">
-                                        <option value="">Select Term</option>
+                                        <option value="<?= $current_term; ?>"><?= $term_syntax; ?> Term</option>
                                         <option value="1">First Term</option>
                                         <option value="2">Second Term</option>
                                         <option value="3">Third Term</option>
                                     </select>
                                 </div>
+
                                 <div class="form-group">
                                     <select class="form-control form-control-lg" id="Session">
-                                        <option value="">Select Session</option>
+                                        <option value="<?= $current_session; ?>"><?= $current_session; ?></option>
                                         <?php while($row = $callSession->fetch_object()):?>
                                         <option value="<?= $row->session; ?>"><?= $row->session; ?></option>
                                         <?php endwhile; ?>

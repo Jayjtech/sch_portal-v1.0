@@ -4,109 +4,85 @@
 <?php include "includes/edit_calls.php"; ?>
 
 <div class="content-wrapper">
-    <?php if(($_GET['key'])== "create_payroll"):?>
+    <?php if(($_GET['key']) == "take_loan"):?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card position-relative">
                 <div class="card-body">
+                    <p class="card-title">Take a loan</p>
                     <div align="right">
-                        <a href="?key=staff_list" class="btn btn-primary">Staff list</a>
-                        <a href="?key=disbursement_list" class="btn btn-success">Disbursement
-                            list</a>
+                        <a href="?key=loan_balance" class="btn btn-info">Loan Balance</a>
                     </div>
                     <hr>
                     <div class="row mt-3 mb-3">
-                        <div class="col-sm-2">
-                            <h4 class="card-title">Create Staff level</h4>
-                            <form action="<?= $pusher; ?>" method="post">
+                        <div class="col-sm-6">
+                            <?php
+                            if($det->salary_count < $admin_det->loan_num_month_legibility){
+                                echo '<p class="alert alert-info">To qualify for the loan, you must have been a staff for '.$admin_det->loan_num_month_legibility.'-month</p>';
+                            }else if($admin_det->loan_availability == 0){ ?>
+                            <p class="alert alert-danger">Loan is currently Unavailable! Check back later.</p>
+                            <?php }else{ ?>
+                            <p class="font-weight-bold text-info">Kindly note that any loan taken here will before
+                                refunded and
+                                taken from your <?= $admin_det->loan_refund_rate;?>-month salary.</p>
+                            <p class="font-weight-bold"><em>Interest rate:</em> <?= $admin_det->loan_interest; ?>%</p>
+                            <form action="<?= $loan_query; ?>" method="post" onsubmit="return requestLoan(this)">
                                 <div class="form-group">
-                                    <label for="">Select Level</label>
-                                    <select name="staff_level" id="" required class="form-control">
-                                        <option value="">Select Level</option>
-                                        <option value="1">Level-1</option>
-                                        <option value="2">Level-2</option>
-                                        <option value="3">Level-3</option>
-                                        <option value="4">Level-4</option>
-                                        <option value="5">Level-5</option>
-                                        <option value="6">Level-6</option>
-                                        <option value="7">Level-7</option>
-                                        <option value="8">Level-8</option>
-                                        <option value="9">Level-9</option>
-                                        <option value="10">Level-10</option>
-                                        <option value="12">Level-12</option>
-                                        <option value="13">Level-13</option>
-                                        <option value="14">Level-14</option>
-                                        <option value="15">Level-15</option>
-                                        <option value="16">Level-16</option>
-                                        <option value="17">Level-17</option>
-                                        <option value="18">Level-18</option>
-                                        <option value="19">Level-19</option>
-                                        <option value="20">Level-20</option>
-                                    </select>
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Salary</label>
+                                    <label for="">Amount </label>
                                     <div class="input-group">
                                         <span class="input-group-text"><?= $currency; ?></span>
-                                        <input type="text" name="salary_amount" class="form-control"
-                                            placeholder="Salary">
+                                        <input type="text" name="loan_amount" id="loanAmount" min="1000" required
+                                            placeholder="Enter amount" class="form-control">
                                     </div>
+                                    <input type="hidden" name="loan_request" value="1">
                                 </div>
-                                <div class="" align="right">
-                                    <button type="submit" class="btn btn-primary mr-2" name="review_staff">Save</button>
+
+                                <div class="form-group" align="right">
+                                    <button class="btn btn-primary">Take loan</button>
                                 </div>
                             </form>
+                            <?php } ?>
+
                         </div>
+
+
 
                         <div class="col-sm-6">
-                            <h4 class="card-title">Level table</h4>
-                            <div class="table-responsive">
-                                <table class="myTable table table-striped table-borderless">
-                                    <thead>
-                                        <tr>
-                                            <th>Level</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php while($row = $callStaffLevels->fetch_object()):?>
-                                        <tr>
-                                            <td class="font-weight-bold">Level <?= $row->level?></td>
-                                            <td><?= $currency; ?><?= number_format($row->salary_amount); ?></td>
-                                        </tr>
-                                        <?php endwhile; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <h4 class="card-title">Create Payroll</h4>
-                            <form action="<?= $pusher; ?>" class="forms-sample" method="POST"
-                                onsubmit="return payrollTitle(this)">
-                                <div class="">
-                                    <div class="form-group">
-                                        <label for="exampleInputUsername1">Month of Disbursement</label>
-                                        <input type="month" class="form-control" id="month" name="month"
-                                            placeholder="Enter month" value="">
-                                    </div>
-                                </div>
-                                <div class="">
-                                    <div class="form-group">
-                                        <label for="">Description</label>
-                                        <textarea rows="6" class="form-control" name="description"
-                                            placeholder="Enter a detailed description for the disbursement"></textarea>
-                                    </div>
-                                </div>
-                                <input type="hidden" name="disburser" value="<?= $det->name; ?>">
-                                <input type="hidden" name="disbursement_id" value="<?= date('YmdHi').uniqid(); ?>">
-
-                                <div class="" align="right">
-                                    <button type="submit" class="btn btn-primary mr-2" name="review_staff">Create
-                                        payroll</button>
-                                </div>
-                            </form>
+                            <table class="myTable table table-striped table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php while($row = $myLoanReq->fetch_object()): 
+                                        $period = explode("-", $row->date);
+                                        $given_month = $period[1];
+                                        $status = $row->status;
+                                        include "includes/status_const.php";
+                                        $clean_date = $month_syntax .' '. $period[0].', '.$period[2];
+                                    ?>
+                                    <tr>
+                                        <td class="font-weight-bold"><?= $clean_date; ?> </td>
+                                        <td><?= $currency; ?><?= number_format($row->amount); ?></td>
+                                        <td><?= $status_syntax;?></td>
+                                        <td>
+                                            <?php if($row->status != 4 && $row->status != 5 && $row->status != 6 && $row->status != 3):?>
+                                            <form action="<?= $loan_query; ?>" onsubmit="return cancelLoan(this)"
+                                                method="post">
+                                                <input type="hidden" name="cancel_loan" value="1">
+                                                <input type="hidden" name="loan_id" value="<?= $row->id; ?>">
+                                                <button type="submit" class="btn-sm btn-danger">Cancel</button>
+                                            </form>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                    <?php endwhile; ?>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -196,7 +172,6 @@
                                         $bankDet = [
                                             "bank" => "$staff_bnk->bank",
                                             "acc_no" => "$staff_bnk->acc_no",
-                                            "bank_code" => "$staff_bnk->bank_code",
                                             "acc_holder" => "$staff_bnk->acc_holder"
                                         ];
                                     ?>
@@ -270,6 +245,7 @@
                             </thead>
                             <tbody>
                                 <?php while($dis = $callDisList->fetch_object()):
+                                        $staff_bnk = json_decode($dis->bankDet);
                                         $period = explode("-", $dis->payment_month);
                                         $given_month = $period[1];
                                         $status = $dis->status;
@@ -279,7 +255,7 @@
                                     <td class="font-weight-bold"><?= $dis->name; ?></td>
                                     <td class="font-weight-bold"><?= $dis->description; ?></td>
                                     <td class="font-weight-bold"><?= $month_syntax; ?> <?= $period[0]; ?></td>
-                                    <td><?= $currency; ?><?= number_format($dis->amount); ?></td>
+                                    <td><?= $currency; ?><?= number_format($dis->salary); ?></td>
                                     <td><?= $status_syntax;?></td>
                                     <td>
                                         <form action="<?= $deleter; ?>" onsubmit="return removeFromDisburse(this)"
@@ -312,10 +288,10 @@
                     <hr>
                     <div class="row">
                         <div class="mt-2 col-sm-6">
-                            <form action="<?= $disburser; ?>" method="POST" onsubmit="return disburse(this)">
+                            <form action="" method="POST" onsubmit="return disburse(this)">
                                 <div class="form-group">
                                     <label for="">Select which period you are disbursing for</label>
-                                    <select class="payroll-period form-control" name="disbursement_id" required>
+                                    <select class="payroll-period form-control" name="payrollTitle" required>
                                         <option value="">Select which period you are disbursing for</option>
                                         <?php for($i = 0; $i<count($payRData); $i++){
                                             $period = explode("-", $payRData[$i]->month);
@@ -329,9 +305,6 @@
                                         <?php } ?>
                                     </select>
                                 </div>
-                                <input type="hidden" value="1" name="process_disbursement">
-                                <input type="hidden" value="Salary" name="type">
-                                <input type="hidden" value="<?= date('YmdHi').uniqid(); ?>" name="disb_id">
                                 <p class="font-weight-bold">Total amount to be disbursed: <?= $currency; ?><span
                                         class="salary_response">0.00</span></p>
                                 <p class="text-info font-weight-bold">Note that salary will only be disbursed to staff

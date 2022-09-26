@@ -50,16 +50,22 @@
        $privileges = mysqli_real_escape_string($conn, $_POST['privileges']);
        $position = mysqli_real_escape_string($conn, $_POST['position']);
        $token = mysqli_real_escape_string($conn, $_POST['token']);
-       $salary = mysqli_real_escape_string($conn, $_POST['salary']);
+    //    $sal = mysqli_real_escape_string($conn, $_POST['salary']);
+       $staff_level = mysqli_real_escape_string($conn, $_POST['level']);
 
-       $update = $conn->query("UPDATE $users_tbl SET 
+        $getSalary = $conn->query("SELECT * FROM $staff_level_tbl WHERE level = '$staff_level'");
+        $sal = $getSalary->fetch_object();
+        $salary = $sal->salary_amount;
+
+        $update = $conn->query("UPDATE $users_tbl SET 
                         name='$name',
                         class_officiating='$class_officiating',
                         privileges='$privileges',
+                        staff_level='$staff_level',
                         salary='$salary',
                         position='$position'
                         WHERE token = '$token'
-       ");
+                        ");
 
        if($update){
             $_SESSION['message'] = "Details successfully updated!";
@@ -419,7 +425,7 @@ if(isset($_POST['bankDet'])){
                             staffToken = '$staffToken',
                             bankDet = '$bankDet',
                             name = '$staffName',
-                            salary = '$salary',
+                            amount = '$salary',
                             payment_month = '$pay_month',
                             disbursement_id = '$payrollTitle',
                             description = '$description'
@@ -442,25 +448,34 @@ if(isset($_POST['bankDet'])){
 }
 
 if(isset($_POST['staff_level'])){
-    $level = $_POST['staff_level'];
-    $salary = mysqli_real_escape_string($conn, stripcslashes($_POST['salary']));
+    $staff_level = $_POST['staff_level'];
+    $salary_amount = mysqli_real_escape_string($conn, stripcslashes($_POST['salary_amount']));
 
-    $check = $conn->query("SELECT * FROM $staff_level_tbl WHERE level='$level'");
+    $check = $conn->query("SELECT * FROM $staff_level_tbl WHERE level='$staff_level'");
     if($check->num_rows == 0){
         $insert = $conn->query("INSERT INTO $staff_level_tbl SET 
-                                 level='$level',
-                                salary='$salary'
+                                 level='$staff_level',
+                                salary_amount='$salary_amount'
                             ");
     }else{
         $update = $conn->query("UPDATE $staff_level_tbl SET 
-                            salary='$salary'
-                            WHERE level='$level'
+                            salary_amount='$salary_amount'
+                            WHERE level='$staff_level'
                             ");
         }
 
-        if($insert || $update){
-            $_SESSION['message'] = 'Level has been saved.';
+        if($insert){
+            $_SESSION['message'] = 'Level '.$staff_level.' has been saved.';
             $_SESSION['msg_type'] = "success";
             $_SESSION['remedy'] = "";
+        }else if($update){
+            $_SESSION['message'] = 'Level '.$staff_level.' has been saved.';
+            $_SESSION['msg_type'] = "success";
+            $_SESSION['remedy'] = "";
+        }else{
+            $_SESSION['message'] = 'An error occurred during the process!';
+            $_SESSION['msg_type'] = "error";
+            $_SESSION['remedy'] = "";
         }
+       header('location: ../adm_disbursement?key=create_payroll');
 }

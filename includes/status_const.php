@@ -10,13 +10,16 @@ switch($status){
         $status_syntax = '<p class="badge badge-danger">Failed</p>';
     break;
     case 3:
-        $status_syntax = '<p class="badge badge-info">On-hold</p>';
+        $status_syntax = '<p class="badge badge-danger">Denied</p>';
     break;
     case 4:
-        $status_syntax = '<p class="badge badge-success">Approved</p>';
+        $status_syntax = '<p class="badge badge-info">Approved</p>';
     break;
     case 5:
         $status_syntax = '<p class="badge badge-success">Disbursed</p>';
+    break;
+    case 6:
+        $status_syntax = '<p class="badge badge-danger">Cancelled</p>';
     break;
 }
 

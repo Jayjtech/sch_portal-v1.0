@@ -16,6 +16,80 @@ function delForm(form) {
     return false;
 }
 
+function setLoan(form) {
+    swal.fire({
+        title: `Are you sure you want to save changes?`,
+        text: ``,
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        } else if (result.isDenied) {
+            Swal.fire(`Changes was not saved!`, '', 'info')
+        }
+    })
+    return false;
+}
+
+function loanApproval(form) {
+    swal.fire({
+        title: `Are you sure you want to approve this loan?`,
+        text: ``,
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    })
+    return false;
+}
+
+function cancelLoan(form) {
+    swal.fire({
+        title: `Are you sure you want to cancel your loan request?`,
+        text: ``,
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    })
+    return false;
+}
+
+function requestLoan(form) {
+    let loanAmount = parseInt(document.querySelector("#loanAmount").value);
+    if (loanAmount > <?= $admin_det->loan_max_amount;?>) {
+        Swal.fire({
+            title: `You can't request a loan above <?= $currency; ?><?= number_format($admin_det->loan_max_amount); ?>`,
+            icon: `info`,
+            confirmButtonText: 'Ok'
+        })
+    } else {
+        swal.fire({
+            title: `Are you sure you want to request for a loan?`,
+            text: ``,
+            icon: "warning",
+            showDenyButton: true,
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            } else if (result.isDenied) {
+                Swal.fire(`Loan request cancelled!`, '', 'info')
+            }
+        })
+    }
+    return false;
+}
+
+
 /**Calculate Salary to be disbursed */
 $(document).ready(function() {
     $(".payroll-period").change(function() {
@@ -221,8 +295,6 @@ function addToDisburse(form) {
     }).then((result) => {
         if (result.isConfirmed) {
             form.submit();
-        } else if (result.isDenied) {
-            Swal.fire(`User was not added to the list!`, '', 'info')
         }
     })
     return false;
@@ -238,12 +310,11 @@ function removeFromDisburse(form) {
     }).then((result) => {
         if (result.isConfirmed) {
             form.submit();
-        } else if (result.isDenied) {
-            Swal.fire(`User was not removed from the list!`, '', 'info')
         }
     })
     return false;
 }
+
 
 function disburse(form) {
     Swal.fire({
@@ -258,7 +329,7 @@ function disburse(form) {
         confirmButtonText: 'Verify',
         showLoaderOnConfirm: true,
         preConfirm: (disburseKey) => {
-            return fetch(`functions/verifyKey.php?id=${disburseKey}`)
+            return fetch(`functions/verifyKey.php?disburseKey=${disburseKey}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(response.statusText)
@@ -277,12 +348,9 @@ function disburse(form) {
             Swal.fire({
                 title: result.value.text,
                 icon: result.value.icon,
-                imageUrl: result.value.avatar_url
             })
-            if (result.value.icon === "error") {
-                window.location.href = "logout"
-            } else if (result.value.icon === "success") {
-                window.location.href = "dashboard"
+            if (result.value.icon === "success") {
+                form.submit()
             }
         }
     })

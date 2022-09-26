@@ -6,9 +6,12 @@ if(isset($_POST['add_account'])){
     $acc_no = mysqli_real_escape_string($conn, stripcslashes($_POST['acc_no']));
     $acc_holder = mysqli_real_escape_string($conn, stripcslashes($_POST['acc_holder']));
 
+    $getBC = $conn->query("SELECT * FROM $banks_tbl WHERE bank='$bank'");
+    $bc = $getBC->fetch_object();
     $bank_details = [
     "bank" => "$bank",
     "acc_no" => "$acc_no",
+    "bank_code" => "$bc->bank_code",
     "acc_holder" => "$acc_holder"
 ];
 $bank_details = json_encode($bank_details);

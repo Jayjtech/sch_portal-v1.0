@@ -58,7 +58,6 @@ if ($_SESSION['userId']) {
         // exit();
         //UPDATE USER TABLE
         if ($data->requestSuccessful != "success") {
-            echo "YES";
             $_SESSION['message'] = '' . $data->responseMessage . '';
             $_SESSION['msg_type'] = "warning";
             $_SESSION['remedy'] = '';

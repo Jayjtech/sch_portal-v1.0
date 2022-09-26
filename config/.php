@@ -23,6 +23,7 @@ $create_user = $conn->query("CREATE TABLE IF NOT EXISTS $users_tbl (
     curr_class varchar(50) NOT NULL,
     department varchar(50) NOT NULL,
     class_officiating varchar(50) NOT NULL,
+    staff_level int(11) NOT NULL,
     monnify_account varchar(1000000000) NOT NULL,
     password varchar(50) NOT NULL,
     pin varchar(255) NOT NULL,
@@ -32,6 +33,7 @@ $create_user = $conn->query("CREATE TABLE IF NOT EXISTS $users_tbl (
     local_government varchar(255) NOT NULL,
     bank_details varchar(1000) NOT NULL,
     salary int(11) NOT NULL,
+    salary_count int(11) NOT NULL,
     ip varchar(255) NOT NULL,
     os varchar(255) NOT NULL,
     device varchar(255) NOT NULL,
@@ -349,11 +351,17 @@ $create_settings = $conn->query("CREATE TABLE IF NOT EXISTS $settings_tbl (
     monnify_key varchar(255) NOT NULL,
     monnify_contract varchar(255) NOT NULL,
     monnify_secret varchar(255) NOT NULL,
+    disbursementSource varchar(255) NOT NULL,
     manual_acct varchar(255) NOT NULL,
     manual_acct_name varchar(255) NOT NULL,
     manual_acct_holder varchar(255) NOT NULL,
-    announcement varchar(10000000) NOT NULL,
+    announcement varchar(100000000) NOT NULL,
     disbursement_key varchar(255) NOT NULL,
+    loan_max_amount int(11) NOT NULL,
+    loan_refund_rate int(11) NOT NULL,
+    loan_num_month_legibility int(11) NOT NULL,
+    loan_interest int(11) NOT NULL,
+    loan_availability int(11) NOT NULL,
     pc varchar(255) NOT NULL,
     mc varchar(255) NOT NULL,
     mc_p varchar(255) NOT NULL,
@@ -432,9 +440,25 @@ $cr_payroll_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $payroll_tbl (
     staffToken varchar(255) NOT NULL,
     name varchar(255) NOT NULL,
     bankDet varchar(255) NOT NULL,
-    salary varchar(255) NOT NULL,
+    amount varchar(255) NOT NULL,
     paid_by varchar(255) NOT NULL,
     payment_month varchar(255) NOT NULL,
+    description varchar(255) NOT NULL,
+    disbursement_id varchar(255) NOT NULL,
+    date varchar(255) NOT NULL,
+    status int(11) NOT NULL,
+    PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
+$cr_loan_disbursement_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $loan_disbursement_tbl (
+    id int(11) AUTO_INCREMENT NOT NULL,
+    loan_id int(11) AUTO_INCREMENT NOT NULL,
+    userId varchar(255) NOT NULL,
+    staffToken varchar(255) NOT NULL,
+    name varchar(255) NOT NULL,
+    bankDet varchar(255) NOT NULL,
+    amount varchar(255) NOT NULL,
+    paid_by varchar(255) NOT NULL,
     description varchar(255) NOT NULL,
     disbursement_id varchar(255) NOT NULL,
     date varchar(255) NOT NULL,
@@ -449,6 +473,21 @@ $cr_payroll_title_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $payroll_title_
     month varchar(255) NOT NULL,
     date varchar(255) NOT NULL,
     description varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
+$cr_loan_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $loan_tbl (
+    id int(11) AUTO_INCREMENT NOT NULL,
+    name varchar(255) NOT NULL,
+    userId varchar(255) NOT NULL,
+    token varchar(255) NOT NULL,
+    amount varchar(255) NOT NULL,
+    credit varchar(255) NOT NULL,
+    debit varchar(255) NOT NULL,
+    balance varchar(255) NOT NULL,
+    date varchar(255) NOT NULL,
+    status varchar(255) NOT NULL,
+    time varchar(255) NOT NULL,
     PRIMARY KEY (id)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 
