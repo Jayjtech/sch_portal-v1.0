@@ -2,8 +2,10 @@
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
 <?php include "includes/edit_calls.php"; ?>
-<?php $_SESSION['disburse_type'] = "loan"; ?>
+<?php $_SESSION['page'] = "loan"; ?>
 <div class="content-wrapper">
+    <p id="walletResponse" class="font-weight-bold"></p>
+    <p id="statusResponse" class="font-weight-bold"></p>
     <?php if(($_GET['key'])== "approve_loan"):?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -236,5 +238,5 @@
 </div>
 <?php endif; ?>
 
-
+<?php include "includes/autorefresh.php"; ?>
 <?php include "includes/footer.php"; ?>

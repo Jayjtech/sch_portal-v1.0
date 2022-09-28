@@ -21,6 +21,15 @@ switch($status){
     case 6:
         $status_syntax = '<p class="badge badge-danger">Cancelled</p>';
     break;
+    case 7:
+        $status_syntax = '<p class="badge badge-info">Processing</p>';
+    break;
+    case 8:
+        $status_syntax = '<p class="badge badge-warning">Pending authorization</p>';
+    break;
+    case 9:
+        $status_syntax = '<p class="badge badge-danger">OTP Email dispatch failed</p>';
+    break;
 }
 
 switch($given_month){

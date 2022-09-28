@@ -11,7 +11,7 @@ $month = date("m");
 $year = date("Y");
 $time = date("g:ia ", time());
 session_start();
-// error_reporting(0);
+error_reporting(0);
 
 $question_tbl_a = "quest_type_a";
 $question_tbl_b = "quest_type_b";

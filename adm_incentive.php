@@ -31,7 +31,7 @@
                                     <label for="">Amount </label>
                                     <div class="input-group">
                                         <span class="input-group-text"><?= $currency; ?></span>
-                                        <input type="text" name="loan_amount" id="loanAmount" min="1000" required
+                                        <input type="text" name="loan_amount" id="loanAmount" min="100" required
                                             placeholder="Enter amount" class="form-control">
                                     </div>
                                     <input type="hidden" name="loan_request" value="1">

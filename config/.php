@@ -445,6 +445,7 @@ $cr_payroll_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $payroll_tbl (
     payment_month varchar(255) NOT NULL,
     description varchar(255) NOT NULL,
     disbursement_id varchar(255) NOT NULL,
+    batch_id varchar(255) NOT NULL,
     date varchar(255) NOT NULL,
     status int(11) NOT NULL,
     PRIMARY KEY (id)
@@ -452,7 +453,7 @@ $cr_payroll_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $payroll_tbl (
 
 $cr_loan_disbursement_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $loan_disbursement_tbl (
     id int(11) AUTO_INCREMENT NOT NULL,
-    loan_id int(11) AUTO_INCREMENT NOT NULL,
+    loan_id int(11) NOT NULL,
     userId varchar(255) NOT NULL,
     staffToken varchar(255) NOT NULL,
     name varchar(255) NOT NULL,
@@ -461,6 +462,7 @@ $cr_loan_disbursement_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $loan_disbu
     paid_by varchar(255) NOT NULL,
     description varchar(255) NOT NULL,
     disbursement_id varchar(255) NOT NULL,
+    batch_id varchar(255) NOT NULL,
     date varchar(255) NOT NULL,
     status int(11) NOT NULL,
     PRIMARY KEY (id)

@@ -274,6 +274,8 @@
                 </a>
                 <div class="collapse" id="c_result">
                     <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="pages/charts/chartjs.html">Raw Score</a>
+                        </li>
                         <li class="nav-item"> <a class="nav-link" href="pages/charts/chartjs.html">Approved result</a>
                         </li>
                     </ul>

@@ -463,13 +463,16 @@ if(isset($_POST['staff_level'])){
                             WHERE level='$staff_level'
                             ");
         }
-
+        $update_users = $conn->query("UPDATE $users_tbl SET 
+                            salary ='$salary_amount'
+                            WHERE staff_level = '$staff_level'
+                        ");
         if($insert){
             $_SESSION['message'] = 'Level '.$staff_level.' has been saved.';
             $_SESSION['msg_type'] = "success";
             $_SESSION['remedy'] = "";
         }else if($update){
-            $_SESSION['message'] = 'Level '.$staff_level.' has been saved.';
+            $_SESSION['message'] = 'Level '.$staff_level.' has been updated.';
             $_SESSION['msg_type'] = "success";
             $_SESSION['remedy'] = "";
         }else{

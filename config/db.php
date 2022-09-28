@@ -18,6 +18,7 @@ $admin_det = $adminDetails->fetch_object();
 $monnify_token = base64_encode('' . $admin_det->monnify_key . ':' . $admin_det->monnify_secret . '');
 $current_term = $admin_det->current_term;
 $current_session = $admin_det->current_session;
+$sch_short_icon = "";
 
 switch($current_term){
     case 1:
