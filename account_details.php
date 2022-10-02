@@ -14,7 +14,7 @@
                                 <?php if($bank_account == false){?>
                                 <p class="card-title mb-0">Add bank account details</p>
                                 <?php }else{?>
-                                <p class="card-title mb-0">bank account details</p>
+                                <p class="card-title mb-0">Bank account details</p>
                                 <?php } ?>
                                 <hr>
                                 <div class="form-group col-sm-12">
@@ -47,8 +47,37 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6">
+                            <div class="col-sm-8">
                                 <p class="card-title">Salary details</p>
+                                <div class="table-responsive">
+                                    <table class="myTable table table-striped table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Amount</th>
+                                                <th>Description</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php while($row = $mySalDet->fetch_object()): 
+                                        $period = explode("-", $row->date);
+                                        $given_month = $period[1];
+                                        $status = $row->status;
+                                        include "includes/status_const.php";
+                                        $clean_date = $month_syntax .' '. $period[0].', '.$period[2];
+                                    ?>
+                                            <tr>
+                                                <td class="font-weight-bold"><?= $clean_date; ?></td>
+                                                <td class="font-weight-bold text-dark">
+                                                    <?= $currency; ?><?= number_format($row->amount); ?></td>
+                                                <td><?= $row->description; ?></td>
+                                                <td class="font-weight-bold text-danger"><?= $status_syntax;?></td>
+                                            </tr>
+                                            <?php endwhile; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                     </form>
                 </div>

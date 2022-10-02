@@ -7,15 +7,14 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0">Course Table <?= $term_syntax; ?>[<?= $log_session; ?>]</p>
-                    <?php if($created_course_count > 0){ ?>
+                    <p class="card-title mb-0">Course Table [<?= $term_syntax; ?> term | <?= $log_session; ?>]</p>
+                    <hr>
                     <div class="table-responsive">
                         <table class="myTable table table-striped table-borderless">
                             <thead>
                                 <tr>
                                     <th>Course</th>
-                                    <th>Code</th>
-                                    <th>Questions</th>
+                                    <th>No. of Question[Exam|Test|Ass]</th>
                                     <th>Duration[Exam|Test|Ass.]</th>
                                     <th>Mark[Exam|Test|Ass.]</th>
                                     <th>Session</th>
@@ -25,14 +24,15 @@
                             <tbody>
                                 <?php while($row = $callCourses->fetch_object()):?>
                                 <tr>
-                                    <td><?= $row->course; ?></td>
+                                    <td><?= $row->course; ?>[<?= $row->course_code;?>]</td>
                                     <td class="font-weight-bold"><?= $row->course_code; ?></td>
-                                    <td><?= $row->no_of_quest; ?></td>
-                                    <td>Exam:<?= $row->exam_duration; ?> | Test:<?= $row->test_duration; ?> |
-                                        Ass:<?= $row->ass_duration; ?>
+                                    <td>Exam: <?= $row->exam_no_of_quest; ?> | Test: <?= $row->test_no_of_quest; ?> |
+                                        Ass: <?= $row->ass_no_of_quest; ?></td>
+                                    <td>Exam: <?= $row->exam_duration; ?> | Test: <?= $row->test_duration; ?> |
+                                        Ass: <?= $row->ass_duration; ?>
                                     </td>
-                                    <td>Exam:<?= $row->exam_unit; ?> | Test:<?= $row->test_unit; ?> |
-                                        Ass:<?= $row->ass_unit; ?></td>
+                                    <td>Exam: <?= $row->exam_unit; ?> | Test: <?= $row->test_unit; ?> |
+                                        Ass: <?= $row->ass_unit; ?></td>
                                     <td><?= $row->session; ?></td>
 
                                     <td>
@@ -48,9 +48,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <?php }else{ ?>
-                    <div class="alert alert-danger mt-5">This table is empty!</div>
-                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -60,6 +57,7 @@
             <div class="card position-relative">
                 <div class="card-body">
                     <h4 class="card-title">Create Course</h4>
+                    <hr>
                     <form action="<?= $add_course;?>" class="forms-sample" method="POST"
                         onsubmit="return addCourse(this)">
                         <div class="row mt-3 mb-3">
@@ -94,62 +92,101 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">How many question will you upload?</label>
-                                    <select name="no_of_quest" id="no_of_quest" class="form-control" required>
-                                        <option value="">Make your choice</option>
-                                        <option value="5">5</option>
-                                        <option value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="30">30</option>
-                                        <option value="40">40</option>
-                                        <option value="50">50</option>
-                                        <option value="60">60</option>
-                                        <option value="70">70</option>
-                                        <option value="80">80</option>
-                                        <option value="90">90</option>
-                                        <option value="100">100</option>
-                                    </select>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <select name="ass_no_of_quest" id="ass_no_of_quest" class="form-control"
+                                                required>
+                                                <option value="">Ass</option>
+                                                <option value="5">5</option>
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="30">30</option>
+                                                <option value="40">40</option>
+                                                <option value="50">50</option>
+                                                <option value="60">60</option>
+                                                <option value="70">70</option>
+                                                <option value="80">80</option>
+                                                <option value="90">90</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <select name="test_no_of_quest" id="test_no_of_quest" class="form-control"
+                                                required>
+                                                <option value="">Test</option>
+                                                <option value="5">5</option>
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="30">30</option>
+                                                <option value="40">40</option>
+                                                <option value="50">50</option>
+                                                <option value="60">60</option>
+                                                <option value="70">70</option>
+                                                <option value="80">80</option>
+                                                <option value="90">90</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <select name="exam_no_of_quest" id="exam_no_of_quest" class="form-control"
+                                                required>
+                                                <option value="">Exam</option>
+                                                <option value="5">5</option>
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="30">30</option>
+                                                <option value="40">40</option>
+                                                <option value="50">50</option>
+                                                <option value="60">60</option>
+                                                <option value="70">70</option>
+                                                <option value="80">80</option>
+                                                <option value="90">90</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Mark/question[Exam]</label>
-                                    <input type="number" class="form-control" id="exam_unit" name="exam_unit"
-                                        placeholder="Enter exam mark/question" required>
+                                    <label for="exampleInputEmail1">Mark per question [Ass | Test | Exam]</label>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <input type="number" class="form-control" id="ass_unit" min="1"
+                                                name="ass_unit" placeholder="Ass" required>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <input type="number" class="form-control" id="test_unit" min="1"
+                                                name="test_unit" placeholder="Test" required>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <input type="number" class="form-control" id="exam_unit" min="1"
+                                                name="exam_unit" placeholder="Exam" required>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Mark/question[Test]</label>
-                                    <input type="number" class="form-control" id="test_unit" name="test_unit"
-                                        placeholder="Enter test mark/question" required>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Mark/question[Assignment]</label>
-                                    <input type="number" class="form-control" id="ass_unit" name="ass_unit"
-                                        placeholder="Enter assignment mark/question" required>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Exam duration in minutes</label>
-                                    <input type="number" class="form-control" id="exam_duration" name="exam_duration"
-                                        placeholder="Enter exam duration" required>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Test duration in minutes</label>
-                                    <input type="number" class="form-control" id="test_duration" name="test_duration"
-                                        placeholder="Enter test duration" required>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Assignment duration in minutes</label>
-                                    <input type="number" class="form-control" id="ass_duration" name="ass_duration"
-                                        placeholder="Enter assignment duration" required>
+                                    <label for="exampleInputEmail1">Duration in minutes</label>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <input type="number" class="form-control" id="ass_duration" min="3"
+                                                name="ass_duration" placeholder="Ass" required>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="number" class="form-control" id="test_duration" min="3"
+                                                name="test_duration" placeholder="Test" required>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="number" class="form-control" id="exam_duration" min="3"
+                                                name="exam_duration" placeholder="Exam" required>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -310,7 +347,7 @@
                                         <tr>
                                             <td><?= $row->course; ?>[<?= $sel1->course_code; ?>]</td>
                                             <td><?= $sel1->quest_type; ?></td>
-                                            <td><?= $row->no_of_quest; ?></td>
+                                            <td><?= $row->ass_no_of_quest; ?></td>
                                             <td><?= $row->department; ?></td>
                                             <td>
                                                 <form action="<?= $course_deleter; ?>" method="get"
@@ -333,7 +370,7 @@
                                         <tr>
                                             <td><?= $row->course; ?>[<?= $sel2->course_code; ?>]</td>
                                             <td><?= $sel2->quest_type; ?></td>
-                                            <td><?= $row->no_of_quest; ?></td>
+                                            <td><?= $row->test_no_of_quest; ?></td>
                                             <td><?= $row->department; ?></td>
                                             <td>
                                                 <form action="<?= $course_deleter; ?>" method="get"
@@ -356,7 +393,7 @@
                                         <tr>
                                             <td><?= $row->course; ?>[<?= $sel3->course_code; ?>]</td>
                                             <td><?= $sel3->quest_type; ?></td>
-                                            <td><?= $row->no_of_quest; ?></td>
+                                            <td><?= $row->exam_no_of_quest; ?></td>
                                             <td><?= $row->department; ?></td>
                                             <td>
                                                 <form action="<?= $course_deleter; ?>" method="get"

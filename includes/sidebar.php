@@ -206,14 +206,15 @@
 
                 <div class="collapse" id="c_panel">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="adm_info">School Info</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="adm_info">School info</a></li>
                         <li class="nav-item"> <a class="nav-link" href="adm_revenue">Revenue</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="adm_students">Students Info</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_staff">Staff Info</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_students">Students info</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_staff">Staff info</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_disbursement?key=staff_list">Salary</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_academic">Academic Period</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_exam">Exam Setup</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_upload_score">Upload Score</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_academic">Academic period</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_exam">Exam setting</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_result_setting">Result setting</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_upload_score">Upload score</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_upload_comment">Upload comment</a>
                         <li class="nav-item"> <a class="nav-link" href="create_course">Create course</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_incentive?key=take_loan">Incentive/Loan</a>
@@ -274,9 +275,9 @@
                 </a>
                 <div class="collapse" id="c_result">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="pages/charts/chartjs.html">Raw Score</a>
+                        <li class="nav-item"> <a class="nav-link" href="raw_score">Raw Score</a>
                         </li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/charts/chartjs.html">Approved result</a>
+                        <li class="nav-item"> <a class="nav-link" href="approved_result">Approved result</a>
                         </li>
                     </ul>
                 </div>

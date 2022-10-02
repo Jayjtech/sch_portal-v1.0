@@ -46,9 +46,9 @@ if ($_GET['table'] == $score_tbl) {
      header('Content-Type: text/csv; charset=utf-8');
      header('Content-Disposition: attachment; filename='.$term.' ['.$session.'] score-sheet for '.$course_code.'.csv');
      $output = fopen("php://output", "w");
-     fputcsv($output, array('NAME', 'ADM NO', 'COURSE CODE', 'ASS', 'CA1', 'CA2', 'THEORY SCORE', 'OBJECTIVE SCORE'));
+     fputcsv($output, array('NAME', 'ADM NO', 'COURSE CODE', 'ASS', 'CA1', 'CA2', 'CA3', 'THEORY SCORE', 'OBJECTIVE SCORE'));
 
-     $query = $conn->query("SELECT name, adm_no, course_code, ass, ca1, ca2, theory, score FROM $score_tbl 
+     $query = $conn->query("SELECT name, adm_no, course_code, ass, ca1, ca2, ca3, theory, score FROM $score_tbl 
      WHERE (course_code='$course_code' AND teacher_token='$token' AND term='$log_term' AND session='$log_session')");
       while ($row = $query->fetch_assoc()) {
           fputcsv($output, $row);
@@ -57,7 +57,7 @@ if ($_GET['table'] == $score_tbl) {
      fclose($output);
 }
 
-if ($_GET['quest_instruct'] == "question") {
+if (isset($_GET['quest_instruct']) == "question") {
      header('Content-Type: text/csv; charset=utf-8');
      header('Content-Disposition: attachment; filename=Question-format.csv');
      $output = fopen("php://output", "w");
@@ -66,7 +66,7 @@ if ($_GET['quest_instruct'] == "question") {
      fclose($output);
 }
 
-if ($_GET['quest_instruct'] == "instruction") {
+if (isset($_GET['quest_instruct']) == "instruction") {
      header('Content-Type: text/csv; charset=utf-8');
      header('Content-Disposition: attachment; filename=Instruction-format.csv');
      $output = fopen("php://output", "w");
@@ -163,88 +163,3 @@ if ($_GET['table'] == $evaluation_tbl && $_GET['type'] == "head_teacher") {
      }
      fclose($output);
 }
-
-
-// if ($_GET['table'] == "result_checker") {
-//      header('Content-Type: text/csv; charset=utf-8');
-//      header("Content-Disposition: attachment; filename=Result-Pin " . $current_term . " " . $current_session . ".csv");
-//      $output = fopen("php://output", "w");
-//      fputcsv($output, array('Student Name', 'Admission NO', 'Term', 'Session', 'Result Pin'));
-
-//      $query = "SELECT fullname, adm_no, term, session, code FROM $result_checker_tbl WHERE session='$current_session' AND term='$current_term'";
-//      $result = mysqli_query($conn, $query);
-//      while ($row = mysqli_fetch_assoc($result)) {
-//           fputcsv($output, $row);
-//      }
-//      fclose($output);
-// }
-
-// if ($_GET['table'] == $time_table) {
-//      header('Content-Type: text/csv; charset=utf-8');
-//      header('Content-Disposition: attachment; filename=Time-table.csv');
-//      $output = fopen("php://output", "w");
-//      fputcsv($output, array('SUBJECT', 'COURSE CODE', 'EXAM DAY', 'EXAM PERIOD'));
-//      $query = "SELECT subject, course_code, day, exam_order FROM $time_table WHERE session='$current_session'";
-//      $result = mysqli_query($conn, $query);
-//      while ($row = mysqli_fetch_assoc($result)) {
-//           fputcsv($output, $row);
-//      }
-//      fclose($output);
-// }
-
-
-// if ($_GET['table'] == $answer_table) {
-//      $teacher = $_SESSION['name'];
-//      header('Content-Type: text/csv; charset=utf-8');
-//      header('Content-Disposition: attachment; filename=Answer-formart.csv');
-//      $output = fopen("php://output", "w");
-//      fputcsv($output, array('Quesion Number', 'Right(1)/Wrong(0)', 'Options', 'Answer Text'));
-//      $query = "SELECT question_number, is_correct, alpha_opt, text FROM $answer_table WHERE session='$current_session' AND teacher='$teacher'";
-//      $result = mysqli_query($conn, $query);
-//      while ($row = mysqli_fetch_assoc($result)) {
-//           fputcsv($output, $row);
-//      }
-//      fclose($output);
-// }
-
-
-
-// if ($_GET['table'] == 'instruction_tbl') {
-//      $teacher = $_SESSION['name'];
-//      header('Content-Type: text/csv; charset=utf-8');
-//      header('Content-Disposition: attachment; filename=Instruction.csv');
-//      $output = fopen("php://output", "w");
-//      fputcsv($output, array('Instruction 1', 'Instruction 2', 'Instruction 3', 'Instruction 4', 'Instruction 5'));
-//      $query = "SELECT instruction1, instruction2, instruction3, instruction4, instruction5 FROM instruction_tbl";
-//      $result = mysqli_query($conn, $query);
-//      while ($row = mysqli_fetch_assoc($result)) {
-//           fputcsv($output, $row);
-//      }
-//      fclose($output);
-// }
-
-// if ($_GET['students']) {
-//      header('Content-Type: text/csv; charset=utf-8');
-//      header('Content-Disposition: attachment; filename=Student-list.csv');
-//      $output = fopen("php://output", "w");
-//      fputcsv($output, array('Full name', 'Admission No', 'Class', 'Gender', 'Username', 'Phone', 'Email', 'Password'));
-//      $query = "SELECT fullname, adm_no, class, gender, username, phone, email, keyp FROM $student_tbl";
-//      $result = mysqli_query($conn, $query);
-//      while ($row = mysqli_fetch_assoc($result)) {
-//           fputcsv($output, $row);
-//      }
-//      fclose($output);
-// }
-
-// if ($_GET['staff']) {
-//      header('Content-Type: text/csv; charset=utf-8');
-//      header('Content-Disposition: attachment; filename=Staff-list.csv');
-//      $output = fopen("php://output", "w");
-//      fputcsv($output, array('Name', 'Surname', 'Email', 'Username', 'Phone', 'gender', 'Assigned Class', 'Password', 'Token'));
-//      $query = "SELECT name, surname, email, username, phone, gender, assignedClass, keyp, token FROM $admin_tbl";
-//      $result = mysqli_query($conn, $query);
-//      while ($row = mysqli_fetch_assoc($result)) {
-//           fputcsv($output, $row);
-//      }
-//      fclose($output);
-// }

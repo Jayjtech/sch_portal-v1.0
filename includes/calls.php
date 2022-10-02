@@ -83,7 +83,8 @@ $callStaff = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'd29yaw=='
 /**Total Salary */
 $salaryTotal = $conn->query("SELECT sum(salary) as total_salary FROM $users_tbl WHERE user_type='d29yaw=='");
 $salTol = $salaryTotal->fetch_object();
-
+/**User salary details */
+$mySalDet = $conn->query("SELECT * FROM $payroll_tbl WHERE staffToken='$token'");
 $payrollList = $conn->query("SELECT * FROM $payroll_title_tbl");
 while($payR = $payrollList->fetch_object()){
     $payRData[]= $payR;
@@ -95,7 +96,7 @@ $callDisList = $conn->query("SELECT * FROM $payroll_tbl");
 $callStudents = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'c3R1ZHk='");
 
 /**Course student */
-$availableCourse = $conn->query("SELECT * FROM $course_tbl WHERE (term='$log_term' AND session='$log_session') AND (department='$department' OR department='general')");
+$availableCourse = $conn->query("SELECT * FROM $course_tbl WHERE (class='$curr_class' AND term='$log_term' AND session='$log_session') AND (department='$department' OR department='general')");
 $enrolledCourse = $conn->query("SELECT * FROM $score_tbl WHERE adm_no='$userId' AND term='$log_term' AND session='$log_session'");
 /**Time table */
 $callTimeTable = $conn->query("SELECT * FROM $time_tbl WHERE (term='$log_term' AND session='$log_session')");
@@ -120,8 +121,11 @@ $bankList = $conn->query("SELECT * FROM $banks_tbl ORDER BY bank ASC");
 
 /**Loan request list */
 $callLoanList = $conn->query("SELECT * FROM $loan_tbl WHERE amount != 0 ORDER BY id DESC");
+$myLoanDet = $conn->query("SELECT * FROM $loan_tbl WHERE userId='$userId' ORDER BY id DESC");
 $callLoanDisburseList = $conn->query("SELECT * FROM $loan_disbursement_tbl ORDER BY id DESC");
 $myLoanReq = $conn->query("SELECT * FROM $loan_tbl WHERE (token='$token' AND amount != 0) ORDER BY id DESC");
+
+
 
 /**Loan Availability */
 if($admin_det->loan_availability == 0){
@@ -135,5 +139,17 @@ $exp_l_s = explode("/", $log_session);
 
 if($exp_l_s[1] < $exp_c_s[1]){
     $exp_acad_period = true;
+}
+
+/**Raw score */
+$callRawScore = $conn->query("SELECT * FROM $score_tbl WHERE (adm_no='$userId' AND term='$log_term' AND session='$log_session')");
+
+$callResultPins = $conn->query("SELECT * FROM $result_checker_tbl WHERE adm_no='$userId'");
+
+/**Result template */
+if($admin_det->result_template == 1){
+    $result_sheet_url = "a_result_template";
+}else if($admin_det->result_template == 2){
+    $result_sheet_url = "b_result_template";
 }
 ?>

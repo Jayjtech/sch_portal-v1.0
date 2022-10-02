@@ -8,8 +8,34 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
+                    <p class="card-title mb-0">Result template setting <?= round(12.08)?></p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="">Select result template</label>
+                                <select name="result_type" class="result-type form-control">
+                                    <option value="1">Default</option>
+                                    <option value="2">Type 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="">Preview</label>
+                            <div class="resultTypeResponse"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
                     <p class="card-title mb-0">Enrolment List for <?= $term_syntax?> term | <?= $log_session; ?></p>
-                    <?php if($callStudents->num_rows > 0){ ?>
+                    <hr>
                     <div class="table-responsive">
                         <table class="myTable table table-striped table-borderless">
                             <thead>
@@ -17,7 +43,7 @@
                                     <th>Name</th>
                                     <th>Adm. No.</th>
                                     <th>Course[Code]</th>
-                                    <th>[ASS]+[CA1]+[CA2]+[EXAM] = [TOTAL]</th>
+                                    <th>[ASS]+[CA1]+[CA2]+[CA3]+[EXAM] = [TOTAL]</th>
                                     <th>Token</th>
                                     <th>Status</th>
                                     <th>Paper Type</th>
@@ -41,6 +67,7 @@
                                     <td class="font-weight-bold"><?= $enr->adm_no; ?></td>
                                     <td><?= $enr->course; ?>[<?= $enr->course_code; ?>]</td>
                                     <td>[ <?= $enr->ass; ?> ] + [ <?= $enr->ca1; ?> ] + [ <?= $enr->ca2; ?> ] + [
+                                        <?= $enr->ca3; ?> ] + [
                                         <?= $enr->exam; ?> ] =
                                         [ <?= $enr->total; ?> ]</td>
                                     <td><?= $enr->exam_token; ?></td>
@@ -53,9 +80,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <?php }else{ ?>
-                    <div class="alert alert-danger mt-5">This table is empty!</div>
-                    <?php } ?>
                 </div>
             </div>
         </div>

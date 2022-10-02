@@ -26,15 +26,13 @@ if(isset($_POST['examDet'])){
 
     if($ch->ca1 == 0){
         $ca_slot = 'ca1';
-    }else{
+    }else if($ch->ca2 == 0){
         $ca_slot = 'ca2';
+    }else{
+        $ca_slot = 'ca3';
     }
     
-    // echo '<pre>';
-    // print_r($examDet);
-    // echo '</pre>';
-    // exit();
-    
+ 
     if($quest_type == "Exam"){
         $current_score = ($ch->score+$score);
         $save = $conn->query("UPDATE $score_tbl SET

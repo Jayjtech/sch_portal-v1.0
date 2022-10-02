@@ -30,6 +30,9 @@ switch($status){
     case 9:
         $status_syntax = '<p class="badge badge-danger">OTP Email dispatch failed</p>';
     break;
+    case 10:
+        $status_syntax = '<p class="badge badge-warning">On-hold</p>';
+    break;
 }
 
 switch($given_month){

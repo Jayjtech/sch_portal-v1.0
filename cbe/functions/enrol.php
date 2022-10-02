@@ -115,6 +115,16 @@ if(isset($_GET['course_code'])){
                                 class ='$curr_class',
                                 session ='$log_session'
                             ");
+    /**Generate result checker code */
+    $code = rand(100000,999999);
+        $rcc = $conn->query("INSERT INTO $result_checker_tbl SET
+                                    name = '$name',
+                                    adm_no = '$userId',
+                                    class = '$curr_class',
+                                    code = '$code',
+                                    term = '$log_term',
+                                    session = '$log_session'
+                            ");
     }else{
         $update = $conn->query("UPDATE $evaluation_tbl SET
                                 out_of ='$out_of'

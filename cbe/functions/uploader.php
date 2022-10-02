@@ -10,7 +10,9 @@ if(isset($_POST['exam_unit'])){
     $exam_duration = mysqli_real_escape_string($conn, $_POST['exam_duration']);
     $test_duration = mysqli_real_escape_string($conn, $_POST['test_duration']);
     $ass_duration = mysqli_real_escape_string($conn, $_POST['ass_duration']);
-    $no_of_quest = mysqli_real_escape_string($conn, $_POST['no_of_quest']); 
+    $ass_no_of_quest = mysqli_real_escape_string($conn, $_POST['ass_no_of_quest']); 
+    $test_no_of_quest = mysqli_real_escape_string($conn, $_POST['test_no_of_quest']); 
+    $exam_no_of_quest = mysqli_real_escape_string($conn, $_POST['exam_no_of_quest']); 
     $department = mysqli_real_escape_string($conn, $_POST['department']); 
     
     $classNo = substr($course_code, 3, 1);
@@ -46,7 +48,9 @@ if(isset($_POST['exam_unit'])){
         $insert = $conn->query("INSERT INTO $course_tbl SET
                             course_code = '$course_code',
                             course = '$course',
-                            no_of_quest = '$no_of_quest',
+                            ass_no_of_quest = '$ass_no_of_quest',
+                            test_no_of_quest = '$test_no_of_quest',
+                            exam_no_of_quest = '$exam_no_of_quest',
                             session = '$log_session',
                             term = '$term',
                             exam_unit = '$exam_unit',
@@ -104,10 +108,15 @@ if(isset($_POST['push_quest'])){
 
      $check = $conn->query("SELECT * FROM $course_tbl WHERE (course_code = '$course_code' AND term='$log_term' AND session='$log_session')");
     if($check->num_rows > 0){
-    while ($row = $check->fetch_assoc()) {
-        $no_of_quest = $row['no_of_quest'];
-    }
-
+        $row = $check->fetch_object();
+        if($quest_type == "Ass"){
+            $no_of_quest = $row->ass_no_of_quest;
+        }else if($quest_type == "Test"){
+            $no_of_quest = $row->test_no_of_quest;
+        }else if($quest_type == "Exam"){
+            $no_of_quest = $row->exam_no_of_quest;
+        }
+       
         // Allowed mime types
         $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
 
@@ -389,19 +398,28 @@ if(isset($_POST['push_instruct'])){
                     $ass  =  mysqli_real_escape_string($conn, stripcslashes($line[3]));
                     $ca1  =  mysqli_real_escape_string($conn, stripcslashes($line[4]));
                     $ca2  =  mysqli_real_escape_string($conn, stripcslashes($line[5]));
-                    $theory  =  mysqli_real_escape_string($conn, $line[6]);
-                    $obj_score  =  mysqli_real_escape_string($conn, $line[7]);
-                    $total = $ass+$ca1+$ca2+$theory+$obj_score;
-                    $exam = $theory+$obj_score;
+                    $ca3  =  mysqli_real_escape_string($conn, stripcslashes($line[6]));
+                    $theory  =  mysqli_real_escape_string($conn, $line[7]);
+                    $obj_score  =  mysqli_real_escape_string($conn, $line[8]);
+                    $exam = ($theory+$obj_score);
+                    $total = ($ass+$ca1+$ca2+$ca3+$exam);
+
+                    /**Here, test is over 100 */
+                    $ca_cumulative = (($ca1+$ca2+$ca3)/3);
+                    $average = (($ca_cumulative + $exam)/2);
+                    
                     switch($log_term){
                         case 1:
                             $slot = "ft_score";
+                            $slot_b = "ft_score_b";
                             break;
                         case 2:
                             $slot = "st_score";
+                            $slot_b = "st_score_b";
                             break;
                         case 3:
                             $slot = "tt_score";
+                            $slot_b = "tt_score_b";
                             break;
                     }
 
@@ -423,22 +441,24 @@ if(isset($_POST['push_instruct'])){
                         $class = "";
                     }
                     //update score-sheet 
-                        $update1 = $conn->query("UPDATE $score_tbl SET
-                                                ass = '$ass',
-                                                ca1 = '$ca1',
-                                                ca2 = '$ca2',
-                                                ca2 = '$ca2',
-                                                exam = '$exam',
-                                                theory = '$theory', 
-                                                score = '$obj_score', 
-                                                total = '$total',
-                                                $slot = '$total'
-                                                WHERE course_code = '$course_code'
-                                                AND adm_no = '$adm_no'
-                                                AND term = '$log_term'
-                                                AND session = '$log_session'
-                                                AND teacher_token = '$token'
-                                              ");
+                    $update1 = $conn->query("UPDATE $score_tbl SET
+                                            ass = '$ass',
+                                            ca1 = '$ca1',
+                                            ca2 = '$ca2',
+                                            ca3 = '$ca3',
+                                            exam = '$exam',
+                                            theory = '$theory', 
+                                            score = '$obj_score', 
+                                            total = '$total',
+                                            average = '$average',
+                                            $slot = '$total',
+                                            $slot_b = '$average'
+                                            WHERE course_code = '$course_code'
+                                            AND adm_no = '$adm_no'
+                                            AND term = '$log_term'
+                                            AND session = '$log_session'
+                                            AND teacher_token = '$token'
+                                            ");
 
             $getOtherScore = $conn->query("SELECT * FROM $score_tbl 
                     WHERE (course_code= '$course_code' AND teacher_token='$token' AND adm_no='$adm_no' AND term='$log_term' AND session='$log_session')");
@@ -446,17 +466,23 @@ if(isset($_POST['push_instruct'])){
                     $ft_score = $oth->ft_score;
                     $st_score = $oth->st_score;
                     $tt_score = $oth->tt_score;
-                    // $score = $oth->score;
 
+                    $ft_score_b = $oth->ft_score_b;
+                    $st_score_b = $oth->st_score_b;
+                    $tt_score_b = $oth->tt_score_b;
+                    
                     switch($log_term){
                         case 1:
                             $cumulative = $ft_score;
+                            $cumulative_b = $ft_score_b;
                             break;
                         case 2:
                             $cumulative = (($ft_score+$st_score)/2);
+                            $cumulative_b = (($ft_score_b+$st_score_b)/2);
                             break;
                         case 3:
                             $cumulative = (($ft_score+$st_score+$tt_score)/3);
+                            $cumulative_b = (($ft_score_b+$st_score_b+$tt_score_b)/3);
                             break;
                     }
                     /**Grade */
@@ -464,9 +490,13 @@ if(isset($_POST['push_instruct'])){
                     /**End of grade */
 
                     $update2 = $conn->query("UPDATE $score_tbl SET
+                                            ca_cumulative = '$ca_cumulative',
                                             cumulative = '$cumulative',
+                                            cumulative_b = '$cumulative_b',
                                             grade = '$grade',
-                                            remark = '$remark'
+                                            remark = '$remark',
+                                            grade_b = '$grade_b',
+                                            remark_b = '$remark_b'
                                             WHERE (course_code = '$course_code'
                                             AND adm_no = '$adm_no'
                                             AND term = '$log_term'
@@ -476,18 +506,21 @@ if(isset($_POST['push_instruct'])){
                                             
                     /**To update the evaluation table */
                     $checkRows = $conn->query("SELECT * FROM $score_tbl WHERE adm_no='$adm_no' AND term='$log_term' AND session='$log_session'");
-                    $checkAllScore = $conn->query("SELECT sum(total) as overall_score  FROM $score_tbl WHERE adm_no='$adm_no' AND term='$log_term' AND session='$log_session'");
+                    $checkAllScore = $conn->query("SELECT sum(total) as overall_score, sum(average) as overall_score_b  FROM $score_tbl WHERE (adm_no='$adm_no' AND term='$log_term' AND session='$log_session')");
                     $cal = $checkAllScore->fetch_object();
                     $overall_score = $cal->overall_score;
+                    $overall_score_b = $cal->overall_score_b;
                     $out_of = ($checkRows->num_rows*100);
                     $percent_score = (($overall_score/$out_of)*100);
-                    $percent_score;
+                    $percent_score_b = (($overall_score_b/$out_of)*100);
 
                     /**Update Evaluation */
                     $updateEva = $conn->query("UPDATE $evaluation_tbl SET 
                                             overall_score = '$overall_score',
+                                            overall_score_b = '$overall_score_b',
                                             out_of = '$out_of',
-                                            percent_score = '$percent_score'
+                                            percent_score = '$percent_score',
+                                            percent_score_b = '$percent_score_b'
                                             WHERE adm_no = '$adm_no'
                                             AND term = '$log_term'
                                             AND session = '$log_session'
@@ -520,25 +553,49 @@ if(isset($_POST['push_instruct'])){
                 AND teacher_token = '$token'
     "); 
         }
+
+if($setPosition){
+       $rankArray = array();
+            for($x = 0; $x<count($data); $x++){
+                $rankArray[$data[$x]['adm_no']] = $data[$x]['cumulative_b'];   
+            }
+        arsort($rankArray);
+        $pos = 1;
+        foreach($rankArray as $key => $score){
+            /**Positioner */
+            include "position.php";
+            /**End of ... */
+            $pos ++;
+        $setPositionb = $conn->query("UPDATE $score_tbl SET
+                position_b = '$position'
+                WHERE course_code= '$course_code'
+                AND adm_no = '$key'
+                AND term = '$log_term'
+                AND session = '$log_session'
+                AND teacher_token = '$token'
+            "); 
+        }
+    }
                     
-                  if($setPosition){
-                        $_SESSION['message'] = ''.$term_syntax.' term | '.$log_session.' score-sheet for '.$course_code.' has been uploaded successfully!';
-                        $_SESSION['msg_type'] = "success";
-                        $_SESSION['remedy'] = "";
-                    }else{
-                        $_SESSION['message'] = ''.$term_syntax.' term | '.$log_session.' score-sheet for '.$course_code.' could not be uploaded!';
-                        $_SESSION['msg_type'] = "error";
-                        $_SESSION['remedy'] = "There may be error in the file you tried to upload.";
-                    }
+                if($setPositionb){
+                    $_SESSION['message'] = ''.$term_syntax.' term | '.$log_session.' score-sheet for '.$course_code.' has been uploaded successfully!';
+                    $_SESSION['msg_type'] = "success";
+                    $_SESSION['remedy'] = "";
+                }else{
+                    $_SESSION['message'] = ''.$term_syntax.' term | '.$log_session.' score-sheet for '.$course_code.' could not be uploaded!';
+                    $_SESSION['msg_type'] = "error";
+                    $_SESSION['remedy'] = "There may be error in the file you tried to upload.";
+                }
             }
         }
-         header("location: ../../adm_upload_score");
+    header("location: ../../adm_upload_score");
  fclose($csvFile);
-    }
+}
 
 
-    /**Upload teacher's comment */
-    if(isset($_POST['upload_t_comment'])){
+
+/**Upload teacher's comment */
+if(isset($_POST['upload_t_comment'])){
 // Allowed mime types
         $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
         // Validate whether selected file is a CSV file
@@ -573,17 +630,17 @@ if(isset($_POST['push_instruct'])){
                     $t_comment  =  mysqli_real_escape_string($conn, stripcslashes($line[18]));
                     $prom  = mysqli_real_escape_string($conn, stripcslashes($line[19]));
 
-                if ($prom == 1 || $prom == "JSS-1" || $prom == "JSS1" || $prom == "JS-1" || $prom == "JS1" || $prom == "J-1" || $prom == "J1" || $prom == "jss-1" || $prom == "jss1" || $prom == "js-1" || $prom == "j-1" || $prom == "j1") {
+                if ($prom == 1 || $prom == "JSS-1" || $prom == "JSS 1" || $prom == "JSS1" || $prom == "JS-1" || $prom == "JS1" || $prom == "J-1" || $prom == "J1" || $prom == "jss-1" || $prom == "jss1" || $prom == "js-1" || $prom == "j-1" || $prom == "j1") {
                     $promoted_to = "JSS-1";
-                } else if ($prom == 2 || $prom == "JSS-2" || $prom == "JSS2" || $prom == "JS-2" || $prom == "JS2" || $prom == "J-2" || $prom == "J2" || $prom == "jss-2" || $prom == "jss2" || $prom == "js-2" || $prom == "j-2" || $prom == "j2") {
+                } else if ($prom == 2 || $prom == "JSS-2" || $prom == "JSS 2" || $prom == "JS 2" || $prom == "JSS2" || $prom == "JS-2" || $prom == "JS2" || $prom == "J-2" || $prom == "J2" || $prom == "jss-2" || $prom == "jss2" || $prom == "js-2" || $prom == "j-2" || $prom == "j2") {
                     $promoted_to = "JSS-2";
-                } else if ($prom == 3 || $prom == "JSS-3" || $prom == "JSS3" || $prom == "JS-3" || $prom == "JS3" || $prom == "J-3" || $prom == "J3" || $prom == "jss-3" || $prom == "jss3" || $prom == "js-3" || $prom == "j-3" || $prom == "j3") {
+                } else if ($prom == 3 || $prom == "JSS-3" || $prom == "JSS 3" || $prom == "JS 3" || $prom == "JSS3" || $prom == "JS-3" || $prom == "JS3" || $prom == "J-3" || $prom == "J3" || $prom == "jss-3" || $prom == "jss3" || $prom == "js-3" || $prom == "j-3" || $prom == "j3") {
                     $promoted_to = "JSS-3";
-                } else if ($prom == 4 || $prom == "SSS-1" || $prom == "SSS1" || $prom == "SS-1" || $prom == "SS1" || $prom == "S-1" || $prom == "S1" || $prom == "sss-1" || $prom == "sss1" || $prom == "ss-1" || $prom == "s-1" || $prom == "s1") {
+                } else if ($prom == 4 || $prom == "SSS-1" || $prom == "SSS 1" || $prom == "SS 1" || $prom == "SSS1" || $prom == "SS-1" || $prom == "SS1" || $prom == "S-1" || $prom == "S1" || $prom == "sss-1" || $prom == "sss1" || $prom == "ss-1" || $prom == "s-1" || $prom == "s1") {
                     $promoted_to = "SSS-1";
-                } else if ($prom == 5 || $prom == "SSS-2" || $prom == "SSS2" || $prom == "SS-2" || $prom == "SS2" || $prom == "S-2" || $prom == "S2" || $prom == "sss-2" || $prom == "sss2" || $prom == "ss-2" || $prom == "s-2" || $prom == "s2") {
+                } else if ($prom == 5 || $prom == "SSS-2" || $prom == "SSS 2" || $prom == "SS 2" || $prom == "SSS2" || $prom == "SS-2" || $prom == "SS2" || $prom == "S-2" || $prom == "S2" || $prom == "sss-2" || $prom == "sss2" || $prom == "ss-2" || $prom == "s-2" || $prom == "s2") {
                     $promoted_to = "SSS-2";
-                } else if ($prom == 6 || $prom == "SSS-3" || $prom == "SSS3" || $prom == "SS-3" || $prom == "SS3" || $prom == "S-3" || $prom == "S3" || $prom == "sss-3" || $prom == "sss3" || $prom == "ss-3" || $prom == "s-3" || $prom == "s3") {
+                } else if ($prom == 6 || $prom == "SSS-3" || $prom == "SSS 3" || $prom == "SS 3" || $prom == "SSS3" || $prom == "SS-3" || $prom == "SS3" || $prom == "S-3" || $prom == "S3" || $prom == "sss-3" || $prom == "sss3" || $prom == "ss-3" || $prom == "s-3" || $prom == "s3") {
                     $promoted_to = "SSS-3";
                 } else {
                     $promoted_to = $class;

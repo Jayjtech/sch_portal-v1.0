@@ -9,9 +9,9 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card position-relative">
                 <div class="card-body">
-                    <p class="card-title">Take a loan</p>
+                    <p class="card-title">Request for loan</p>
                     <div align="right">
-                        <a href="?key=loan_balance" class="btn btn-info">Loan Balance</a>
+                        <a href="?key=loan_details" class="btn btn-info">Loan Details</a>
                     </div>
                     <hr>
                     <div class="row mt-3 mb-3">
@@ -91,229 +91,48 @@
     </div>
     <?php endif; ?>
 
-    <?php if(($_GET['key']) == "staff_list"): ?>
+    <?php if(($_GET['key']) == "loan_details"): ?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0">List of Salary earning Staff</p>
+                    <p class="card-title mb-0">Loan balance details</p>
                     <div align="right">
-                        <a href="?key=create_payroll" class="btn btn-primary">Create Payroll</a>
-                        <a href="?key=disbursement_list" class="btn btn-success">Disbursement list</a>
+                        <a href="?key=take_loan" class="btn btn-primary">Request for loan</a>
                     </div>
                     <hr>
-                    <div class="" align="right">
-                        <p>Total Salary: <span
-                                class="font-weight-bold"><?= $currency; ?><?= number_format($salTol->total_salary); ?></span>
-                        </p>
-                    </div>
                     <div class="table-responsive">
                         <table class="myTable table table-striped table-borderless">
                             <thead>
                                 <tr>
-                                    <th>Name[ID]</th>
-                                    <th>POD.</th>
-                                    <th>Salary</th>
-                                    <th>Bank Details</th>
-                                    <th>Add to disbursement list</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Credit</th>
+                                    <th>Debit</th>
+                                    <th>Balance</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php while($row = $callStaff->fetch_object()):
-                                    switch($row->position){
-                                            case 0:
-                                                $POD = '<div class="text-danger">Yet to be assigned!</div>';
-                                                break;
-                                            case 1:
-                                                $POD = "Proprietor";
-                                                break;
-                                            case 2:
-                                                $POD = "Principal";
-                                                break;
-                                            case 3:
-                                                $POD = "Vice Principal";
-                                                break;
-                                            case 4:
-                                                $POD = "Head Teacher";
-                                                break;
-                                            case 5:
-                                                $POD = "Teacher";
-                                                break;
-                                            case 6:
-                                                $POD = "Bursar";
-                                                break;
-                                            case 7:
-                                                $POD = "Treasurer";
-                                                break;
-                                        }
-
-                                        switch($row->privileges){
-                                            case 0:
-                                                $priv = '<div class="text-danger">Yet to be assigned!</div>';
-                                                break;
-                                            case 1:
-                                                $priv = "|Student|Staff|Exam|Documents|Revenue|";
-                                                break;
-                                            case 2:
-                                                $priv = "|Student|Staff|Exam|Documents|";
-                                                break;
-                                            case 3:
-                                                $priv = "|Student|Staff|Exam|";
-                                                break;
-                                            case 4:
-                                                $priv = "|Student|Staff|";
-                                                break;
-                                            case 5:
-                                                $priv = "|Student|";
-                                                break;
-                                        }
-                                        $staff_bnk = json_decode($row->bank_details);
-                                        
-                                        $bankDet = [
-                                            "bank" => "$staff_bnk->bank",
-                                            "acc_no" => "$staff_bnk->acc_no",
-                                            "acc_holder" => "$staff_bnk->acc_holder"
-                                        ];
-                                    ?>
-                                <tr>
-                                    <td class="font-weight-bold"><?= $row->name; ?>[<?= $row->userId; ?>]</td>
-                                    <td><?= $POD; ?></td>
-                                    <td><?= $currency; ?><?= number_format($row->salary); ?></td>
-                                    <td>
-                                        <p>
-                                            Bank: <?= $staff_bnk->bank; ?><br>
-                                            Acc. No: <?= $staff_bnk->acc_no; ?><br>
-                                            Acc. Holder: <?= $staff_bnk->acc_holder; ?>
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <form action="<?= $pusher; ?>" onsubmit="return addToDisburse(this)"
-                                            method="post">
-                                            <div class="form-group">
-                                                <select class="form-control" name="payrollTitle" required>
-                                                    <option value="">Select payroll description</option>
-                                                    <?php for($i = 0; $i<count($payRData); $i++){?>
-                                                    <option value="<?= $payRData[$i]->disbursement_id; ?>">
-                                                        <?= $payRData[$i]->description; ?></option>
-                                                    <?php } ?>
-                                                </select>
-                                            </div>
-                                            <input type="hidden" name="salary" value="<?= $row->salary; ?>">
-                                            <input type="hidden" name="name" value="<?= $row->name; ?>">
-                                            <input type="hidden" name="bankDet"
-                                                value="<?= base64_encode(json_encode($bankDet)); ?>">
-                                            <input type="hidden" name="token" value="<?= $row->token; ?>">
-                                            <input type="hidden" name="userId" value="<?= $row->userId; ?>">
-                                            <button class="btn-sm btn-success">Add <i class="mdi mdi-plus"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                <?php endwhile; ?>
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <?php endif; ?>
-
-    <?php if(($_GET['key']) == "disbursement_list"): ?>
-    <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <p class="card-title mb-0">Disbursement List</p>
-                    <div align="right">
-                        <a href="?key=create_payroll" class="btn btn-primary">Create Payroll</a>
-                        <a href="?key=staff_list" class="btn btn-success">Staff list</a>
-                    </div>
-                    <hr>
-
-                    <div class="table-responsive">
-                        <table class="myTable table table-striped table-borderless">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Period</th>
-                                    <th>Salary</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php while($dis = $callDisList->fetch_object()):
-                                        $staff_bnk = json_decode($dis->bankDet);
-                                        $period = explode("-", $dis->payment_month);
+                                <?php while($row = $myLoanDet->fetch_object()): 
+                                        $period = explode("-", $row->date);
                                         $given_month = $period[1];
-                                        $status = $dis->status;
                                         include "includes/status_const.php";
+                                        $clean_date = $month_syntax .' '. $period[0].', '.$period[2];
                                     ?>
                                 <tr>
-                                    <td class="font-weight-bold"><?= $dis->name; ?></td>
-                                    <td class="font-weight-bold"><?= $dis->description; ?></td>
-                                    <td class="font-weight-bold"><?= $month_syntax; ?> <?= $period[0]; ?></td>
-                                    <td><?= $currency; ?><?= number_format($dis->salary); ?></td>
-                                    <td><?= $status_syntax;?></td>
-                                    <td>
-                                        <form action="<?= $deleter; ?>" onsubmit="return removeFromDisburse(this)"
-                                            method="post">
-                                            <input type="hidden" name="staffToken" value="<?= $dis->staffToken; ?>">
-                                            <input type="hidden" name="payment_month"
-                                                value="<?= $dis->payment_month; ?>">
-                                            <input type="hidden" name="staff_name" value="<?= $dis->name; ?>">
-                                            <input type="hidden" name="disbursement_id"
-                                                value="<?= $dis->disbursement_id; ?>">
-                                            <button class="btn-sm btn-danger">Remove <i
-                                                    class="mdi mdi-minus"></i></button>
-                                        </form>
-                                    </td>
+                                    <td class="font-weight-bold"><?= $clean_date; ?></td>
+                                    <td class="font-weight-bold text-dark">
+                                        <?= $currency; ?><?= number_format($row->amount); ?></td>
+                                    <td class="font-weight-bold text-success">
+                                        <?= $currency; ?><?= number_format($row->credit); ?></td>
+                                    <td class="font-weight-bold text-danger">
+                                        <?= $currency; ?><?= number_format($row->debit); ?></td>
+                                    <td class="font-weight-bold text-info">
+                                        <?= $currency; ?><?= number_format($row->balance); ?></td>
                                 </tr>
                                 <?php endwhile; ?>
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12 stretch-card grid-margin">
-            <div class="card">
-                <div class="card-body">
-                    <p class="card-title mb-0">Salary disbursement</p>
-                    <hr>
-                    <div class="row">
-                        <div class="mt-2 col-sm-6">
-                            <form action="" method="POST" onsubmit="return disburse(this)">
-                                <div class="form-group">
-                                    <label for="">Select which period you are disbursing for</label>
-                                    <select class="payroll-period form-control" name="payrollTitle" required>
-                                        <option value="">Select which period you are disbursing for</option>
-                                        <?php for($i = 0; $i<count($payRData); $i++){
-                                            $period = explode("-", $payRData[$i]->month);
-                                            $given_month = $period[1];
-                                           include "includes/status_const.php";
-                                            ?>
-                                        <option value="<?= $payRData[$i]->disbursement_id; ?>">
-                                            <?= $payRData[$i]->description; ?> [<?= $month_syntax; ?>,
-                                            <?= $period[0]; ?>]
-                                        </option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <p class="font-weight-bold">Total amount to be disbursed: <?= $currency; ?><span
-                                        class="salary_response">0.00</span></p>
-                                <p class="text-info font-weight-bold">Note that salary will only be disbursed to staff
-                                    who provided their account details and are on the disbursement list.</p>
-                                <div class="form-group" align="right">
-                                    <button type="submit" class="btn btn-success">Disburse Salary</button>
-                                </div>
-                            </form>
-                        </div>
                     </div>
 
                 </div>
@@ -321,6 +140,8 @@
         </div>
     </div>
     <?php endif; ?>
+
+
 
 
     <?php include "includes/footer.php"; ?>

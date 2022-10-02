@@ -1,4 +1,20 @@
 <script>
+$(document).ready(function() {
+    $(".result-type").change(function() {
+        var resultType = $(this).val();
+        var request = 'resultType=' + resultType;
+        $.ajax({
+            type: "POST",
+            url: "<?= $resultTypeSetter; ?>",
+            data: request,
+            cache: false,
+            success: function(station) {
+                $(".resultTypeResponse").html(station);
+            }
+        });
+    });
+});
+
 function delForm(form) {
     swal.fire({
         title: "Are you sure you want to delete this file",

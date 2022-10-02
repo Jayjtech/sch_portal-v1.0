@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-
+        <?php if($monnify_account == true): ?>
         <div class="col-md-6 grid-margin transparent">
             <div class="row">
                 <div class="col-md-6 mb-4 stretch-card transparent">
@@ -93,6 +93,7 @@
                 </div>
             </div>
         </div>
+        <?php endif; ?>
     </div>
     <div class="row">
         <div class="col-md-6 grid-margin stretch-card">

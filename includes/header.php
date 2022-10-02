@@ -1,4 +1,7 @@
-<?php include "config/db.php"; ?>
+<?php include "config/db.php"; 
+// $monnify_account->responseBody->accounts[0]->bankName = false;
+// $monnify_account->responseBody->accounts[0]->bankName = false;
+?>
 <?php include "calls.php"; ?>
 <!DOCTYPE html>
 <html lang="en">

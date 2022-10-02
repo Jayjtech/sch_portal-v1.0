@@ -9,6 +9,7 @@
             <div class="card">
                 <div class="card-body">
                     <p class="card-title mb-0">Score sheet for <?= $term_syntax?> term | <?= $log_session; ?></p>
+                    <hr>
                     <div class="table-responsive">
                         <table class="myTable table table-striped table-borderless">
                             <thead>
@@ -16,7 +17,7 @@
                                     <th>Name[Adm No.]</th>
                                     <th>Class</th>
                                     <th>Course[Code]</th>
-                                    <th>[ASS]+[CA1]+[CA2]+[THEORY+OBJ] = [TOTAL]</th>
+                                    <th>[ASS]+[CA1]+[CA2]+[CA3]+[THEORY+OBJ] = [TOTAL]</th>
                                     <th>Scores[FT][ST][TT]</th>
                                     <th>Cumulative</th>
                                     <th>Position</th>
@@ -31,6 +32,7 @@
                                     <td class="font-weight-bold"><?= $scr->class; ?></td>
                                     <td><?= $scr->course; ?>[<?= $scr->course_code; ?>]</td>
                                     <td>[ <?= $scr->ass; ?> ] + [ <?= $scr->ca1; ?> ] + [ <?= $scr->ca2; ?> ] + [
+                                        <?= $scr->ca3; ?> ] + [
                                         <?= $scr->theory; ?> + <?= $scr->score; ?> ] =
                                         [ <?= $scr->total; ?> ]
                                     </td>

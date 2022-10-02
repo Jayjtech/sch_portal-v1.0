@@ -35,7 +35,8 @@ if($getList->num_rows != 0){
 $otherDet = $conn->query("SELECT * FROM $users_tbl WHERE token='$staffToken'");
 $otd = $otherDet->fetch_object();
 $rec_email = $otd->email;
-
+$old_salary_count = $otd->salary_count;
+$new_salary_count = ($old_salary_count+1);
 
 $period = explode("-", $payment_month);
 $given_month= $period[1];
@@ -200,6 +201,10 @@ if($table == $loan_disbursement_tbl){
             ';  
             $msg_subject = "Loan Disbursement";                
 }else if($table == $payroll_tbl){
+    $updateUser = $conn->query("UPDATE $users_tbl SET 
+                        salary_count = '$new_salary_count'
+                        WHERE token = '$staffToken'
+                        ");
     $message = '
             <!DOCTYPE html>
                 <html>

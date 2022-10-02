@@ -3,21 +3,20 @@
 <?php include "includes/sidebar.php"; ?>
 
 <div class="content-wrapper">
-    <h3>Exam</h3>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card position-relative">
                 <div class="card-body">
                     <h4 class="card-title">Enrolled courses for <?= $term_syntax; ?> Term |
                         <?= $log_session; ?> | <?= $det->curr_class ;?></h4>
-
+                    <hr>
                     <div class="table-responsive">
                         <table class="myTable table table-striped table-borderless">
                             <thead>
                                 <tr>
                                     <th>Course[code]</th>
                                     <th>Teacher</th>
-                                    <th>ASS | CA1 | CA2</th>
+                                    <th>ASS | CA1 | CA2 | CA3</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -43,7 +42,8 @@
                                 <tr>
                                     <td><?= $row->course; ?>[<?= $row->course_code; ?>]</td>
                                     <td class="font-weight-bold"><?= $teacherDet->name; ?></td>
-                                    <td><?= $row->ass; ?> | <?= $row->ca1; ?> | <?= $row->ca2; ?></td>
+                                    <td><?= $row->ass; ?> | <?= $row->ca1; ?> | <?= $row->ca2; ?> | <?= $row->ca3; ?>
+                                    </td>
                                     <td>
                                         <p class="<?= $col; ?>"><?= $status; ?></p>
                                     </td>
@@ -70,15 +70,15 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card position-relative">
                 <div class="card-body">
-                    <h4 class="card-title">Available courses for <?= $log_term; ?>
+                    <h4 class="card-title">Available courses for <?= $term_syntax; ?>
                         Term |
                         <?= $log_session; ?> | <?= $det->curr_class ;?></h4>
-
+                    <hr>
                     <div class="table-responsive">
                         <table class="myTable table table-striped table-borderless">
                             <thead>
                                 <tr>
-                                    <th>Course[code][No. of Question]</th>
+                                    <th>Course[code]</th>
                                     <th>Teacher</th>
                                     <th>Duration[Minute]</th>
                                     <th>Mark[EXAM|CA|ASS]</th>
@@ -88,7 +88,7 @@
                             <tbody>
                                 <?php while($row = $availableCourse->fetch_object()):?>
                                 <tr>
-                                    <td><?= $row->course; ?>[<?= $row->course_code; ?>] [<?= $row->no_of_quest; ?>]</td>
+                                    <td><?= $row->course; ?>[<?= $row->course_code; ?>]</td>
                                     <td class="font-weight-bold"><?= $row->taken_by; ?></td>
                                     <td>Exam:<?= $row->exam_duration; ?> | Test:<?= $row->test_duration; ?> |
                                         Ass:<?= $row->ass_duration; ?>
