@@ -80,7 +80,7 @@
     }
 
 
-    if(isset($_POST['curr_class'])){
+    if(isset($_POST['review_student'])){
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $curr_class = mysqli_real_escape_string($conn, $_POST['curr_class']);
     $token = mysqli_real_escape_string($conn, $_POST['token']);
@@ -96,27 +96,37 @@
     $vs_fee = mysqli_real_escape_string($conn, $_POST['vs_fee']);
     $pta = mysqli_real_escape_string($conn, $_POST['pta']);
     $development = mysqli_real_escape_string($conn, $_POST['development']);
+    $reg_fee = mysqli_real_escape_string($conn, $_POST['reg_fee']);
+    $uniform = mysqli_real_escape_string($conn, $_POST['uniform']);
+    $sport_wear = mysqli_real_escape_string($conn, $_POST['sport_wear']);
+    $cardigan = mysqli_real_escape_string($conn, $_POST['cardigan']);
+    $id_card = mysqli_real_escape_string($conn, $_POST['id_card']);
+    $handbook = mysqli_real_escape_string($conn, $_POST['handbook']);
+    $sch_media = mysqli_real_escape_string($conn, $_POST['sch_media']);
+    $security = mysqli_real_escape_string($conn, $_POST['security']);
+    $lesson = mysqli_real_escape_string($conn, $_POST['lesson']);
+    $club = mysqli_real_escape_string($conn, $_POST['club']);
+    $boarding_fee = mysqli_real_escape_string($conn, $_POST['boarding_fee']);
+    $vocational = mysqli_real_escape_string($conn, $_POST['vocational']);
+    $sch_badge = mysqli_real_escape_string($conn, $_POST['sch_badge']);
     $others = mysqli_real_escape_string($conn, $_POST['others']);
     $others_covers = mysqli_real_escape_string($conn, $_POST['others_covers']);
     $adm_no = mysqli_real_escape_string($conn, $_POST['adm_no']);
   
-    switch($log_term){
-        case 1:
-        $paid = "ft_paid";
-        $outstanding = "ft_outstanding";
-        break;
-        case 2:
-        $paid = "st_paid";
-        $outstanding = "st_outstanding";
-        break;
-        case 3:
-        $paid = "tt_paid";
-        $outstanding = "tt_outstanding";
-        break;
-    }
-        $total = ($sch_fee+$ict+$health+$pta+$sport+$music+$excursion+$vs_fee+$transport+$development+$others);
-    
+    /**Summing up all to get total */
+        $actual_totalBill = $sch_fee+$ict+$music+$health+$transport+$sport+$excursion+$vs_fee+$pta+$development+$reg_fee+$uniform+$sport_wear+$cardigan+
+        $id_card+$handbook+$sch_media+$security+$lesson+$club+$boarding_fee+$vocational+$sch_badge+$others;
 
+    $compulsory_totalBill = 0;
+    $getCompulsoryFees = $conn->query("SELECT * FROM $bill_setting_tbl WHERE status=1");
+    while($gcsf = $getCompulsoryFees->fetch_assoc()){
+        $list[] = $gcsf;
+    }
+
+    for($x = 0; $x<count($list); $x++){
+        $li = $list[$x]['bill_name']; 
+        $compulsory_totalBill = $compulsory_totalBill+$$li;
+    }
        $update = $conn->query("UPDATE $users_tbl SET 
                             name='$name',
                             tuition_discount='$tuition_discount',
@@ -145,11 +155,25 @@
                                         vs_fee = '$vs_fee', 
                                         transport = '$transport', 
                                         development = '$development', 
-                                        others = '$others', 
+                                        others = '$others',
+                                        reg_fee = '$reg_fee',
+                                        uniform = '$uniform',
+                                        sport_wear = '$sport_wear',
+                                        cardigan = '$cardigan',
+                                        id_card = '$id_card',
+                                        handbook = '$handbook',
+                                        sch_media = '$sch_media',
+                                        security = '$security',
+                                        lesson = '$lesson',
+                                        club = '$club',
+                                        boarding_fee = '$boarding_fee',
+                                        vocational = '$vocational',
+                                        sch_badge  = '$sch_badge',
                                         others_covers = '$others_covers',
-                                        total = '$total',
-                                        $paid = '$total',
-                                        $outstanding = '$total'
+                                        actual_total = '$actual_totalBill',
+                                        compulsory_total = '$compulsory_totalBill',
+                                        paid = '$compulsory_totalBill',
+                                        outstanding = '$compulsory_totalBill'
                                         ");
             }else{
                 $update2 = $conn->query("UPDATE $bill_tbl SET 
@@ -165,10 +189,24 @@
                             pta='$pta',
                             development='$development',
                             others='$others',
+                            reg_fee = '$reg_fee',
+                            uniform = '$uniform',
+                            sport_wear = '$sport_wear',
+                            cardigan = '$cardigan',
+                            id_card = '$id_card',
+                            handbook = '$handbook',
+                            sch_media = '$sch_media',
+                            security = '$security',
+                            lesson = '$lesson',
+                            club = '$club',
+                            boarding_fee = '$boarding_fee',
+                            vocational = '$vocational',
+                            sch_badge  = '$sch_badge',
                             others_covers='$others_covers',
-                            total = '$total',
-                            $paid = '$total',
-                            $outstanding = '$total'
+                            actual_total = '$actual_totalBill',
+                            compulsory_total = '$compulsory_totalBill',
+                            paid = '$compulsory_totalBill',
+                            outstanding = '$compulsory_totalBill'
                             WHERE userId = '$adm_no'
                             AND term = '$log_term' 
                             AND session = '$log_session'
@@ -282,20 +320,6 @@
                     $others =  mysqli_real_escape_string($conn, $line[13]);
                     $others_covers  =  mysqli_real_escape_string($conn, $line[14]);
                     
-                    switch($log_term){
-                            case 1:
-                            $paid = "ft_paid";
-                            $outstanding = "ft_outstanding";
-                            break;
-                            case 2:
-                            $paid = "st_paid";
-                            $outstanding = "st_outstanding";
-                            break;
-                            case 3:
-                            $paid = "tt_paid";
-                            $outstanding = "tt_outstanding";
-                            break;
-                        }
 
                     $callName = $conn->query("SELECT * FROM $users_tbl WHERE (userId = '$adm_no')");
                     $nam = $callName->fetch_object();
@@ -329,8 +353,8 @@
                                                 others = '$others', 
                                                 others_covers = '$others_covers',
                                                 total = '$total',
-                                                $paid = '$total',
-                                                $outstanding = '$total'
+                                                paid = '$total',
+                                                outstanding = '$total'
                                               ");
                         
 

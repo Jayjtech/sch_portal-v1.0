@@ -27,6 +27,8 @@ $users_tbl = "users";
 $course_tbl = "courses";
 $student_award_tbl = "student_award";
 $bill_tbl = "bill";
+$bill_setting_tbl = "bill_setting";
+$bill_report_tbl = "bill_report";
 $time_tbl = "time_table";
 $cbe_report_tbl = "cbe_report";
 $banks_tbl = "banks";
@@ -47,7 +49,9 @@ $exporter = "functions/export.php";
 $account_details = "functions/payment_gateway/fetch_banks.php";
 $bank_details = "functions/payment_gateway/bank_details.php";
 $loan_query = "functions/loan_query.php";
+$sort_bill = "functions/sort_bill.php";
 $disburser = "functions/payment_gateway/disburser.php";
+$receipt = "receipt_pdf";
 
 
 $monnify_base_url = "https://api.monnify.com";
@@ -161,6 +165,134 @@ $sessions = [
         5 => "2025/2026",
         6 => "2026/2027"
     ]
+];
+
+$bill_list = [
+         [  
+            "bill_title" => "School fee",
+            "bill_name" => "sch_fee",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Registration fee",
+            "bill_name" => "reg_fee",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Uniform",
+            "bill_name" => "uniform",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Sport wear",
+            "bill_name" => "sport_wear",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Cardigan",
+            "bill_name" => "cardigan",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Handbook",
+            "bill_name" => "handbook",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Security",
+            "bill_name" => "security",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "ICT/Website",
+            "bill_name" => "ict",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Vocational",
+            "bill_name" => "vocational",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Development fee",
+            "bill_name" => "development",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "PTA",
+            "bill_name" => "pta",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Music",
+            "bill_name" => "music",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Cardigan",
+            "bill_name" => "cardigan",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Extra lesson",
+            "bill_name" => "lesson",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Health",
+            "bill_name" => "health",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "School media",
+            "bill_name" => "sch_media",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Clubs & Societies",
+            "bill_name" => "club",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Boarding",
+            "bill_name" => "boarding_fee",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "ID - card",
+            "bill_name" => "id_card",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "School badge",
+            "bill_name" => "sch_badge",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Valedictory Service",
+            "bill_name" => "vs_fee",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Transport",
+            "bill_name" => "transport",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Excursion",
+            "bill_name" => "excursion",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Sport",
+            "bill_name" => "sport",
+            "status" => 1
+        ],
+         [  
+            "bill_title" => "Others",
+            "bill_name" => "others",
+            "status" => 1
+        ]
 ];
 
 $stu_awards = [

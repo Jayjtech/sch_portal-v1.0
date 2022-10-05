@@ -29,5 +29,4 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="images/favicon.png" />
     <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
-
 </head>

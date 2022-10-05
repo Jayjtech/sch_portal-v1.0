@@ -10,7 +10,6 @@
                 <div class="card-body">
                     <p class="card-title mb-0">Student List</p>
                     <hr>
-                    <?php if($callStudents->num_rows > 0){ ?>
                     <div class="table-responsive">
                         <table class="myTable table table-striped table-borderless">
                             <thead>
@@ -38,9 +37,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <?php }else{ ?>
-                    <div class="alert alert-danger mt-5">This table is empty!</div>
-                    <?php } ?>
+
                 </div>
             </div>
         </div>
@@ -92,7 +89,7 @@
                                 </div>
                             </div>
                             <input type="hidden" name="adm_no" value="<?= $edStu->userId?>">
-
+                            <input type="hidden" name="review_student" value="1">
 
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -135,12 +132,155 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
+                                        <label for="">Registration fee</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><?= $currency; ?></span>
+                                            <input type="number" class="form-control" id="reg_fee" name="reg_fee"
+                                                placeholder="Enter registration fee"
+                                                value="<?= !empty($bil->reg_fee) ? $bil->reg_fee : null; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="">Uniform</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><?= $currency; ?></span>
+                                            <input type="number" class="form-control" id="uniform" name="uniform"
+                                                placeholder="Enter uniform price"
+                                                value="<?= !empty($bil->uniform) ? $bil->uniform : null; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="">Cardigan</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><?= $currency; ?></span>
+                                            <input type="number" class="form-control" id="cardigan" name="cardigan"
+                                                placeholder="Enter cardigan price"
+                                                value="<?= !empty($bil->cardigan) ? $bil->cardigan : null; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="">School badge</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><?= $currency; ?></span>
+                                            <input type="number" class="form-control" id="sch_badge" name="sch_badge"
+                                                placeholder="Enter school badge price"
+                                                value="<?= !empty($bil->sch_badge) ? $bil->sch_badge : null; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="">Sport wear</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><?= $currency; ?></span>
+                                            <input type="number" class="form-control" id="sport_wear" name="sport_wear"
+                                                placeholder="Enter sport wear price"
+                                                value="<?= !empty($bil->sport_wear) ? $bil->sport_wear : null; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="">ID - card</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><?= $currency; ?></span>
+                                            <input type="number" class="form-control" id="id_card" name="id_card"
+                                                placeholder="Enter ID - card price"
+                                                value="<?= !empty($bil->id_card) ? $bil->id_card : null; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="">Handbook</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><?= $currency; ?></span>
+                                            <input type="number" class="form-control" id="handbook" name="handbook"
+                                                placeholder="Enter handbook price"
+                                                value="<?= !empty($bil->handbook) ? $bil->handbook : null; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="">Extra Lesson</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><?= $currency; ?></span>
+                                            <input type="number" class="form-control" id="lesson" name="lesson"
+                                                placeholder="Enter extra lesson fee"
+                                                value="<?= !empty($bil->lesson) ? $bil->lesson : null; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="">Security</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><?= $currency; ?></span>
+                                            <input type="number" class="form-control" id="security" name="security"
+                                                placeholder="Enter security levy"
+                                                value="<?= !empty($bil->security) ? $bil->security : null; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="">School Media</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><?= $currency; ?></span>
+                                            <input type="number" class="form-control" id="sch_media" name="sch_media"
+                                                placeholder="Enter school media fee"
+                                                value="<?= !empty($bil->sch_media) ? $bil->sch_media : null; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="">Club & Societies</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><?= $currency; ?></span>
+                                            <input type="number" class="form-control" id="club" name="club"
+                                                placeholder="Enter club fee"
+                                                value="<?= !empty($bil->club) ? $bil->club : null; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="">Boarding fee</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><?= $currency; ?></span>
+                                            <input type="number" class="form-control" id="boarding_fee"
+                                                name="boarding_fee" placeholder="Enter boarding fee"
+                                                value="<?= !empty($bil->boarding_fee) ? $bil->boarding_fee : null; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
                                         <label for="">ICT fee</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><?= $currency; ?></span>
                                             <input type="number" class="form-control" id="ict" name="ict"
                                                 placeholder="Enter ICT fee"
                                                 value="<?= !empty($bil->ict) ? $bil->ict : null; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="">Vocational</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><?= $currency; ?></span>
+                                            <input type="number" class="form-control" id="vocational" name="vocational"
+                                                placeholder="Enter vocational levy"
+                                                value="<?= !empty($bil->vocational) ? $bil->vocational : null; ?>">
                                         </div>
                                     </div>
                                 </div>

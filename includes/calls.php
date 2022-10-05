@@ -112,8 +112,12 @@ $callScoreSheet = $conn->query("SELECT * FROM $score_tbl WHERE (term='$log_term'
 
 $callEvaluation = $conn->query("SELECT * FROM $evaluation_tbl WHERE (term='$log_term' AND session = '$log_session' AND class='$class_officiating') ORDER BY percent_score DESC");
 
-
-$callBills = $conn->query("SELECT * FROM $bill_tbl WHERE (term='$log_term' AND session = '$log_session') ORDER BY total ASC");
+/**Bills */
+$callBills = $conn->query("SELECT * FROM $bill_tbl WHERE (term='$log_term' AND session = '$log_session') ORDER BY compulsory_total ASC");
+$compulsoryBillSettings = $conn->query("SELECT * FROM $bill_setting_tbl WHERE status=1");
+$actualBillSettings = $conn->query("SELECT * FROM $bill_setting_tbl WHERE status=0");
+$getTotalCompulsoryBill = $conn->query("SELECT sum(compulsory_total) as comp_total FROM $bill_tbl WHERE (term='$log_term' AND session='$log_session')");
+$compBill = $getTotalCompulsoryBill->fetch_object();
 
 $callStaffLevels = $conn->query("SELECT * FROM $staff_level_tbl ORDER BY salary_amount DESC");
 

@@ -245,6 +245,30 @@ if ($cr_class_tbl) {
   }
 }
 
+$cr_bill_setting_tbl = $conn->query("CREATE TABLE IF NOT EXISTS `$bill_setting_tbl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bill_title` varchar(255) NOT NULL,
+  `bill_name` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+");
+
+if ($cr_bill_setting_tbl) {
+  for($x = 0; $x < count($bill_list); $x++){
+    $bill_title = $bill_list[$x]['bill_title'];
+    $bill_name = $bill_list[$x]['bill_name'];
+    $bill_status = $bill_list[$x]['status'];
+    $check = $conn->query("SELECT * FROM $bill_setting_tbl WHERE bill_title = '$bill_title'");
+    if($check->num_rows == 0){
+      if($bill_title){
+$insert = $conn->query("INSERT INTO $bill_setting_tbl (bill_title, bill_name, status) 
+      VALUES('$bill_title', '$bill_name', '$bill_status')");
+      }
+    }
+  }
+}
+
 $cr_bill_tbl= $conn->query("CREATE TABLE IF NOT EXISTS $bill_tbl (
     id int(11) AUTO_INCREMENT NOT NULL,
     name varchar(255)  NOT NULL,
@@ -252,25 +276,35 @@ $cr_bill_tbl= $conn->query("CREATE TABLE IF NOT EXISTS $bill_tbl (
     class varchar(50)  NOT NULL,
     term int(11)  NOT NULL,
     session varchar(255)  NOT NULL,
-    sch_fee int(11)  NOT NULL,
-    sport int(11)  NOT NULL,
-    ict int(11)  NOT NULL,
-    health int(11)  NOT NULL,
-    pta int(11)  NOT NULL,
-    music int(11)  NOT NULL,
-    excursion int(11)  NOT NULL,
-    transport int(11)  NOT NULL,
-    development int(11)  NOT NULL,
-    vs_fee int(11)  NOT NULL,
-    others int(11)  NOT NULL,
+    sch_fee float(11)  NOT NULL,
+    sport float(11)  NOT NULL,
+    ict float(11)  NOT NULL,
+    health float(11)  NOT NULL,
+    pta float(11)  NOT NULL,
+    music float(11)  NOT NULL,
+    excursion float(11)  NOT NULL,
+    transport float(11)  NOT NULL,
+    development float(11)  NOT NULL,
+    vs_fee float(11)  NOT NULL,
+    reg_fee float(11)  NOT NULL,
+    uniform float(11)  NOT NULL,
+    sch_badge float(11)  NOT NULL,
+    cardigan float(11)  NOT NULL,
+    id_card float(11)  NOT NULL,
+    handbook float(11)  NOT NULL,
+    lesson float(11)  NOT NULL,
+    security float(11)  NOT NULL,
+    sch_media float(11)  NOT NULL,
+    club float(11)  NOT NULL,
+    sport_wear float(11)  NOT NULL,
+    vocational float(11)  NOT NULL,
+    boarding_fee float(11)  NOT NULL,
+    others float(11)  NOT NULL,
     others_covers varchar(500)  NOT NULL,
-    total varchar(500)  NOT NULL,
-    ft_outstanding int(11)  NOT NULL,
-    st_outstanding int(11)  NOT NULL,
-    tt_outstanding int(11)  NOT NULL,
-    ft_paid int(11)  NOT NULL,
-    st_paid int(11)  NOT NULL,
-    tt_paid int(11)  NOT NULL,
+    actual_total float(11) NOT NULL,
+    compulsory_total float(11)  NOT NULL,
+    outstanding float(11)  NOT NULL,
+    paid float(11)  NOT NULL,
     PRIMARY KEY (id)
 )");
 
@@ -388,8 +422,8 @@ $create_settings = $conn->query("CREATE TABLE IF NOT EXISTS $settings_tbl (
 if ($create_settings) {
     $check = $conn->query("SELECT * FROM $settings_tbl");
     if($check->num_rows == 0){
-      $insert = $conn->query("INSERT INTO $settings_tbl (sch_name) 
-      VALUES('Jayjtech')");
+      $insert = $conn->query("INSERT INTO $settings_tbl (sch_name, result_template) 
+      VALUES('Jayjtech', 1)");
     }
 }
 
@@ -518,6 +552,25 @@ $cr_result_checker_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $result_checke
     session varchar(255) NOT NULL,
     code varchar(255) NOT NULL,
     status int(11) NOT NULL,
+    PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
+$cr_bill_report_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $bill_report_tbl (
+    id int(11) AUTO_INCREMENT NOT NULL,
+    name varchar(255) NOT NULL,
+    adm_no varchar(255) NOT NULL,
+    class varchar(255) NOT NULL,
+    term int(11) NOT NULL,
+    session varchar(50) NOT NULL,
+    amount_paid float(11) NOT NULL,
+    wallet_before float(11) NOT NULL,
+    wallet_after float(11) NOT NULL,
+    outstanding_before float(11) NOT NULL,
+    outstanding_after float(11) NOT NULL,
+    bursar varchar(255) NOT NULL,
+    description varchar(500) NOT NULL,
+    receipt varchar(100000000) NOT NULL,
+    date varchar(255) NOT NULL,
     PRIMARY KEY (id)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 ?>

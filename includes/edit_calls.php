@@ -72,7 +72,7 @@ switch($edS->privileges){
 
 /**REVIEW STUDENT */
 if(isset($_GET['rev'])){
-    $userId = $_GET['ac'];
+    $adm_no = $_GET['ac'];
     $token = mysqli_real_escape_string($conn,$_GET['rev']);
     $selectStudent = $conn->query("SELECT * FROM $users_tbl WHERE token='$token'");
     $edStu = $selectStudent->fetch_object();
@@ -82,7 +82,25 @@ if(isset($_GET['rev'])){
     $award_val = $edStu->award_type;
     $award = $edStu->award_type;
 
-    $selectBills = $conn->query("SELECT * FROM $bill_tbl WHERE userId = '$userId' AND term='$log_term' AND session='$log_session'");
+    $selectBills = $conn->query("SELECT * FROM $bill_tbl WHERE (userId = '$adm_no' AND term='$log_term' AND session='$log_session')");
     $bil = $selectBills->fetch_object();
+}
+
+
+/**SORT STUDENT BILLS */
+if(isset($_GET['sort_bill'])){
+    $adm_no = $_GET['sort_bill'];
+    $selectBills = $conn->query("SELECT * FROM $bill_tbl WHERE (userId = '$adm_no' AND term='$log_term' AND session='$log_session')");
+    $bil = $selectBills->fetch_object();
+
+    /**Get outstanding fee */
+    $curr_sess_oust = $conn->query("SELECT * FROM $bill_tbl WHERE (userId = '$adm_no' AND session <='$log_session')");
+
+    /**Get Succesful payment for current academic period */
+    $curr_sess_bill_report = $conn->query("SELECT * FROM $bill_report_tbl WHERE (adm_no = '$adm_no' AND term='$log_term' AND session ='$log_session')");
+    
+    /**Wallet balance */
+    $selectWalletBal = $conn->query("SELECT * FROM $users_tbl WHERE userId = '$adm_no'");
+    $wal = $selectWalletBal->fetch_object();
 }
 ?>

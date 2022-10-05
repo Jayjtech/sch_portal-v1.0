@@ -30,6 +30,7 @@ RewriteRule ^raw_score raw_score.php [NC,L]
 RewriteRule ^a_result_template a_result_template.php [NC,L] 
 RewriteRule ^b_result_template b_result_template.php [NC,L] 
 RewriteRule ^adm_result_setting adm_result_setting.php [NC,L] 
+RewriteRule ^receipt_pdf receipt.php [NC,L] 
 
 
 php_value date.timezone 'Africa/lagos'

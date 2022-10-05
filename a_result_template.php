@@ -65,9 +65,12 @@ $data = '<!DOCTYPE html>
 $data .= '<body>
 <header class="">
     <div class="container">
-        <figure>
-            <img alt="School Logo" src="images/' . $admin_det->img . '">
-        </figure>
+          <figure>';
+                    if($admin_det->img == true):
+                        $data .='<img class="" src="images/' . $admin_det->img . '">';
+                    endif;
+        $data .='
+            </figure>
         <div class="company-address">
             <h2 class="title">' . $admin_det->sch_name . '</h2>
             <h5 style="text-align:center;margin-top: -22px;">Motto: ' . $admin_det->sch_motto . '</h5>

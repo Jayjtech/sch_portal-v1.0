@@ -45,8 +45,6 @@ if (isset($_GET['result_code'])) {
         $rowS = $SecondTermevaluations->fetch_object();
         $rowT = $ThirdTermevaluations->fetch_object();
         
-        // echo $rowF->name;
-        // exit();
 $mpdf = new \Mpdf\Mpdf();
 
         //create new pdf
@@ -65,8 +63,11 @@ $data = '<!DOCTYPE html>
 $data .= '<body>
 <header class="">
     <div class="container">
-        <figure>
-            <img class="" src="images/' . $admin_det->img . '">
+         <figure>';
+                    if($admin_det->img == true):
+                        $data .='<img class="" src="images/' . $admin_det->img . '">';
+                    endif;
+        $data .='
         </figure>
         <div class="company-address">
             <h2 class="title">' . $admin_det->sch_name . '</h2>

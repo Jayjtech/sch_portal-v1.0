@@ -7,7 +7,8 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card position-relative">
                 <div class="card-body">
-                    <h4 class="card-title">Available E- Exam [Assignment | Test | Exam] </h4>
+                    <h4 class="card-title">Available E - Exam [Assignment | Test | Exam] </h4>
+                    <hr>
                     <p class="text-info"><strong>NOTE:</strong> You must have enrolled in order to be able to
                         take tests and Assignments.</p>
                     <div class="table-responsive">
@@ -75,7 +76,7 @@
                                         }
                                         ?>
                                     </td>
-                                    <td><?= $row->no_of_quest; ?></td>
+                                    <td><?= $row->ass_no_of_quest; ?></td>
                                     <td><?= $ass_status; ?></td>
                                     <td>
                                         <?php if($ass_proceed == true){ ?>
@@ -127,7 +128,7 @@
                                         }
                                         ?>
                                     </td>
-                                    <td><?= $row->no_of_quest; ?></td>
+                                    <td><?= $row->test_no_of_quest; ?></td>
                                     <td><?= $test_status;?></td>
                                     <td>
                                         <?php if($test_proceed == true){ ?>
@@ -179,7 +180,7 @@
                                         
                                         ?>
                                     </td>
-                                    <td><?= $row->no_of_quest; ?></td>
+                                    <td><?= $row->exam_no_of_quest; ?></td>
                                     <td><?= $exam_status; ?></td>
                                     <td>
                                         <?php if($exam_proceed == true){ ?>

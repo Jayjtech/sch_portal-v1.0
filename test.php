@@ -1,7 +1,7 @@
 <?php
 include "config/db.php";
 ?>
-
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,12 +25,12 @@ include "config/db.php";
 
     <form name="testForm">
         <input type="text" id="x" name="x" onchange="show()">
-        <!-- <input type="text" id="x" name="x" onchange="show()"> -->
+        <input type="text" id="x" name="x" onchange="show()">
     </form>
     <div class="msg"></div>
 </body>
 
-</html>
+</html> -->
 
 <?php 
 // $class = ["JSS-1", "JSS-2", "JSS-3", "SSS-1", "SSS-2", "SSS-3"];
@@ -59,104 +59,101 @@ include "config/db.php";
     //  $percent_score = (($overall_score/$out_of)*100);
     // echo stripcslashes($percent_score);
 
+// $con = mysqli_connect("localhost", "u107570811_phil", "0kOIj1TtBLTD", "u107570811_gent");
+// session_start();
+// $date = date('Y-m-d H:i:s');
 
-
-    <?php
-$con = mysqli_connect("localhost", "u107570811_phil", "0kOIj1TtBLTD", "u107570811_gent");
-session_start();
-$date = date('Y-m-d H:i:s');
-
-if(isset($_POST['generate_recharge'])){
-    $network = $_POST['network'];
-    $denomination = mysqli_real_escape_string($con, $_POST['denomination']);
-    $user_code = $_POST['user_id'];
-    $quantity = mysqli_real_escape_string($con, $_POST['quantity']);
-    $trans_id=  $_POST['trans_id'];
+// if(isset($_POST['generate_recharge'])){
+//     $network = $_POST['network'];
+//     $denomination = mysqli_real_escape_string($con, $_POST['denomination']);
+//     $user_code = $_POST['user_id'];
+//     $quantity = mysqli_real_escape_string($con, $_POST['quantity']);
+//     $trans_id=  $_POST['trans_id'];
     
     
-    switch($network){
-        case "MTN":
-            $network_name = "mtn";
-            $networkCode = "803";
-            break;
-        case "MTN-10D":
-            $network_name = "mtn-10d";
-            $networkCode = "810";
-            break;
-        case "GLO":
-            $network_name = "glo";
-            $networkCode = "805";
-            break;
-        case "AIRTEL":
-            $network_name = "airtel";
-            $networkCode = "802";
-            break;
-        case "9MOBILE":
-            $network_name = "9mobile";
-            $networkCode = "809";
-            break;
-    }
+//     switch($network){
+//         case "MTN":
+//             $network_name = "mtn";
+//             $networkCode = "803";
+//             break;
+//         case "MTN-10D":
+//             $network_name = "mtn-10d";
+//             $networkCode = "810";
+//             break;
+//         case "GLO":
+//             $network_name = "glo";
+//             $networkCode = "805";
+//             break;
+//         case "AIRTEL":
+//             $network_name = "airtel";
+//             $networkCode = "802";
+//             break;
+//         case "9MOBILE":
+//             $network_name = "9mobile";
+//             $networkCode = "809";
+//             break;
+//     }
     
     
     
-    $create_price = $con->query("SELECT * FROM services WHERE network_name='$network' AND product_id='5'");
-    while($row = $create_price->fetch_object()){
-        $agent_discount = $row->agent_discount;
-        $superagent_discount = $row->superagent_discount;
-    }
+//     $create_price = $con->query("SELECT * FROM services WHERE network_name='$network' AND product_id='5'");
+//     while($row = $create_price->fetch_object()){
+//         $agent_discount = $row->agent_discount;
+//         $superagent_discount = $row->superagent_discount;
+//     }
     
-    $amount = ($denomination*$quantity);
-    $description = ucfirst( $network) . ' Recharge card, Denomination of N'.$denomination.', Quantity: '.$quantity.' | <br>';
-    $checkWallet = $con->query("SELECT * FROM users WHERE user_code='$user_code'");
-        while ($row = $checkWallet->fetch_assoc()) {
-            $wallet_bal = $row['wallet'];
-            $myId = $row['id'];
-            $membership_type = $row['membership_type'];
-        }
+//     $amount = ($denomination*$quantity);
+//     $description = ucfirst( $network) . ' Recharge card, Denomination of N'.$denomination.', Quantity: '.$quantity.' | <br>';
+//     $checkWallet = $con->query("SELECT * FROM users WHERE user_code='$user_code'");
+//         while ($row = $checkWallet->fetch_assoc()) {
+//             $wallet_bal = $row['wallet'];
+//             $myId = $row['id'];
+//             $membership_type = $row['membership_type'];
+//         }
         
-        switch($membership_type){
-        case "user": 
-            $discount = 1;
-            break;
-        case "agent": 
-            $discount = $agent_discount;
-            break;
-        case "superagent": 
-            $discount = $superagent_discount;
-            break;
-        }
+//         switch($membership_type){
+//         case "user": 
+//             $discount = 1;
+//             break;
+//         case "agent": 
+//             $discount = $agent_discount;
+//             break;
+//         case "superagent": 
+//             $discount = $superagent_discount;
+//             break;
+//         }
         
         //declaring amount
-        $amount = $discount*$amount;
+        // $amount = $discount*$amount;
    
         
-        if ($wallet_bal < $amount) {
-            $_SESSION['message'] = '<div class="alert alert-danger">Wallet balance is too low!</div>';
-            $_SESSION['msg_type'] = 'error';
-            $_SESSION['remedy'] = 'Wallet balance: NGN' . number_format($wallet_bal) . '';
-            $_SESSION['btn'] = 'Okay';
+        // if ($wallet_bal < $amount) {
+        //     $_SESSION['message'] = '<div class="alert alert-danger">Wallet balance is too low!</div>';
+        //     $_SESSION['msg_type'] = 'error';
+        //     $_SESSION['remedy'] = 'Wallet balance: NGN' . number_format($wallet_bal) . '';
+        //     $_SESSION['btn'] = 'Okay';
 
-            header('location:dashboard/rechargeCard?msg='.$_SESSION['message'].'');
-        } else {
-            $new_wallet_bal = ($wallet_bal - $amount);
-             $check = $con->query("SELECT * FROM transactions WHERE trans_id = '$trans_id'");
-            if ($check->num_rows == 0) {
-                $save = $con->query("INSERT INTO transactions (user_id, amount, trans_id, description, product_id, date_initiated, platform) 
-                VALUES('$myId', '$amount', '$trans_id', '$description', 5, '$date', 'web')");
+        //     header('location:dashboard/rechargeCard?msg='.$_SESSION['message'].'');
+        // } else {
+        //     $new_wallet_bal = ($wallet_bal - $amount);
+        //      $check = $con->query("SELECT * FROM transactions WHERE trans_id = '$trans_id'");
+        //     if ($check->num_rows == 0) {
+        //         $save = $con->query("INSERT INTO transactions (user_id, amount, trans_id, description, product_id, date_initiated, platform) 
+        //         VALUES('$myId', '$amount', '$trans_id', '$description', 5, '$date', 'web')");
 
-                /**RUN API */
-            $update_wallet = $con->query("UPDATE users SET wallet= '$new_wallet_bal' WHERE user_code ='$user_code'");
+        //         /**RUN API */
+        //     $update_wallet = $con->query("UPDATE users SET wallet= '$new_wallet_bal' WHERE user_code ='$user_code'");
                     
-             if ($update_wallet) {
-                $token = base64_encode("21b66fdefea1b1cc03a51997844908|911757");
-                 $request = [
-                        "requestType" => "VCHR",
-                        "networkCode" => "$networkCode", 
-                        "pinDenomination" => $denomination, 
-                        "pinQuantity" => $quantity,
-                        "requestReference" => "$trans_id", 
-                        "encodedKey" => "$token"
-                    ];
+        //      if ($update_wallet) {
+        //         $token = base64_encode("21b66fdefea1b1cc03a51997844908|911757");
+        //          $request = [
+        //                 "requestType" => "VCHR",
+        //                 "networkCode" => "$networkCode", 
+        //                 "pinDenomination" => $denomination, 
+        //                 "pinQuantity" => $quantity,
+        //                 "requestReference" => "$trans_id", 
+        //                 "encodedKey" => "$token"
+        //             ];
                 //  $request = [
                 //         "requestType" => "EPIN",
                 //         "networkCode" => "$networkCode", 
@@ -167,25 +164,25 @@ if(isset($_POST['generate_recharge'])){
                 //         "encodedKey" => "$token"
                 //     ];
             
-                    $curl = curl_init();
-                    curl_setopt_array($curl, array(
-                    CURLOPT_URL => 'https://thebizklub.com/api',
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => json_encode($request),
-                    CURLOPT_HTTPHEADER => array(
-                        'Content-Type: application/json'
-                    ),
-                ));
+                //     $curl = curl_init();
+                //     curl_setopt_array($curl, array(
+                //     CURLOPT_URL => 'https://thebizklub.com/api',
+                //     CURLOPT_RETURNTRANSFER => true,
+                //     CURLOPT_ENCODING => '',
+                //     CURLOPT_MAXREDIRS => 10,
+                //     CURLOPT_TIMEOUT => 0,
+                //     CURLOPT_FOLLOWLOCATION => true,
+                //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                //     CURLOPT_CUSTOMREQUEST => 'POST',
+                //     CURLOPT_POSTFIELDS => json_encode($request),
+                //     CURLOPT_HTTPHEADER => array(
+                //         'Content-Type: application/json'
+                //     ),
+                // ));
             
-                $response = curl_exec($curl);
-                curl_close($curl);
-                $res = json_decode($response);
+                // $response = curl_exec($curl);
+                // curl_close($curl);
+                // $res = json_decode($response);
     
  
             // echo $denomination;
@@ -194,61 +191,61 @@ if(isset($_POST['generate_recharge'])){
             // echo '</pre>';
             // exit();
             
-            if($res){
-                $status = $res->status;
-                $message = $res->message;
-                $statusCode = $res->statusCode;
-                $network = $res->network;
-                $denomination = $res->denomination;
-                $quantity = $res->quantity;
-                $requestRef = $res->requestRef;
+//             if($res){
+//                 $status = $res->status;
+//                 $message = $res->message;
+//                 $statusCode = $res->statusCode;
+//                 $network = $res->network;
+//                 $denomination = $res->denomination;
+//                 $quantity = $res->quantity;
+//                 $requestRef = $res->requestRef;
                
-                if($statusCode == 200){
-                    $voucher = "";
-                    if($quantity == 1){
-                            $voucher .= ' Pin: '.$res->vouchers.'<br>';
-                            $description .= ' Pin: '.$voucher.'<br>';
-                        }else{
-                            for($x = 1; $x <= $quantity; $x++){
-                                $voucher .= ' Pin('.$x.'): '.$res->vouchers->$x.'<br>';
-                                $description .= ' Pin('.$x.'): '.$voucher.'<br>';
-                            }
-                        }
+//                 if($statusCode == 200){
+//                     $voucher = "";
+//                     if($quantity == 1){
+//                             $voucher .= ' Pin: '.$res->vouchers.'<br>';
+//                             $description .= ' Pin: '.$voucher.'<br>';
+//                         }else{
+//                             for($x = 1; $x <= $quantity; $x++){
+//                                 $voucher .= ' Pin('.$x.'): '.$res->vouchers->$x.'<br>';
+//                                 $description .= ' Pin('.$x.'): '.$voucher.'<br>';
+//                             }
+//                         }
                     
-                         $insert = $con->query("INSERT INTO recharge_card SET
-                                    voucher = '$voucher',
-                                    user_id = '$user_code',
-                                    denomination = '$denomination',
-                                    network = '$network',
-                                    response = '$response',
-                                    status = 'Unused'
-                                ");
-                        $updateTrans = $con->query("UPDATE transactions SET balance='$new_wallet_bal', status='success', description='$description' WHERE trans_id='$trans_id'");
-                        $_SESSION['message'] = '<div class="alert alert-success">Your transaction was successful, Check the recharge card table!</div>';
-                        header('location:dashboard/rechargeCard?msg='.$_SESSION['message'].'');
-                }else{
-                    $update_wallet = $con->query("UPDATE users SET wallet= '$wallet_bal' WHERE user_code ='$user_code'");
-                    $updateTrans = $con->query("UPDATE transactions SET balance = '$wallet_bal', status='failed' WHERE trans_id='$trans_id'");
-                    $_SESSION['message'] = '<div class="alert alert-danger">Unsuccessful transaction, '.$message.'!</div>';
-                    // $_SESSION['status'] = base64_encode('<div class="alert alert-danger">'.$status.'</div>');
-                    header('location:dashboard/rechargeCard?msg='.$_SESSION['message'].'');
-                    }
-                 }
-             }
-        }else{
-            $_SESSION['message'] = '<div class="alert alert-danger">Reset page to continue!</div>';
-            header('location:dashboard/rechargeCard?msg='.$_SESSION['message'].'');
-        }
-    }
-}
+//                          $insert = $con->query("INSERT INTO recharge_card SET
+//                                     voucher = '$voucher',
+//                                     user_id = '$user_code',
+//                                     denomination = '$denomination',
+//                                     network = '$network',
+//                                     response = '$response',
+//                                     status = 'Unused'
+//                                 ");
+//                         $updateTrans = $con->query("UPDATE transactions SET balance='$new_wallet_bal', status='success', description='$description' WHERE trans_id='$trans_id'");
+//                         $_SESSION['message'] = '<div class="alert alert-success">Your transaction was successful, Check the recharge card table!</div>';
+//                         header('location:dashboard/rechargeCard?msg='.$_SESSION['message'].'');
+//                 }else{
+//                     $update_wallet = $con->query("UPDATE users SET wallet= '$wallet_bal' WHERE user_code ='$user_code'");
+//                     $updateTrans = $con->query("UPDATE transactions SET balance = '$wallet_bal', status='failed' WHERE trans_id='$trans_id'");
+//                     $_SESSION['message'] = '<div class="alert alert-danger">Unsuccessful transaction, '.$message.'!</div>';
+//                     // $_SESSION['status'] = base64_encode('<div class="alert alert-danger">'.$status.'</div>');
+//                     header('location:dashboard/rechargeCard?msg='.$_SESSION['message'].'');
+//                     }
+//                  }
+//              }
+//         }else{
+//             $_SESSION['message'] = '<div class="alert alert-danger">Reset page to continue!</div>';
+//             header('location:dashboard/rechargeCard?msg='.$_SESSION['message'].'');
+//         }
+//     }
+// }
 
-if(isset($_GET['used'])){
-    $id = $_GET['used'];
-    $update = $con->query("UPDATE recharge_card SET status='Used' WHERE id='$id'");
-    if($update){
-        header('location:dashboard/rechargeCard');
-    }
-}
+// if(isset($_GET['used'])){
+//     $id = $_GET['used'];
+//     $update = $con->query("UPDATE recharge_card SET status='Used' WHERE id='$id'");
+//     if($update){
+//         header('location:dashboard/rechargeCard');
+//     }
+// }
 
 
 
@@ -285,39 +282,6 @@ if(isset($_GET['used'])){
 ?>
 
 
-
-
-
-
-
-
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- <!DOCTYPE html>
 <html lang="en">
 
@@ -341,45 +305,18 @@ if(isset($_GET['used'])){
     }
     </script>
 
+-->
 
+<?php
+// $getCompulsoryFees = $conn->query("SELECT * FROM $bill_setting_tbl WHERE status=1");
+//     while($gcsf = $getCompulsoryFees->fetch_assoc()){
+//         $list[] = $gcsf;
+//     }
 
+//     for($x = 0; $x<count($list); $x++){
+//         echo $li += $$list[$x]['bill_name']; 
+//     }
 
-    <button onclick="clickMe()">Click Me</button>
-    <script>
-    function clickMe() {
-        Swal.fire({
-            title: 'Submit your Github username',
-            input: 'number',
-            inputAttributes: {
-                autocapitalize: 'off',
-                required: 'on'
-            },
-            showCancelButton: true,
-            confirmButtonText: 'Look up',
-            showLoaderOnConfirm: true,
-            preConfirm: (login) => {
-                return fetch(`call.php?id=${login}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(response.statusText)
-                        }
-                        return response.json()
-                    })
-                    .catch(error => {
-                        Swal.showValidationMessage(
-                            `Request failed: ${error}`
-                        )
-                    })
-            },
-            allowOutsideClick: () => !Swal.isLoading()
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: result.value.text,
-                    icon: result.value.icon,
-                    imageUrl: result.value.avatar_url
-                })
-            }
-        })
-    }
-    </script> -->
+$n = 1;
+$m = 'n';
+echo $$m;

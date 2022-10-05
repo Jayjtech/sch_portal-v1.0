@@ -207,7 +207,7 @@
                 <div class="collapse" id="c_panel">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="adm_info">School info</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="adm_revenue">Revenue</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="adm_revenue?key=revenue">Revenue</a></li>
                         <li class="nav-item"> <a class="nav-link" href="adm_students">Students info</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_staff">Staff info</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_disbursement?key=staff_list">Salary</a>

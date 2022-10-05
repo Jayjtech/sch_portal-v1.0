@@ -79,31 +79,20 @@ if ($_GET['table'] == $bill_tbl) {
      $class = $_GET['class'];
      $term = $_GET['term'];
      $session = $_GET['session'];
-     switch($log_term){
-          case 1:
-          $paid = "ft_paid";
-          $outstanding = "ft_outstanding";
-          break;
-          case 2:
-          $paid = "st_paid";
-          $outstanding = "st_outstanding";
-          break;
-          case 3:
-          $paid = "tt_paid";
-          $outstanding = "tt_outstanding";
-          break;
-     }
-   
+        
      header('Content-Type: text/csv; charset=utf-8');
      header('Content-Disposition: attachment; filename=Bill for '.$term.' ['.$session.'] ' . $class . '.csv');
      $output = fopen("php://output", "w");
-     fputcsv($output, array('Name', 'Admission NO', 'Class', 'School fee', 'ICT', 'Health', 'PTA', 'Sport', 'Music', 'Excursion', 'Valedictory Service', 'Transport', 'Development', 'Others', 'What does others cover?', 'Total', 'Outstanding', 'Paid'));
+     fputcsv($output, array('Name', 'Admission NO', 'Class', 'School fee', 'Registration', 'Uniform', 'Sport wear', 'Cardigan', 'School badge', 'ID card', 'Handbook', 'Extra lesson', 'Security', 'Media', 'Club', 'Vocational', 'Boarding fee',
+      'ICT', 'Health', 'PTA', 'Sport', 'Music', 'Excursion', 'Valedictory service', 'Transport', 'Development', 'Others', 'What does others cover?', 'Actual total', 'Compulsory total', 'Outstanding', 'Paid'));
      
        if($class == "all"){
-          $query = $conn->query("SELECT name, userId, class, sch_fee, ict, health, pta, sport, music, excursion, vs_fee, transport, development, others, others_covers, total, $outstanding, $paid
+          $query = $conn->query("SELECT name, userId, class, sch_fee, reg_fee, uniform, sport_wear, cardigan, sch_badge, id_card, handbook, lesson, security, media, club, vocational, boarding_fee,
+          ict, health, pta, sport, music, excursion, vs_fee, transport, development, others, others_covers, actual_total, compulsory_total, outstanding, paid
      FROM $bill_tbl WHERE term='$log_term' AND session='$log_session' ORDER BY total DESC");
      }else{
-          $query = $conn->query("SELECT name, userId, class, sch_fee, ict, health, pta, sport, music, excursion, vs_fee, transport, development, others, others_covers, total, $outstanding, $paid
+          $query = $conn->query("SELECT name, userId, class, sch_fee, reg_fee, uniform, sport_wear, cardigan, sch_badge, id_card, handbook, lesson, security, media, club, vocational, boarding_fee,
+          ict, health, pta, sport, music, excursion, vs_fee, transport, development, others, others_covers, actual_total, compulsory_total, outstanding, paid
      FROM $bill_tbl WHERE class='$class' AND  term='$log_term' AND session='$log_session' ORDER BY total DESC");
      }
      
