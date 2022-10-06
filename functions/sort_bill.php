@@ -29,6 +29,7 @@
         $others_covers = mysqli_real_escape_string($conn, $_POST['others_covers']);
         $adm_no = mysqli_real_escape_string($conn, $_POST['adm_no']);
         $total_amount = mysqli_real_escape_string($conn, $_POST['total_amount']);
+        $description = mysqli_real_escape_string($conn, $_POST['description']);
 
         
         $getWalletBal = $conn->query("SELECT * FROM $users_tbl WHERE userId='$adm_no'");

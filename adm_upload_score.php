@@ -69,11 +69,11 @@
                                         <div class="form-group">
                                             <select name="course_code" id="course_code" class="form-control" required>
                                                 <option value="">Course code</option>
-                                                <?php while($sel = $selCourses->fetch_object()):?>
-                                                <option value="<?= $sel->course_code; ?>">
-                                                    <?= $sel->course_code; ?> [<?= $sel->course; ?>]
-                                                </option>
-                                                <?php endwhile; ?>
+                                                <?php for($i = 0; $i<count($coList); $i++){?>
+                                                <option value="<?= $coList[$i]->course_code; ?>">
+                                                    <?= $coList[$i]->course; ?>
+                                                    [<?= $coList[$i]->course_code; ?>]</option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>

@@ -15,7 +15,7 @@ $log_term = $_SESSION['log_term'];
 $exp_acad_period = false;
 $unapproved_acad_period = false;
 
-if($_SESSION['log_term'] == false || $_SESSION['log_session'] == false){
+if(isset($_SESSION['log_term']) == false || isset($_SESSION['log_session']) == false){
     $log_term = $current_term;
     $log_session = $current_session;
 }
@@ -31,11 +31,19 @@ switch($log_term){
         $term_syntax = "Third";
         break;
 }
-
 $callSession = $conn->query("SELECT * FROM $session_tbl ORDER BY session ASC");
 $callClass = $conn->query("SELECT * FROM $class_tbl ORDER BY id ASC");
+while($caClass = $callClass->fetch_object()){
+    $classData[] = $caClass;
+}
 $callStudentAward = $conn->query("SELECT * FROM $student_award_tbl");
 
+$exp_c_s = explode("/", $current_session);
+$exp_l_s = explode("/", $log_session);
+
+if($exp_l_s[1] < $exp_c_s[1]){
+    $exp_acad_period = true;
+}
 /**User details */
 $callUserDetails = $conn->query("SELECT * FROM $users_tbl WHERE userId='$userId'");
 $det = $callUserDetails->fetch_object();
@@ -75,9 +83,12 @@ switch($det->position){
 
 /**Courses Staff*/
 $callCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
-$selCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
-$selCourses1 = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
 $created_course_count = $callCourses->num_rows;
+$selCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
+while($courseList = $selCourses->fetch_object()){
+    $coList[] = $courseList;
+}
+
 /**Call all staff */
 $callStaff = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'd29yaw=='");
 /**Total Salary */
@@ -93,7 +104,7 @@ while($payR = $payrollList->fetch_object()){
 $callDisList = $conn->query("SELECT * FROM $payroll_tbl");
 
 /**Call students */
-$callStudents = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'c3R1ZHk='");
+$callStudents = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'c3R1ZHk=' ORDER BY curr_class ASC");
 
 /**Course student */
 $availableCourse = $conn->query("SELECT * FROM $course_tbl WHERE (class='$curr_class' AND term='$log_term' AND session='$log_session') AND (department='$department' OR department='general')");
@@ -119,6 +130,9 @@ $actualBillSettings = $conn->query("SELECT * FROM $bill_setting_tbl WHERE status
 $getTotalCompulsoryBill = $conn->query("SELECT sum(compulsory_total) as comp_total FROM $bill_tbl WHERE (term='$log_term' AND session='$log_session')");
 $compBill = $getTotalCompulsoryBill->fetch_object();
 
+$earning = $conn->query("SELECT sum(amount_paid) as already_earned FROM $bill_report_tbl WHERE (term='$log_term' AND session='$log_session')");
+$earn = $earning->fetch_object();
+
 $callStaffLevels = $conn->query("SELECT * FROM $staff_level_tbl ORDER BY salary_amount DESC");
 
 $bankList = $conn->query("SELECT * FROM $banks_tbl ORDER BY bank ASC");
@@ -138,12 +152,7 @@ if($admin_det->loan_availability == 0){
      $loan_availability = "Available";
 }
 
-$exp_c_s = explode("/", $current_session);
-$exp_l_s = explode("/", $log_session);
 
-if($exp_l_s[1] < $exp_c_s[1]){
-    $exp_acad_period = true;
-}
 
 /**Raw score */
 $callRawScore = $conn->query("SELECT * FROM $score_tbl WHERE (adm_no='$userId' AND term='$log_term' AND session='$log_session')");

@@ -1,3 +1,4 @@
+<?php include "calls.php"; ?>
 <?php 
 if(!$_SESSION['token']){
     header('location:logout');

@@ -196,6 +196,7 @@
                 </a>
             </li>
 
+            <?php if($det->user_type == "d29yaw=="):?>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#c_panel" aria-expanded="false"
                     aria-controls="c_panel">
@@ -225,6 +226,7 @@
                     </ul>
                 </div>
             </li>
+            <?php endif; ?>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#profile" aria-expanded="false"
                     aria-controls="profile">

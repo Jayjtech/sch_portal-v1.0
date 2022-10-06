@@ -79,7 +79,7 @@
                 <p class="card-title">Loan setting</p>
                 <div align="right">
                     <a href="?key=loan_disbursement_list" class="btn btn-warning">Loan disbursement list</a>
-                    <a href="?key=loan_approval" class="btn btn-primary">Loan approval</a>
+                    <a href="?key=approve_loan" class="btn btn-primary">Loan approval</a>
                 </div>
                 <hr>
                 <div class="row mt-3 mb-3">
@@ -155,8 +155,8 @@
             <div class="card-body">
                 <p class="card-title mb-0">Loan Disbursement List</p>
                 <div align="right">
-                    <a href="?key=create_payroll" class="btn btn-primary">Create Payroll</a>
-                    <a href="?key=staff_list" class="btn btn-success">Staff list</a>
+                    <a href="?key=approve_loan" class="btn btn-primary">Loan approval</a>
+                    <a href="?key=loan_setting" class="btn btn-warning">Loan setting</a>
                 </div>
                 <hr>
 

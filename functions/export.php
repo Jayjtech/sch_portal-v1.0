@@ -87,16 +87,15 @@ if ($_GET['table'] == $bill_tbl) {
       'ICT', 'Health', 'PTA', 'Sport', 'Music', 'Excursion', 'Valedictory service', 'Transport', 'Development', 'Others', 'What does others cover?', 'Actual total', 'Compulsory total', 'Outstanding', 'Paid'));
      
        if($class == "all"){
-          $query = $conn->query("SELECT name, userId, class, sch_fee, reg_fee, uniform, sport_wear, cardigan, sch_badge, id_card, handbook, lesson, security, media, club, vocational, boarding_fee,
+          $query = $conn->query("SELECT name, userId, class, sch_fee, reg_fee, uniform, sport_wear, cardigan, sch_badge, id_card, handbook, lesson, security, sch_media, club, vocational, boarding_fee,
           ict, health, pta, sport, music, excursion, vs_fee, transport, development, others, others_covers, actual_total, compulsory_total, outstanding, paid
-     FROM $bill_tbl WHERE term='$log_term' AND session='$log_session' ORDER BY total DESC");
+     FROM $bill_tbl WHERE (term='$log_term' AND session='$log_session') ORDER BY class ASC");
      }else{
-          $query = $conn->query("SELECT name, userId, class, sch_fee, reg_fee, uniform, sport_wear, cardigan, sch_badge, id_card, handbook, lesson, security, media, club, vocational, boarding_fee,
+          $query = $conn->query("SELECT name, userId, class, sch_fee, reg_fee, uniform, sport_wear, cardigan, sch_badge, id_card, handbook, lesson, security, sch_media, club, vocational, boarding_fee,
           ict, health, pta, sport, music, excursion, vs_fee, transport, development, others, others_covers, actual_total, compulsory_total, outstanding, paid
-     FROM $bill_tbl WHERE class='$class' AND  term='$log_term' AND session='$log_session' ORDER BY total DESC");
+     FROM $bill_tbl WHERE class='$class' AND  term='$log_term' AND session='$log_session' ORDER BY compulsory_total DESC");
      }
      
-
      while ($row = $query->fetch_assoc()) {
           fputcsv($output, $row);
      }

@@ -7,7 +7,6 @@ $assign_class = "Assign Class";
 $curr_class = "Change Class";
 $award_val = "Give award";
 $award = "";
-$callClass2 = $conn->query("SELECT * FROM $class_tbl ORDER BY id ASC");
 /**REVIEW STAFF */
 if(isset($_GET['pod'])){
     $token = mysqli_real_escape_string($conn,$_GET['pod']);

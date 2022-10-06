@@ -54,9 +54,10 @@
                                     <label for="exampleInputUsername1">Previous Class</label>
                                     <select name="pre_class" id="pre_class" class="form-control" required>
                                         <option value="">Choose previous class</option>
-                                        <?php while($cl = $callClass->fetch_object()):?>
-                                        <option value="<?= $cl->class; ?>"><?= $cl->class; ?></option>
-                                        <?php endwhile; ?>
+                                        <?php for($i = 0; $i<count($classData); $i++){?>
+                                        <option value="<?= $classData[$i]->class; ?>">
+                                            <?= $classData[$i]->class; ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>

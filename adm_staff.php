@@ -9,11 +9,12 @@
             <div class="card">
                 <div class="card-body">
                     <p class="card-title mb-0">Staff List</p>
-                    <?php if($callStaff->num_rows > 0){ ?>
+                    <hr>
                     <div class="table-responsive">
                         <table class="myTable table table-striped table-borderless">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Name</th>
                                     <th>ID</th>
                                     <th>Type</th>
@@ -74,6 +75,8 @@
                                         }
                                     ?>
                                 <tr>
+                                    <td class="py-1"><img src="images/profile/<?= $row->img; ?>" alt="image" />
+                                    </td>
                                     <td><?= $row->name; ?></td>
                                     <td class="font-weight-bold"><?= $row->userId; ?></td>
                                     <td><?= $row->staff_type; ?></td>
@@ -89,9 +92,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <?php }else{ ?>
-                    <div class="alert alert-danger mt-5">This table is empty!</div>
-                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -157,9 +157,10 @@
                                     <select name="class_officiating" id="class_officiating" class="form-control"
                                         required>
                                         <option value="<?= $assign_class_val; ?>"><?= $assign_class; ?></option>
-                                        <?php while($cl = $callClass->fetch_object()):?>
-                                        <option value="<?= $cl->class; ?>"><?= $cl->class; ?></option>
-                                        <?php endwhile; ?>
+                                        <?php for($i = 0; $i<count($classData); $i++){?>
+                                        <option value="<?= $classData[$i]->class; ?>">
+                                            <?= $classData[$i]->class; ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>

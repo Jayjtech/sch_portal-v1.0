@@ -4,20 +4,18 @@
 <?php include "includes/edit_calls.php"; ?>
 
 <div class="content-wrapper">
-    <?php if($_GET['key'] == "revenue"):?>
+    <?php if(isset($_GET['key']) == "revenue"):?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <p class="card-title mb-0">Bills and Revenue table for <?= $term_syntax?> term |
                         <?= $log_session; ?></p>
+                    <div align="right">
+                        <a href="?bill_summary" class="btn btn-success">Bill summary</a>
+                    </div>
                     <hr>
-                    <p align="right" class="alert alert-info font-weight-bold">Total expected income for
-                        <?= $term_syntax?> term |
-                        <?= $log_session; ?>:
-                        <span
-                            style="font-size:20px;"><?= $currency; ?><?= number_format($compBill->comp_total); ?></span>
-                    </p>
+
                     <div class="table-responsive">
                         <table class="myTable table table-striped table-borderless">
                             <thead>
@@ -47,9 +45,94 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-6 stretch-card grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title mb-0">Bill uploader</p>
+                    <hr>
+                    <div class="mt-2">
+                        <div class="container">
+                            <p>Click the green button to download the bill format as an Excel CSV file.</p>
+                            <p class="text-info">Note: Bills will be downloaded for the term and Session you logged in
+                                to.</p>
+                            <form action="<?= $exporter; ?>" method="get">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <select name="class" id="class" class="form-control" required>
+                                                <option value="">For what class?</option>
+                                                <option value="all">All classes</option>
+                                                <?php for($i = 0; $i<count($classData); $i++){?>
+                                                <option value="<?= $classData[$i]->class; ?>">
+                                                    <?= $classData[$i]->class; ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="table" value="<?= $bill_tbl; ?>">
+                                    <input type="hidden" name="term" value="<?= $term_syntax; ?> term">
+                                    <input type="hidden" name="session" value="<?= $log_session; ?>">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <button class="btn btn-success"><i class="mdi mdi-download"></i> Excel
+                                                Format</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <hr>
+                        <div class="container mt-3">
+                            <form action="<?= $pusher;?>" method="POST" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <label for="">Choose Bill Excel File</label>
+                                            <input type="file" name="file" class="form-control btn btn-dark" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <button type="submit" name="push_bills" class="mt-3 btn btn-primary"><i
+                                                    class="mdi mdi-upload"></i> Upload</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php endif; ?>
 
-    <?php if($_GET['sort_bill'] == true):?>
+    <?php if(isset($_GET['bill_summary']) == true):?>
+    <div class="row">
+        <div class="col-md-12 stretch-card grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title mb-0">Bill Summary for</p>
+                    <div class="mb-2" align="right">
+                        <a href="?key=revenue" class="btn btn-dark">Back</a>
+                    </div>
+                    <hr>
+                    <p class="font-weight-bold"><?= $term_syntax?> term | <?= $log_session; ?>:</p>
+
+                    <span class="text-danger">Oustanding [Compulsory fees] =
+                        <?= $currency; ?><?= number_format($compBill->comp_total); ?></span><br>
+                    <span class="text-success">Already Earned =
+                        <?= $currency; ?><?= number_format($earn->already_earned); ?></span><br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif;?>
+
+    <?php if(isset($_GET['sort_bill']) == true):?>
     <div class="row">
         <div class="col-md-12 stretch-card grid-margin">
             <div class="card">
@@ -191,7 +274,7 @@
                             <div class="col-sm-8">
                                 <div class="input-group">
                                     <span class="input-group-text">Description</span>
-                                    <textarea name="" id="" cols="30" rows="3" class="form-control" name="description"
+                                    <textarea cols="30" rows="3" class="form-control" name="description"
                                         placeholder="Enter payment description" required></textarea>
                                 </div>
                             </div>
@@ -209,5 +292,17 @@
 
 </div>
 
+<script>
+function calCompulsoryTotal() {
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", "functions/calculateCompulsoryBal.php", false);
+    xmlhttp.send(null);
+    // document.getElementById("statusResponse").innerHTML = xmlhttp.responseText;
+}
+calCompulsoryTotal();
+setInterval(function() {
+    calCompulsoryTotal();
+}, 1000);
+</script>
 
 <?php include "includes/footer.php"; ?>

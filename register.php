@@ -1,4 +1,5 @@
 <?php include "includes/header.php"; ?>
+<?php include "includes/academic_period.php"; ?>
 
 <body>
     <div class="container-scroller">

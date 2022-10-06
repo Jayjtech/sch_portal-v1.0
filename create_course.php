@@ -251,11 +251,11 @@
                                             <select name="course_code" id="course-code-el" class="form-control"
                                                 required>
                                                 <option value="">Choose course code</option>
-                                                <?php while($sel = $selCourses->fetch_object()):?>
-                                                <option value="<?= $sel->course_code; ?>">
-                                                    <?= $sel->course_code; ?> [<?= $sel->course; ?>]
-                                                </option>
-                                                <?php endwhile; ?>
+                                                <?php for($i = 0; $i<count($coList); $i++){?>
+                                                <option value="<?= $coList[$i]->course_code; ?>">
+                                                    <?= $coList[$i]->course; ?>
+                                                    [<?= $coList[$i]->course_code; ?>]</option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -297,11 +297,11 @@
                                             <select name="course_code" id="course-code-el2" class="form-control"
                                                 required>
                                                 <option value="">Choose course code</option>
-                                                <?php while($sel1 = $selCourses1->fetch_object()):?>
-                                                <option value="<?= $sel1->course_code; ?>">
-                                                    <?= $sel1->course_code; ?> [<?= $sel1->course; ?>]
-                                                </option>
-                                                <?php endwhile; ?>
+                                                <?php for($i = 0; $i<count($coList); $i++){?>
+                                                <option value="<?= $coList[$i]->course_code; ?>">
+                                                    <?= $coList[$i]->course; ?>
+                                                    [<?= $coList[$i]->course_code; ?>]</option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>

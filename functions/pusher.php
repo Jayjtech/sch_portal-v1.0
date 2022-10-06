@@ -308,18 +308,30 @@
                     // Get row data
                     $adm_no  =  mysqli_real_escape_string($conn, $line[1]);
                     $sch_fee  =  mysqli_real_escape_string($conn, $line[3]);
-                    $ict  =  mysqli_real_escape_string($conn, $line[4]);
-                    $health  =  mysqli_real_escape_string($conn, $line[5]);
-                    $pta  =  mysqli_real_escape_string($conn, $line[6]);
-                    $sport  =  mysqli_real_escape_string($conn, $line[7]);
-                    $music  =  mysqli_real_escape_string($conn, $line[8]);
-                    $excursion  =  mysqli_real_escape_string($conn, $line[9]);
-                    $vs_fee  =  mysqli_real_escape_string($conn, $line[10]);
-                    $transport  =  mysqli_real_escape_string($conn, $line[11]);
-                    $development  =  mysqli_real_escape_string($conn, $line[12]);
-                    $others =  mysqli_real_escape_string($conn, $line[13]);
-                    $others_covers  =  mysqli_real_escape_string($conn, $line[14]);
-                    
+                    $reg_fee = mysqli_real_escape_string($conn, $line[4]);
+                    $uniform = mysqli_real_escape_string($conn, $line[5]);
+                    $sport_wear = mysqli_real_escape_string($conn, $line[6]);
+                    $cardigan = mysqli_real_escape_string($conn, $line[7]);
+                    $sch_badge = mysqli_real_escape_string($conn, $line[8]);
+                    $id_card = mysqli_real_escape_string($conn, $line[9]);
+                    $handbook = mysqli_real_escape_string($conn, $line[10]);
+                    $lesson = mysqli_real_escape_string($conn, $line[11]);
+                    $security = mysqli_real_escape_string($conn, $line[12]);
+                    $sch_media = mysqli_real_escape_string($conn, $line[13]);
+                    $club = mysqli_real_escape_string($conn, $line[14]);
+                    $vocational = mysqli_real_escape_string($conn, $line[15]);
+                    $boarding_fee = mysqli_real_escape_string($conn, $line[16]);
+                    $ict  =  mysqli_real_escape_string($conn, $line[17]);
+                    $health  =  mysqli_real_escape_string($conn, $line[18]);
+                    $pta  =  mysqli_real_escape_string($conn, $line[19]);
+                    $sport  =  mysqli_real_escape_string($conn, $line[20]);
+                    $music  =  mysqli_real_escape_string($conn, $line[21]);
+                    $excursion  =  mysqli_real_escape_string($conn, $line[22]);
+                    $vs_fee  =  mysqli_real_escape_string($conn, $line[23]);
+                    $transport  =  mysqli_real_escape_string($conn, $line[24]);
+                    $development  =  mysqli_real_escape_string($conn, $line[25]);
+                    $others =  mysqli_real_escape_string($conn, $line[26]);
+                    $others_covers  =  mysqli_real_escape_string($conn, $line[27]);
 
                     $callName = $conn->query("SELECT * FROM $users_tbl WHERE (userId = '$adm_no')");
                     $nam = $callName->fetch_object();
@@ -327,7 +339,11 @@
                     $name = $nam->name;
                     $class = $nam->curr_class;
 
-                    $total = ($sch_fee+$ict+$health+$pta+$sport+$music+$excursion+$vs_fee+$transport+$development+$others);
+                        /**Summing up all to get total */
+        $actual_totalBill = $sch_fee+$ict+$music+$health+$transport+$sport+$excursion+$vs_fee+$pta+$development+$reg_fee+$uniform+$sport_wear+$cardigan+
+        $id_card+$handbook+$sch_media+$security+$lesson+$club+$boarding_fee+$vocational+$sch_badge+$others;
+
+        $compulsory_totalBill = 0;
 
                     //To ensure that The same class is not uploaded over and again
                     $check = $conn->query("SELECT * FROM $bill_tbl WHERE (userId='$adm_no' AND session='$log_session' AND term='$log_term')");
@@ -350,11 +366,25 @@
                                                 vs_fee = '$vs_fee', 
                                                 transport = '$transport', 
                                                 development = '$development', 
-                                                others = '$others', 
+                                                others = '$others',
+                                                reg_fee = '$reg_fee',
+                                                uniform = '$uniform',
+                                                sport_wear = '$sport_wear',
+                                                cardigan = '$cardigan',
+                                                id_card = '$id_card',
+                                                handbook = '$handbook',
+                                                sch_media = '$sch_media',
+                                                security = '$security',
+                                                lesson = '$lesson',
+                                                club = '$club',
+                                                boarding_fee = '$boarding_fee',
+                                                vocational = '$vocational',
+                                                sch_badge  = '$sch_badge',
                                                 others_covers = '$others_covers',
-                                                total = '$total',
-                                                paid = '$total',
-                                                outstanding = '$total'
+                                                actual_total = '$actual_totalBill',
+                                                compulsory_total = '$compulsory_totalBill',
+                                                paid = '$compulsory_totalBill',
+                                                outstanding = '$compulsory_totalBill'
                                               ");
                         
 
@@ -362,25 +392,39 @@
                         
                     } else {
                         $update = $conn->query("UPDATE $bill_tbl SET
-                                            sch_fee = '$sch_fee', 
-                                            ict = '$ict', 
-                                            health = '$health', 
-                                            pta = '$pta', 
-                                            sport = '$sport', 
-                                            music = '$music', 
-                                            excursion = '$excursion', 
-                                            vs_fee = '$vs_fee', 
-                                            transport = '$transport', 
-                                            development = '$development', 
-                                            others = '$others', 
-                                            others_covers = '$others_covers',
-                                            total = '$total',
-                                            $paid = '$total',
-                                            $outstanding = '$total'
-                                            WHERE userId = '$adm_no' 
-                                            AND term = '$log_term' 
-                                            AND session = '$log_session'
-                                            ");
+                                        sch_fee='$sch_fee',
+                                        ict='$ict',
+                                        sport='$sport',
+                                        music='$music',
+                                        health='$health',
+                                        transport='$transport',
+                                        excursion='$excursion',
+                                        vs_fee='$vs_fee',
+                                        pta='$pta',
+                                        development='$development',
+                                        others='$others',
+                                        reg_fee = '$reg_fee',
+                                        uniform = '$uniform',
+                                        sport_wear = '$sport_wear',
+                                        cardigan = '$cardigan',
+                                        id_card = '$id_card',
+                                        handbook = '$handbook',
+                                        sch_media = '$sch_media',
+                                        security = '$security',
+                                        lesson = '$lesson',
+                                        club = '$club',
+                                        boarding_fee = '$boarding_fee',
+                                        vocational = '$vocational',
+                                        sch_badge  = '$sch_badge',
+                                        others_covers='$others_covers',
+                                        actual_total = '$actual_totalBill',
+                                        compulsory_total = '$compulsory_totalBill',
+                                        paid = '$compulsory_totalBill',
+                                        outstanding = '$compulsory_totalBill'
+                                        WHERE userId = '$adm_no' 
+                                        AND term = '$log_term' 
+                                        AND session = '$log_session'
+                                        ");
                     }
                 }
                   if($insert){
@@ -398,7 +442,7 @@
                     }
             }
         }
-         header("location: ../adm_students");
+         header("location: ../adm_revenue?key=revenue");
  fclose($csvFile);
     }
 

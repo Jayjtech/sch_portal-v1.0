@@ -146,9 +146,10 @@
                                     <select name="class_officiating" id="class_officiating" class="form-control"
                                         required>
                                         <option value="<?= $assign_class_val; ?>"><?= $assign_class; ?></option>
-                                        <?php while($cl = $callClass->fetch_object()):?>
-                                        <option value="<?= $cl->class; ?>"><?= $cl->class; ?></option>
-                                        <?php endwhile; ?>
+                                        <?php for($i = 0; $i<count($classData); $i++){?>
+                                        <option value="<?= $classData[$i]->class; ?>">
+                                            <?= $classData[$i]->class; ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
