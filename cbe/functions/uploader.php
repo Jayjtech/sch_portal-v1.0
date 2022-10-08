@@ -788,3 +788,59 @@ if(isset($_POST['upload_t_comment'])){
          header("location: ../../adm_upload_comment");
  fclose($csvFile);
     }
+
+
+if(isset($_POST['course_material'])){    
+      $category = mysqli_real_escape_string($conn,$_POST['category']);
+      $course_code = mysqli_real_escape_string($conn,$_POST['course_code']);
+      $course_code = mysqli_real_escape_string($conn,$_POST['course_code']);
+      $title = mysqli_real_escape_string($conn,$_POST['title']);
+  
+      $query = $conn->query("SELECT * FROM $course_tbl WHERE course_code = '$course_code'");
+      while($row = $query->fetch_assoc()){
+          $class = $row['class'];
+          $course = $row['course'];
+          $department = $row['department'];
+      }
+     
+    $file = rand(1000,9999)."-".$_FILES['file']['name'];
+    $file_loc = $_FILES['file']['tmp_name'];
+    $file_size = $_FILES['file']['size'];
+    $file_type = $_FILES['file']['type'];
+    $folder="course_material/";
+ 
+    // new file size in KB
+    $new_size = $file_size/1024;  
+    // make file name in lower case
+    $new_file_name = strtolower($file);
+    // make file name in lower case
+    $final_file = str_replace(' ','-',$new_file_name);
+    
+    if(move_uploaded_file($file_loc,'../../'.$folder.$final_file)){
+    $sql = $conn->query("INSERT INTO $course_material_tbl SET 
+                file = '$final_file', 
+                userId = '$userId', 
+                token = '$token', 
+                size = '$new_size', 
+                category = '$category',
+                name = '$name', 
+                class = '$class',
+                title = '$title',
+                course = '$course',
+                course_code = '$course_code',
+                date = '$date',
+                term = '$log_term'
+                ");
+    if($sql){
+        $_SESSION['message'] = ''.$category.' has been Uploaded!';
+        $_SESSION['msg_type'] = 'success';
+        $_SESSION['remedy'] = '';
+    }else{
+        $_SESSION['message'] = ''.$category.'could not be Uploaded!';
+        $_SESSION['msg_type'] = 'error';
+        $_SESSION['remedy'] = '';
+    }
+  }
+  header("location: ../../create_course?course_material");
+ }
+?>

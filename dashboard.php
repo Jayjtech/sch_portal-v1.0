@@ -11,10 +11,12 @@
                     <h6 class="font-weight-normal mb-0">All systems are running
                         smoothly!
                 </div>
+                <?php  if($det->user_type == "c3R1ZHk="): ?>
                 <div class="col-12 col-xl-4 mb-4 mb-xl-0">
                     <div class="walletBal"></div>
                     <h6 class="font-weight-normal mb-0 text-info">Clear your bills with ease from your wallet!
                 </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -83,6 +85,16 @@
                 </div>
             </div>
         </div>
+        <?php else: ?>
+        <div class="col-md-6 grid-margin transparent">
+            <p class="font-weight-bold">Click the button below to reserve bank accounts.</p>
+            <div class="row">
+                <form action="<?= $reserve_account; ?>" method="post">
+                    <input type="hidden" name="userId" value="<?= $det->userId; ?>">
+                    <button class="btn btn-primary">Reserve bank accounts</button>
+                </form>
+            </div>
+        </div>
         <?php endif; ?>
 
         <?php }else{ /**Teacher */ ?>
@@ -92,18 +104,21 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-2">
                         <p class="card-title">Created Courses[Subjects]</p>
-                        <a href="create_course" class="btn btn-dark">Create course</a>
+                        <div class="" align="right">
+                            <a href="create_course" class="btn btn-dark">Create course</a>
+                        </div>
                     </div>
                     <p class="font-weight-500 text-info">Note that the created courses[subjects] will be visible to
                         students[pupils] in the selected category
                     </p>
-                    <?php if($created_course_count > 0){ ?>
+                    <hr>
                     <div class="table-responsive">
-                        <table class="table table-striped table-borderless">
+                        <table class="myTable table table-striped table-borderless">
                             <thead>
                                 <tr>
                                     <th>Course[Subject]</th>
-                                    <th colspan="2">Action</th>
+                                    <th></th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -127,9 +142,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <?php }else{ ?>
-                    <div class="alert alert-danger mt-5">This table is empty!</div>
-                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -141,12 +153,24 @@
                 <div class="card-body">
                     <p class="card-title"><?= $_SESSION['user_type']; ?>'s Details</p>
                     <hr>
-                    <div class="" align="right">
-                        <h6><?= $det->userId;?></h6>
-                        <h6><?= $det->name;?></h6>
-                        <h6><?= $det->email;?></h6>
+                    <div class="row">
+                        <div class="col-sm-6 border-right" id="uploaded_image">
+                            <div class="wrapper" style="background:url('images/profile/<?= $p_img; ?>'); height:150px;width:150px;position:relative;border:5px solid #fefeee;
+											border-radius: 50%;background-size: 100% 100%;margin: 0px auto;overflow:hidden;">
+                                <box-icon type='solid' name='camera'></box-icon>
+                                <input type="file" name="file" id="file" class="my_file" accept="image/png, image/jpeg"
+                                    class="account-file-input">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mt-5" align="right">
+                            <div class="" align="right">
+                                <h6><?= $det->userId;?></h6>
+                                <h6><?= $det->name;?></h6>
+                                <h6><?= $det->email;?></h6>
+                            </div>
+                        </div>
                     </div>
-
+                    <hr>
                     <div class="table-responsive">
                         <table class="table table-striped table-borderless">
                             <tbody>
@@ -208,6 +232,8 @@
         <div class="col-md-6 grid-margin stretch-card">
             <div class="card position-relative">
                 <div class="card-body">
+                    <p class="card-title">News</p>
+                    <hr>
                     <div id="detailedReports" class="carousel slide detailed-report-carousel position-static pt-2"
                         data-ride="carousel">
                         <div class="carousel-inner">
@@ -249,88 +275,52 @@
             </div>
         </div>
     </div>
+    <?php if($det->user_type == "c3R1ZHk="):
+        if($myBill->num_rows != 0):
+        ?>
 
-    <!-- <div class="row">
+    <div class="row">
         <div class="col-md-6 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0">Top Products</p>
+                    <p class="card-title mb-0">Bill for <?= $term_syntax; ?> Term | <?= $log_session; ?></p>
+                    <div align="right">
+                        <a href="settle_bill" class="btn btn-warning">Settle bill</a>
+                    </div>
                     <hr>
                     <div class="table-responsive">
                         <table class="table myTable table-striped table-borderless">
                             <thead>
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Price</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
+                                    <th>Title</th>
+                                    <th>Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php while($row = $compulsoryBillSettings->fetch_object()): 
+                                    $bill_name = $row->bill_name;
+                                    if($mb->$bill_name != 0):
+                                    ?>
+
                                 <tr>
-                                    <td>Search Engine Marketing</td>
-                                    <td class="font-weight-bold">$362</td>
-                                    <td>21 Sep 2018</td>
-                                    <td class="font-weight-medium">
-                                        <div class="badge badge-success">Completed</div>
+                                    <td>
+                                        <?= $row->bill_title; ?>
+                                    </td>
+                                    <td class="font-weight-bold">
+                                        <?= $currency; ?><?= number_format($mb->$bill_name); ?>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>Search Engine Optimization</td>
-                                    <td class="font-weight-bold">$116</td>
-                                    <td>13 Jun 2018</td>
-                                    <td class="font-weight-medium">
-                                        <div class="badge badge-success">Completed</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Display Advertising</td>
-                                    <td class="font-weight-bold">$551</td>
-                                    <td>28 Sep 2018</td>
-                                    <td class="font-weight-medium">
-                                        <div class="badge badge-warning">Pending</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Pay Per Click Advertising</td>
-                                    <td class="font-weight-bold">$523</td>
-                                    <td>30 Jun 2018</td>
-                                    <td class="font-weight-medium">
-                                        <div class="badge badge-warning">Pending</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>E-Mail Marketing</td>
-                                    <td class="font-weight-bold">$781</td>
-                                    <td>01 Nov 2018</td>
-                                    <td class="font-weight-medium">
-                                        <div class="badge badge-danger">Cancelled</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Referral Marketing</td>
-                                    <td class="font-weight-bold">$283</td>
-                                    <td>20 Mar 2018</td>
-                                    <td class="font-weight-medium">
-                                        <div class="badge badge-warning">Pending</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Social media marketing</td>
-                                    <td class="font-weight-bold">$897</td>
-                                    <td>26 Oct 2018</td>
-                                    <td class="font-weight-medium">
-                                        <div class="badge badge-success">Completed</div>
-                                    </td>
-                                </tr>
+                                <?php endif; ?>
+                                <?php endwhile; ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-    </div> -->
-
+    </div>
+    <?php endif; ?>
+    <?php endif; ?>
 
 
     <div class="row">

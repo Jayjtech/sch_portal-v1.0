@@ -73,4 +73,54 @@ switch($given_month){
                 $month_syntax = "December";
                 break;
         }
+
+
+
+        switch($st_position){
+            case 0:
+                $POD = '<div class="text-danger">Yet to be assigned!</div>';
+                break;
+            case 1:
+                $POD = "Proprietor";
+                break;
+            case 2:
+                $POD = "Principal";
+                break;
+            case 3:
+                $POD = "Vice Principal";
+                break;
+            case 4:
+                $POD = "Head Teacher";
+                break;
+            case 5:
+                $POD = "Teacher";
+                break;
+            case 6:
+                $POD = "Bursar";
+                break;
+            case 7:
+                $POD = "Treasurer";
+                break;
+        }
+
+        switch($st_privileges){
+            case 0:
+                $priv = '<div class="text-danger">Yet to be assigned!</div>';
+                break;
+            case 1:
+                $priv = "|Student|Staff|Exam|Documents|Revenue|";
+                break;
+            case 2:
+                $priv = "|Student|Staff|Exam|Documents|";
+                break;
+            case 3:
+                $priv = "|Student|Staff|Exam|";
+                break;
+            case 4:
+                $priv = "|Student|Staff|";
+                break;
+            case 5:
+                $priv = "|Student|";
+                break;
+        }
 ?>

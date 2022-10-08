@@ -72,7 +72,7 @@ switch($exam_term){
                                     value="<?= base64_encode('{"userId":"'. $_SESSION['userId'].'","name":"'. $_SESSION['name'].'","quest_type":"'. $quest_type .'",
                     "class":"'. $class .'","examTerm":"'. $exam_term .'","examSession":"'. $exam_session .'","paper_type":"'. $user_paper_type .'",
                     "course_code":"'. $exam_course_code .'","subject":"'. $exam_course .'","duration":"'. $duration .'"}');?>">
-                                <button type="submit" name="submit_score"
+                                <button type="submit" name="submit_score" style="display:none;"
                                     class="btn btn-success btn-submit">Submit</button>
                             </form>
                         </div>

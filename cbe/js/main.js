@@ -202,6 +202,7 @@ for(i = 0; i < instructions.length; i++){
 
 /**When start exam btn is clicked */
 startBtn.addEventListener("click", function(){
+    submitBtn.style.display = "flex";
     saveScoreLocalStorage()
     nextBtn.style.display = "inline-flex"
     mainEl.innerHTML = ""

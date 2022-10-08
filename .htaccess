@@ -14,7 +14,7 @@ RewriteRule ^adm_students adm_students.php [NC,L]
 RewriteRule ^adm_revenue adm_revenue.php [NC,L] 
 RewriteRule ^adm_staff adm_staff.php [NC,L] 
 RewriteRule ^adm_staff adm_staff.php [NC,L] 
-RewriteRule ^adm_academic adm_academic.php [NC,L] 
+RewriteRule ^adm_awards adm_awards.php [NC,L] 
 RewriteRule ^adm_exam adm_exam.php [NC,L] 
 RewriteRule ^adm_document adm_document.php [NC,L] 
 RewriteRule ^adm_info adm_info.php [NC,L] 
@@ -31,6 +31,8 @@ RewriteRule ^a_result_template a_result_template.php [NC,L]
 RewriteRule ^b_result_template b_result_template.php [NC,L] 
 RewriteRule ^adm_result_setting adm_result_setting.php [NC,L] 
 RewriteRule ^receipt_pdf receipt.php [NC,L] 
+RewriteRule ^settle_bill settle_bill.php [NC,L] 
+RewriteRule ^syllabus syllabus.php [NC,L] 
 
 
 php_value date.timezone 'Africa/lagos'

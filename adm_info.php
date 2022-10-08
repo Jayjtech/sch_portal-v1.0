@@ -9,8 +9,22 @@
             <div class="card position-relative">
                 <div class="card-body">
                     <h4 class="card-title">School Information</h4>
+                    <hr>
+                    <div class="container row">
+                        <p class="text-uppercase text-info font-weight-bold">Add school logo</p>
+                        <div class="col-sm-4" id="uploaded_image">
+                            <div class="wrapper" style="background:url('images/<?= $sch_logo; ?>'); height:150px;width:150px;position:relative;border:5px solid #fefeee;
+											border-radius: 50%;background-size: 100% 100%;margin: 0px auto;overflow:hidden;">
+                                <box-icon type='solid' name='camera'></box-icon>
+                                <input type="file" name="file" id="logo_file" class="my_file"
+                                    accept="image/png, image/jpeg" class="account-file-input">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
                     <form action="<?= $pusher;?>" class="forms-sample" method="POST" onsubmit="return schInfo(this)">
-                        <p class="text-uppercase text-info">school description / contact</p>
+                        <p class="text-uppercase text-info font-weight-bold">school description / contact</p>
+                        <hr>
                         <div class="row mt-3 mb-3">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -59,7 +73,8 @@
                             </div>
                         </div>
                         <hr>
-                        <p class="text-uppercase text-info">school media platforms</p>
+                        <p class="text-uppercase text-info font-weight-bold">school media platforms</p>
+                        <hr>
                         <div class="row mt-3 mb-3">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -93,7 +108,8 @@
 
                         </div>
                         <hr>
-                        <p class="text-uppercase text-info">current academic period</p>
+                        <p class="text-uppercase text-info font-weight-bold">current academic period</p>
+                        <hr>
                         <div class="row mt-3 mb-3">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -122,7 +138,8 @@
                             </div>
                         </div>
                         <hr>
-                        <p class="text-uppercase text-info">payment gateways</p>
+                        <p class="text-uppercase text-info font-weight-bold">payment gateways</p>
+                        <hr>
                         <div class="row mt-3 mb-3">
                             <div class="col-sm-6">
                                 <div class="form-group">

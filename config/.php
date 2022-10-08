@@ -534,6 +534,7 @@ $cr_loan_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $loan_tbl (
     userId varchar(255) NOT NULL,
     token varchar(255) NOT NULL,
     amount int(11) NOT NULL,
+    interest int(11) NOT NULL,
     credit int(11) NOT NULL,
     debit int(11) NOT NULL,
     balance int(11) NOT NULL,
@@ -570,6 +571,23 @@ $cr_bill_report_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $bill_report_tbl 
     bursar varchar(255) NOT NULL,
     description varchar(500) NOT NULL,
     receipt varchar(100000000) NOT NULL,
+    date varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
+$cr_course_material_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $course_material_tbl (
+    id int(11) AUTO_INCREMENT NOT NULL,
+    name varchar(255) NOT NULL,
+    userId varchar(255) NOT NULL,
+    token varchar(255) NOT NULL,
+    course varchar(255) NOT NULL,
+    course_code varchar(255) NOT NULL,
+    title varchar(255) NOT NULL,
+    class varchar(255) NOT NULL,
+    category varchar(255) NOT NULL,
+    file varchar(255) NOT NULL,
+    size float(11) NOT NULL,
+    term int(11) NOT NULL,
     date varchar(255) NOT NULL,
     PRIMARY KEY (id)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;");

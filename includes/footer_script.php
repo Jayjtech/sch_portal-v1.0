@@ -15,6 +15,84 @@ $(document).ready(function() {
     });
 });
 
+/**Profile image uploader */
+$(document).ready(function() {
+    $(document).on('change', '#file', function() {
+        var name = document.getElementById("file").files[0].name;
+        var form_data = new FormData();
+        var ext = name.split('.').pop().toLowerCase();
+        if (jQuery.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+            alert("Invalid Image File");
+        }
+
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("file").files[0]);
+        var f = document.getElementById("file").files[0];
+        var fsize = f.size || f.fileSize;
+        if (fsize > 2000000) {
+            alert("Image File Size is very big");
+        } else {
+            form_data.append("file", document.getElementById('file').files[0]);
+            $.ajax({
+                url: "<?= $profileUploader; ?>",
+                method: "POST",
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#uploaded_image').html(
+                        "<label class='text-success'>Image Uploading...</label>"
+                    );
+                },
+                success: function(data) {
+                    $('#uploaded_image').html(data);
+                }
+            });
+        }
+    });
+});
+/**End */
+
+/**School logo uploader */
+$(document).ready(function() {
+    $(document).on('change', '#logo_file', function() {
+        var name = document.getElementById("logo_file").files[0].name;
+        var form_data = new FormData();
+        var ext = name.split('.').pop().toLowerCase();
+        if (jQuery.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+            alert("Invalid Image File");
+        }
+
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("logo_file").files[0]);
+        var f = document.getElementById("logo_file").files[0];
+        var fsize = f.size || f.fileSize;
+        if (fsize > 2000000) {
+            alert("Image File Size is very big");
+        } else {
+            form_data.append("logo_file", document.getElementById('logo_file').files[0]);
+            $.ajax({
+                url: "<?= $schLogoUploader; ?>",
+                method: "POST",
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#uploaded_image').html(
+                        "<label class='text-success'>Image Uploading...</label>"
+                    );
+                },
+                success: function(data) {
+                    $('#uploaded_image').html(data);
+                }
+            });
+        }
+    });
+});
+/**End */
+
 function delForm(form) {
     swal.fire({
         title: "Are you sure you want to delete this file",
@@ -296,6 +374,21 @@ function schInfo(form) {
             form.submit();
         } else if (result.isDenied) {
             Swal.fire(`You didn't enrol!`, '', 'info')
+        }
+    })
+    return false;
+}
+
+function delMat(form) {
+    swal.fire({
+        title: `Are you sure you want to delete this material?`,
+        text: ``,
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
         }
     })
     return false;

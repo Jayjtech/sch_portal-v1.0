@@ -123,3 +123,21 @@ if($del2){
       }
        header('location:../../create_course');
 }
+
+
+if(isset($_GET['del_mat'])){
+    $id = $_GET['del_mat'];
+    $file = $_GET['document'];
+    $del = $conn->query("DELETE FROM $course_material_tbl WHERE id='$id'");
+    unlink('../../course_material/'.$file);
+    if($del){
+        $_SESSION['message'] = 'Material has been deleted!';
+        $_SESSION['msg_type'] = "success";
+        $_SESSION['remedy'] = "";
+      }else{
+        $_SESSION['message'] = 'Material could not be deleted!';
+        $_SESSION['msg_type'] = "error";
+        $_SESSION['remedy'] = "";
+      }
+       header('location:../../create_course?course_material');
+}

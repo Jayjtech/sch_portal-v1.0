@@ -15,6 +15,14 @@ include ".php";
 
 $adminDetails = $conn->query("SELECT * FROM $settings_tbl");
 $admin_det = $adminDetails->fetch_object();
+switch($admin_det->img){
+    case false:
+    $sch_logo = 'default-img.jpg';
+    break;
+    case true:
+    $sch_logo = $admin_det->img;
+    break;
+}
 $monnify_token = base64_encode('' . $admin_det->monnify_key . ':' . $admin_det->monnify_secret . '');
 $current_term = $admin_det->current_term;
 $current_session = $admin_det->current_session;

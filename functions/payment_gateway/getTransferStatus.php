@@ -27,9 +27,13 @@ if($getList->num_rows != 0){
     /**Getting previous loan balance */
     $getLoanBal = $conn->query("SELECT * FROM $loan_tbl WHERE token = '$staffToken' ORDER BY id DESC LIMIT 1");
     $lb = $getLoanBal->fetch_object();
+
+    $rate = ($admin_det->loan_interest/100);
+    $interest = round($rate*$amount);
+    $debit = ($amount+$interest);
     $balance = $lb->balance;
     /**confirming current balance */
-    $new_balance = ($balance+$amount);
+    $new_balance = ($balance+$debit);
 }
 
 $otherDet = $conn->query("SELECT * FROM $users_tbl WHERE token='$staffToken'");
@@ -97,7 +101,8 @@ $update = $conn->query("UPDATE $table SET
 if($res->responseBody->status == "SUCCESS"){
 if($table == $loan_disbursement_tbl){
     $debitLoanTbl = $conn->query("UPDATE $loan_tbl SET
-                    debit = '$amount',         
+                    debit = '$debit',         
+                    interest = '$interest',         
                     balance = '$new_balance',         
                     status = 1  
                     WHERE id= '$loan_id'

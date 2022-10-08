@@ -208,16 +208,16 @@
                 <div class="collapse" id="c_panel">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="adm_info">School info</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="adm_revenue?key=revenue">Revenue</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="adm_students">Students info</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_staff">Staff info</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_disbursement?key=staff_list">Salary</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_academic">Academic period</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_staff">Review staff</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_students">Review students</a>
+                        <li class="nav-item"> <a class="nav-link" href="create_course?index">Create course</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_exam">Exam setting</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_result_setting">Result setting</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_upload_score">Upload score</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_upload_comment">Upload comment</a>
-                        <li class="nav-item"> <a class="nav-link" href="create_course">Create course</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_awards">Award Student</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_disbursement?key=staff_list">Salary
+                                payment</a>
+                        <li class="nav-item"> <a class="nav-link" href="adm_revenue?key=revenue">Student bills</a></li>
                         <li class="nav-item"> <a class="nav-link" href="adm_incentive?key=take_loan">Incentive/Loan</a>
                         <li class="nav-item"> <a class="nav-link" href="adm_loan_approval?key=approve_loan">Loan
                                 Approval</a>
@@ -242,13 +242,14 @@
                     </ul>
                 </div>
             </li>
+
+            <?php if($det->user_type == "c3R1ZHk="):?>
             <li class="nav-item">
                 <a class="nav-link" aria-controls="ui-basic" href="my_course">
                     <i class="icon-grid menu-icon"></i>
                     <span class="menu-title">My Course</span>
                 </a>
             </li>
-
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#e-learning" aria-expanded="false"
                     aria-controls="e-learning">
@@ -279,17 +280,25 @@
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="raw_score">Raw Score</a>
                         </li>
-                        <li class="nav-item"> <a class="nav-link" href="approved_result">Approved result</a>
-                        </li>
                     </ul>
                 </div>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-controls="ui-basic" href="settle_bill">
+                    <i class="icon-grid menu-icon"></i>
+                    <span class="menu-title">Settle bills</span>
+                </a>
+            </li>
+            <?php endif; ?>
+
+            <?php if($det->user_type == "d29yaw=="):?>
             <li class="nav-item">
                 <a class="nav-link" aria-controls="ui-basic" href="<?= $account_details; ?>">
                     <i class="icon-grid menu-icon"></i>
                     <span class="menu-title">Bank details</span>
                 </a>
             </li>
+            <?php endif; ?>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
                     <i class="icon-grid-2 menu-icon"></i>

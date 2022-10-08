@@ -13,6 +13,7 @@
             <div class="card position-relative">
                 <div class="card-body">
                     <h4 class="card-title">Student's detail</h4>
+                    <hr>
                     <form action="<?= $pusher;?>" class="forms-sample" method="GET" onsubmit="return bioData(this)">
                         <h6 class="text-uppercase">Educational details</h6>
                         <div class="row mt-3 mb-3">
@@ -169,9 +170,29 @@
             </div>
         </div>
     </div>
-
-
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card position-relative">
+                <div class="card-body">
+                    <h4 class="card-title">Upload profile picture</h4>
+                    <hr>
+                    <div class="col-lg-4">
+                        <div class="" id="uploaded_image">
+                            <div class="wrapper" style="background:url('images/profile/<?= $p_img; ?>'); height:150px;width:150px;position:relative;border:5px solid #fefeee;
+											border-radius: 50%;background-size: 100% 100%;margin: 0px auto;overflow:hidden;">
+                                <box-icon type='solid' name='camera'></box-icon>
+                                <input type="file" name="file" id="file" class="my_file" accept="image/png, image/jpeg"
+                                    class="account-file-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- content-wrapper ends -->
+<script type="text/javascript">
 
+</script>
 <?php include "includes/footer.php"; ?>

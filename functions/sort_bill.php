@@ -1,6 +1,7 @@
 <?php
     include "../config/db.php";
     include "../includes/calls.php";
+   
     if(isset($_POST['sort_bill'])){
         $sch_fee = mysqli_real_escape_string($conn, $_POST['sch_fee']);
         $ict = mysqli_real_escape_string($conn, $_POST['ict']);
@@ -30,7 +31,16 @@
         $adm_no = mysqli_real_escape_string($conn, $_POST['adm_no']);
         $total_amount = mysqli_real_escape_string($conn, $_POST['total_amount']);
         $description = mysqli_real_escape_string($conn, $_POST['description']);
-
+        
+        if($_SESSION['pg'] == "adm_revenue"){
+                $redirect_url = '../adm_revenue?sort_bill='.$adm_no.'';
+                $bursar = $name;
+            }else if($_SESSION['pg'] == "settle_bill"){
+                $redirect_url = "../settle_bill";
+                $bursar = "Self paid";
+            }else{
+                $redirect_url = "../logout";
+            }
         
         $getWalletBal = $conn->query("SELECT * FROM $users_tbl WHERE userId='$adm_no'");
         $gtw = $getWalletBal->fetch_object();
@@ -162,7 +172,7 @@
                             description = '$description',
                             receipt = '$receipt',
                             date = '$date',
-                            bursar = '$name',
+                            bursar = '$bursar',
                             adm_no = '$adm_no',
                             term = '$log_term',
                             session = '$log_session'
@@ -180,5 +190,5 @@
             $_SESSION['remedy'] = '';
         }
     }
-    header('location: ../adm_revenue?sort_bill='.$adm_no.'');
+    header('location: '.$redirect_url.'');
 }

@@ -62,9 +62,9 @@ $response1 = curl_exec($curl);
 curl_close($curl);
 $resp = json_decode($response1);
 
-echo '<pre>';
-print_r($resp);
-echo '</pre>';
+// echo '<pre>';
+// print_r($resp);
+// echo '</pre>';
 
 if($resp->requestSuccessful != 1){
         $_SESSION['message'] = ''.$resp->responseMessage.'';

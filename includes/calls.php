@@ -49,6 +49,15 @@ $callUserDetails = $conn->query("SELECT * FROM $users_tbl WHERE userId='$userId'
 $det = $callUserDetails->fetch_object();
 $department = $det->department;
 $curr_class = $det->curr_class;
+switch($det->img){
+    case false:
+    $p_img = 'default-img.jpg';
+    break;
+    case true:
+    $p_img = $det->img;
+    break;
+}
+
 $monnify_account = json_decode($det->monnify_account);
 $bank_account = json_decode($det->bank_details);
 $class_officiating = $det->class_officiating;
@@ -83,6 +92,7 @@ switch($det->position){
 
 /**Courses Staff*/
 $callCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
+$callMaterial = $conn->query("SELECT * FROM $course_material_tbl WHERE token='$token' AND term='$log_term'");
 $created_course_count = $callCourses->num_rows;
 $selCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
 while($courseList = $selCourses->fetch_object()){
@@ -165,4 +175,15 @@ if($admin_det->result_template == 1){
 }else if($admin_det->result_template == 2){
     $result_sheet_url = "b_result_template";
 }
+
+
+/**My Bills */
+$myBill = $conn->query("SELECT * FROM $bill_tbl WHERE (userId='$userId' AND term='$log_term' AND session='$log_session')");
+$mb = $myBill->fetch_object();
+/**My course materials */
+$myCourseMat = $conn->query("SELECT * FROM $course_material_tbl WHERE (term='$log_term' AND class='$curr_class') AND (category='Lesson note' OR category='Document')");
+/**My Syllabus */
+$myCourseMat = $conn->query("SELECT * FROM $course_material_tbl WHERE (term='$log_term' AND class='$curr_class' AND category='Syllabus')");
+
+
 ?>

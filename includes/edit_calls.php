@@ -12,6 +12,15 @@ if(isset($_GET['pod'])){
     $token = mysqli_real_escape_string($conn,$_GET['pod']);
     $selectStaff = $conn->query("SELECT * FROM $users_tbl WHERE token='$token'");
     $edS = $selectStaff->fetch_object();
+
+     switch($edS->img){
+        case false:
+        $ed_img = 'default-img.jpg';
+        break;
+        case true:
+        $ed_img = $edS->img;
+        break;
+    }
 switch($edS->position){
     case 0:
         $POD = '<div class="text-danger">Yet to be assigned!</div>';
@@ -75,7 +84,14 @@ if(isset($_GET['rev'])){
     $token = mysqli_real_escape_string($conn,$_GET['rev']);
     $selectStudent = $conn->query("SELECT * FROM $users_tbl WHERE token='$token'");
     $edStu = $selectStudent->fetch_object();
-
+   switch($edStu->img){
+        case false:
+        $ed_img = 'default-img.jpg';
+        break;
+        case true:
+        $ed_img = $edStu->img;
+        break;
+    }
     $curr_class_val = $edStu->curr_class;
     $curr_class = $edStu->curr_class;
     $award_val = $edStu->award_type;

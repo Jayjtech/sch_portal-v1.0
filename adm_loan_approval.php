@@ -106,7 +106,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="">Refund in how many months?</label>
+                                <label for=""><em class="font-weight-bold">Refund percentage:</em> [Automatically deduct
+                                    % from staff salary at the
+                                    instance of salary disbursement]</label>
                                 <div class="input-group">
                                     <input type="text" name="loan_refund_rate" min="1"
                                         placeholder="Enter the number of month for refund" class="form-control" required

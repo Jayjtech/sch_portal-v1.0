@@ -1,6 +1,14 @@
 <?php
 include "../../config/db.php";
+    
+if(isset($_SESSION['userId'])){
     $userId = $_SESSION['userId'];
+}else if(isset($_POST['userId'])){
+    $userId = $_POST['userId'];
+}
+
+$_SESSION['userId'] = $userId;
+
 if ($_SESSION['userId']) {
      if($_SESSION['userCategory'] == "d29yaw=="){
                 $_SESSION['message'] = 'Thanks for registering with ' . $sch_name . '!';
@@ -10,7 +18,7 @@ if ($_SESSION['userId']) {
                 header("location:../../dashboard");
             }else{
 
-
+            
     $callUserDetails = $conn->query("SELECT * FROM $users_tbl WHERE userId = '$userId'");
     while ($row = $callUserDetails->fetch_assoc()) {
         //USER DETAILS
@@ -52,10 +60,6 @@ if ($_SESSION['userId']) {
         $response1 = curl_exec($curl);
         curl_close($curl);
         $data = json_decode($response1);
-        // echo '<pre>';
-        // print_r($data);
-        // echo '</pre>';
-        // exit();
         //UPDATE USER TABLE
         if ($data->requestSuccessful != "success") {
             $_SESSION['message'] = '' . $data->responseMessage . '';
@@ -90,16 +94,17 @@ if ($_SESSION['userId']) {
     } else {
         if($_SESSION['page'] == "Register"){
                     $_SESSION['message'] = 'Thanks for registering with us ' . $sch_name . '!';
+                    $_SESSION['msg_type'] = "success";
                 }else{
                    $_SESSION['message'] = "Service currently unavailable!";
+                   $_SESSION['msg_type'] = "warning";
                 }
         
-        $_SESSION['msg_type'] = "success";
         $_SESSION['remedy'] = 'Please try again later';
         $_SESSION['btn'] = "Ok";
         header("location:../../dashboard");
     }
-    }
+}
 } else {
     $_SESSION['message'] = "Access denied!";
     $_SESSION['msg_type'] = "warning";
@@ -107,8 +112,3 @@ if ($_SESSION['userId']) {
     $_SESSION['btn'] = "Ok";
     header("location:../../login");
 }
-
-/**
- * 
- * {"requestSuccessful":true,"responseMessage":"success","responseCode":"0","responseBody":{"contractCode":"587163315485","accountReference":"3163174548","accountName":"Ade","currencyCode":"NGN","customerEmail":"stuziejay@gmail.com","customerName":"Oluwafemi","accounts":[{"bankCode":"232","bankName":"Sterling bank","accountNumber":"8468848331","accountName":"Ade"},{"bankCode":"035","bankName":"Wema bank","accountNumber":"8637443748","accountName":"Ade"},{"bankCode":"50515","bankName":"Moniepoint Microfinance Bank","accountNumber":"6188644909","accountName":"Ade"},{"bankCode":"070","bankName":"Fidelity bank","accountNumber":"4551342743","accountName":"Ade"}],"collectionChannel":"RESERVED_ACCOUNT","reservationReference":"0A0B1SMFF6VCS6JLJ07X","reservedAccountType":"GENERAL","status":"ACTIVE","createdOn":"2022-09-09 10:05:51.086","incomeSplitConfig":[],"restrictPaymentSource":false}}
- */

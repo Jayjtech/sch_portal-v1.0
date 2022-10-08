@@ -140,59 +140,21 @@
                                     <th>Name[ID]</th>
                                     <th>POD.</th>
                                     <th>Salary</th>
+                                    <th>Loan debt</th>
                                     <th>Bank Details</th>
                                     <th>Add to disbursement list</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php while($row = $callStaff->fetch_object()):
-                                    switch($row->position){
-                                            case 0:
-                                                $POD = '<div class="text-danger">Yet to be assigned!</div>';
-                                                break;
-                                            case 1:
-                                                $POD = "Proprietor";
-                                                break;
-                                            case 2:
-                                                $POD = "Principal";
-                                                break;
-                                            case 3:
-                                                $POD = "Vice Principal";
-                                                break;
-                                            case 4:
-                                                $POD = "Head Teacher";
-                                                break;
-                                            case 5:
-                                                $POD = "Teacher";
-                                                break;
-                                            case 6:
-                                                $POD = "Bursar";
-                                                break;
-                                            case 7:
-                                                $POD = "Treasurer";
-                                                break;
-                                        }
-
-                                        switch($row->privileges){
-                                            case 0:
-                                                $priv = '<div class="text-danger">Yet to be assigned!</div>';
-                                                break;
-                                            case 1:
-                                                $priv = "|Student|Staff|Exam|Documents|Revenue|";
-                                                break;
-                                            case 2:
-                                                $priv = "|Student|Staff|Exam|Documents|";
-                                                break;
-                                            case 3:
-                                                $priv = "|Student|Staff|Exam|";
-                                                break;
-                                            case 4:
-                                                $priv = "|Student|Staff|";
-                                                break;
-                                            case 5:
-                                                $priv = "|Student|";
-                                                break;
-                                        }
+                                    $staff_id = $row->userId;
+                                    $checkLoan = $conn->query("SELECT * FROM $loan_tbl WHERE userId='$staff_id' ORDER BY id DESC LIMIT 1");
+                                    $ln = $checkLoan->fetch_object();
+                                    $st_position = $row->position;
+                                    $st_privileges = $row->privileges;
+                                    $given_month = false;
+                                    $status = false;
+                                    include "includes/status_const.php";
                                         $staff_bnk = json_decode($row->bank_details);
                                         
                                         $bankDet = [
@@ -203,9 +165,15 @@
                                         ];
                                     ?>
                                 <tr>
-                                    <td class="font-weight-bold"><?= $row->name; ?>[<?= $row->userId; ?>]</td>
+                                    <td class="font-weight-bold"><?= $row->name; ?> [<?= $row->userId; ?>]</td>
                                     <td><?= $POD; ?></td>
-                                    <td><?= $currency; ?><?= number_format($row->salary); ?></td>
+                                    <td class="text-success font-weight-bold">
+                                        <?= $currency; ?><?= number_format($row->salary); ?></td>
+                                    <td class="text-danger font-weight-bold">
+                                        <?php if($ln->debit == true): ?>
+                                        -<?= $currency; ?><?= number_format($ln->debit); ?>
+                                        <?php endif; ?>
+                                    </td>
                                     <td>
                                         <p>
                                             Bank: <?= $staff_bnk->bank; ?><br>

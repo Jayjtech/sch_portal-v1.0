@@ -7,7 +7,7 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0">Course material for <?= $term_syntax; ?> term</p>
+                    <p class="card-title mb-0">Syllabus for <?= $term_syntax; ?> term</p>
                     <hr>
                     <div class="table-responsive">
                         <table class="myTable table table-striped table-borderless">

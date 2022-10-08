@@ -24,9 +24,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php while($stu = $callStudents->fetch_object()):?>
+                                <?php while($stu = $callStudents->fetch_object()):
+                                    switch($stu->img){
+                                        case false:
+                                        $st_img = 'default-img.jpg';
+                                        break;
+                                        case true:
+                                        $st_img = $stu->img;
+                                        break;
+                                    }
+                                    ?>
                                 <tr>
-                                    <td class="py-1"><img src="images/profile/<?= $row->img; ?>" alt="image" />
+                                    <td class="py-1"><img src="images/profile/<?= $st_img; ?>" alt="image" />
                                     </td>
                                     <td><?= $stu->name; ?></td>
                                     <td class="font-weight-bold"><?= $stu->userId; ?></td>
@@ -54,8 +63,14 @@
                 <div class="card-body">
                     <h4 class="card-title">Review Student</h4>
                     <hr>
+
                     <form action="<?= $pusher;?>" class="forms-sample" method="POST" onsubmit="return revStu(this)">
                         <div class="row mt-3 mb-3">
+                            <div class="col-sm-6">
+                                <div class="wrapper" style="background:url('images/profile/<?= $ed_img; ?>'); height:150px;width:150px;position:relative;border:5px solid #fefeee;
+											border-radius: 50%;background-size: 100% 100%;margin: 0px auto;overflow:hidden;">
+                                </div>
+                            </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="exampleInputUsername1">Token</label>
@@ -169,7 +184,8 @@
 
                         <hr>
                         <div class="" align="right">
-                            <button type="submit" class="btn btn-primary mr-2" name="review_staff">Save Changes</button>
+                            <button type="submit" class="btn btn-primary mr-2" name="review_staff">Save
+                                Changes</button>
                         </div>
 
                     </form>

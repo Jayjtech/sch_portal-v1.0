@@ -95,7 +95,7 @@ $data .= '<section style="margin-top:0;">
                     <p>Attendance: <strong><em>' . $gE->n_present . '</em></strong> of <strong><em>' . ($gE->n_absent + $gE->n_present) . '</em></strong></p>
                 </div>
                 <div class="data right">
-                <img style="width:30%;height:25%; border:1px solid purple; float:left;border-radius:15px;" src="' . $det->img . '" alt="Profile Image">
+                <img style="width:30%;height:25%;float:left;" src="images/profile/' . $p_img . '" alt="Profile Image">
                     <div class="date">
                     <span> Print date: ' . $date . '</span><br>
                     <span> Result Pin: ' . $result_code . '</span>
