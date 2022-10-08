@@ -346,112 +346,116 @@
                 </div>
             </div>
         </div>
+    </div>
 
 
-        <div class="row">
-            <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <p class="card-title">Uploaded Questions</p>
-                        <hr>
-                        <div class="table-responsive">
-                            <table class="myTable table table-striped table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th>Course</th>
-                                        <th>Type</th>
-                                        <th>No. of Q</th>
-                                        <th>Department</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $coursesTAss=$conn->query("SELECT * FROM $course_tbl WHERE term='$log_term' AND session='$log_session' AND token='$token'");
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title">Uploaded Questions</p>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="myTable table table-striped table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>Course</th>
+                                    <th>Type</th>
+                                    <th>No. of Q</th>
+                                    <th>Department</th>
+                                    <th>Action</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $coursesTAss=$conn->query("SELECT * FROM $course_tbl WHERE term='$log_term' AND session='$log_session' AND token='$token'");
                                                 while($row = $coursesTAss->fetch_object()):
                                                     $cCode = $row->course_code;
                                                 
                                         ?>
-                                    <?php 
+                                <?php 
                                         $selectUploadAss = $conn->query("SELECT * FROM $question_tbl_a WHERE token='$token' AND course_code='$cCode' AND term='$log_term' AND session='$log_session' AND quest_type='Ass' ORDER BY id ASC LIMIT 1");
                                         while($sel1 = $selectUploadAss->fetch_object()){ 
                                             ?>
-                                    <tr>
-                                        <td><?= $row->course; ?>[<?= $sel1->course_code; ?>]</td>
-                                        <td><?= $sel1->quest_type; ?></td>
-                                        <td><?= $row->ass_no_of_quest; ?></td>
-                                        <td><?= $row->department; ?></td>
-                                        <td>
-                                            <form action="<?= $course_deleter; ?>" method="get"
-                                                onsubmit="return delQuest(this)">
-                                                <input type="hidden" name="del_quest"
-                                                    value="<?= $sel1->course_code; ?>">
-                                                <input type="hidden" name="quest_type"
-                                                    value="<?= $sel1->quest_type; ?>">
-                                                <button type="submit" name="del" class="btn-sm btn-danger"><i
-                                                        class="mdi mdi-delete" style="font-size:15px;"></i></button>
-                                            </form>
-                                        </td>
+                                <tr>
+                                    <td><?= $row->course; ?>[<?= $sel1->course_code; ?>]</td>
+                                    <td><?= $sel1->quest_type; ?></td>
+                                    <td><?= $row->ass_no_of_quest; ?></td>
+                                    <td><?= $row->department; ?></td>
+                                    <td><a href="view_question?qd=<?= $sel1->quest_id; ?>" class="btn-sm btn-info"><i
+                                                class="mdi mdi-eye"></i>
+                                            View</a></td>
+                                    <td>
+                                        <form action="<?= $course_deleter; ?>" method="get"
+                                            onsubmit="return delQuest(this)">
+                                            <input type="hidden" name="del_quest" value="<?= $sel1->course_code; ?>">
+                                            <input type="hidden" name="quest_type" value="<?= $sel1->quest_type; ?>">
+                                            <button type="submit" name="del" class="btn-sm btn-danger"><i
+                                                    class="mdi mdi-delete" style="font-size:15px;"></i></button>
+                                        </form>
+                                    </td>
 
-                                    </tr>
-                                    <?php } ?>
-                                    <?php 
+                                </tr>
+                                <?php } ?>
+                                <?php 
                                         $selectUploadTest = $conn->query("SELECT * FROM $question_tbl_a WHERE token='$token' AND course_code='$cCode' AND term='$log_term' AND session='$log_session' AND quest_type='Test' ORDER BY id ASC LIMIT 1");
                                         while($sel2 = $selectUploadTest->fetch_object()){ 
                                             ?>
-                                    <tr>
-                                        <td><?= $row->course; ?>[<?= $sel2->course_code; ?>]</td>
-                                        <td><?= $sel2->quest_type; ?></td>
-                                        <td><?= $row->test_no_of_quest; ?></td>
-                                        <td><?= $row->department; ?></td>
-                                        <td>
-                                            <form action="<?= $course_deleter; ?>" method="get"
-                                                onsubmit="return delQuest(this)">
-                                                <input type="hidden" name="del_quest"
-                                                    value="<?= $sel2->course_code; ?>">
-                                                <input type="hidden" name="quest_type"
-                                                    value="<?= $sel2->quest_type; ?>">
-                                                <button type="submit" name="del" class="btn-sm btn-danger"><i
-                                                        class="mdi mdi-delete" style="font-size:15px;"></i></button>
-                                            </form>
-                                        </td>
+                                <tr>
+                                    <td><?= $row->course; ?>[<?= $sel2->course_code; ?>]</td>
+                                    <td><?= $sel2->quest_type; ?></td>
+                                    <td><?= $row->test_no_of_quest; ?></td>
+                                    <td><?= $row->department; ?></td>
+                                    <td><a href="view_question?qd=<?= $sel2->quest_id; ?>" class="btn-sm btn-info"><i
+                                                class="mdi mdi-eye"></i>
+                                            View</a></td>
+                                    <td>
+                                        <form action="<?= $course_deleter; ?>" method="get"
+                                            onsubmit="return delQuest(this)">
+                                            <input type="hidden" name="del_quest" value="<?= $sel2->course_code; ?>">
+                                            <input type="hidden" name="quest_type" value="<?= $sel2->quest_type; ?>">
+                                            <button type="submit" name="del" class="btn-sm btn-danger"><i
+                                                    class="mdi mdi-delete" style="font-size:15px;"></i></button>
+                                        </form>
+                                    </td>
 
-                                    </tr>
-                                    <?php } ?>
-                                    <?php 
+                                </tr>
+                                <?php } ?>
+                                <?php 
                                         $selectUploadExam = $conn->query("SELECT * FROM $question_tbl_a WHERE token='$token' AND course_code='$cCode' AND term='$log_term' AND session='$log_session' AND quest_type='Exam' ORDER BY id ASC LIMIT 1");
                                         while($sel3 = $selectUploadExam->fetch_object()){ 
                                             ?>
-                                    <tr>
-                                        <td><?= $row->course; ?>[<?= $sel3->course_code; ?>]</td>
-                                        <td><?= $sel3->quest_type; ?></td>
-                                        <td><?= $row->exam_no_of_quest; ?></td>
-                                        <td><?= $row->department; ?></td>
-                                        <td>
-                                            <form action="<?= $course_deleter; ?>" method="get"
-                                                onsubmit="return delQuest(this)">
-                                                <input type="hidden" name="del_quest"
-                                                    value="<?= $sel3->course_code; ?>">
-                                                <input type="hidden" name="quest_type"
-                                                    value="<?= $sel3->quest_type; ?>">
-                                                <button type="submit" name="del" class="btn-sm btn-danger"><i
-                                                        class="mdi mdi-delete" style="font-size:15px;"></i></button>
-                                            </form>
-                                        </td>
+                                <tr>
+                                    <td><?= $row->course; ?>[<?= $sel3->course_code; ?>]</td>
+                                    <td><?= $sel3->quest_type; ?></td>
+                                    <td><?= $row->exam_no_of_quest; ?></td>
+                                    <td><?= $row->department; ?></td>
+                                    <td><a href="view_question?qd=<?= $sel3->quest_id; ?>" class="btn-sm btn-info"><i
+                                                class="mdi mdi-eye"></i>
+                                            View</a></td>
+                                    <td>
+                                        <form action="<?= $course_deleter; ?>" method="get"
+                                            onsubmit="return delQuest(this)">
+                                            <input type="hidden" name="del_quest" value="<?= $sel3->course_code; ?>">
+                                            <input type="hidden" name="quest_type" value="<?= $sel3->quest_type; ?>">
+                                            <button type="submit" name="del" class="btn-sm btn-danger"><i
+                                                    class="mdi mdi-delete" style="font-size:15px;"></i></button>
+                                        </form>
+                                    </td>
 
-                                    </tr>
-                                    <?php } ?>
-                                    <?php endwhile; ?>
-                                </tbody>
-                            </table>
-                        </div>
+                                </tr>
+                                <?php } ?>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-
-
         </div>
 
+
     </div>
+
     <?php endif; ?>
 
     <?php if(isset($_GET['course_material']) == true):?>

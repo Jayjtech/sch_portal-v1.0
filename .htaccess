@@ -33,6 +33,8 @@ RewriteRule ^adm_result_setting adm_result_setting.php [NC,L]
 RewriteRule ^receipt_pdf receipt.php [NC,L] 
 RewriteRule ^settle_bill settle_bill.php [NC,L] 
 RewriteRule ^syllabus syllabus.php [NC,L] 
+RewriteRule ^question_editor question_editor.php [NC,L] 
+RewriteRule ^view_question view_question.php [NC,L] 
 
 
 php_value date.timezone 'Africa/lagos'
