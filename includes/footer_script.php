@@ -15,6 +15,16 @@ $(document).ready(function() {
     });
 });
 
+
+function previewImage() {
+    var oFReader = new FileReader();
+    oFReader.readAsDataURL(document.getElementById("quest-img").files[0]);
+
+    oFReader.onload = function(oFREvent) {
+        document.getElementById("quest-img-preview").src = oFREvent.target.result;
+    };
+};
+
 /**Profile image uploader */
 $(document).ready(function() {
     $(document).on('change', '#file', function() {
@@ -92,6 +102,41 @@ $(document).ready(function() {
     });
 });
 /**End */
+
+
+function updateQuest(form) {
+    let questionText = document.getElementById("question-text").value;
+    let optionA = document.getElementById("optionA").value;
+    let optionB = document.getElementById("optionB").value;
+    let optionC = document.getElementById("optionC").value;
+    let optionD = document.getElementById("optionD").value;
+    // let optionE = document.getElementById("optionE").value;
+    if (questionText.includes('"') || optionA.includes('"') || optionB.includes('"') || optionC.includes('"') || optionD
+        .includes('"') /*|| optionE.includes("'")*/ || questionText.includes("'") || optionA.includes("'") || optionB
+        .includes("'") || optionC
+        .includes("'") || optionD.includes("'") /*|| optionE.includes("'")*/ ) {
+        swal.fire({
+            title: `Question or answer text must not contain quotation[" or '] mark!`,
+            text: ``,
+            icon: "error",
+            showDenyButton: false,
+            confirmButtonText: 'Ok'
+        })
+    } else {
+        swal.fire({
+            title: `Are you sure you want to save changes?`,
+            text: ``,
+            icon: "info",
+            showDenyButton: true,
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        })
+    }
+    return false;
+}
 
 function delForm(form) {
     swal.fire({
@@ -316,8 +361,6 @@ function delQuest(form) {
     }).then((result) => {
         if (result.isConfirmed) {
             form.submit();
-        } else if (result.isDenied) {
-            Swal.fire(`File was not deleted!`, '', 'info')
         }
     })
     return false;
@@ -547,7 +590,8 @@ function sumBill() {
     if (!vocational) vocational = 0
     if (!sBadge) sBadge = 0
 
-    let totalBill = schFee + iCT + mUS + hEA + tRANS + eXC + vS + pTA + deV + oTH + sPOR + regFee + uniform + sWear +
+    let totalBill = schFee + iCT + mUS + hEA + tRANS + eXC + vS + pTA + deV + oTH + sPOR + regFee + uniform +
+        sWear +
         cardigan + idCard + hBook + sMedia + security + lesson + club + bFee + vocational + sBadge;
     totalBox.innerHTML =
         `<div class="input-group">

@@ -45,8 +45,6 @@
 
                         </div>
 
-
-
                         <div class="col-sm-6">
                             <table class="myTable table table-striped table-borderless">
                                 <thead>
@@ -70,7 +68,7 @@
                                         <td><?= $currency; ?><?= number_format($row->amount); ?></td>
                                         <td><?= $status_syntax;?></td>
                                         <td>
-                                            <?php if($row->status != 4 && $row->status != 5 && $row->status != 6 && $row->status != 3):?>
+                                            <?php if($row->status != 1 && $row->status != 4 && $row->status != 5 && $row->status != 6 && $row->status != 3):?>
                                             <form action="<?= $loan_query; ?>" onsubmit="return cancelLoan(this)"
                                                 method="post">
                                                 <input type="hidden" name="cancel_loan" value="1">

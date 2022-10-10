@@ -170,8 +170,8 @@
                                     <td class="text-success font-weight-bold">
                                         <?= $currency; ?><?= number_format($row->salary); ?></td>
                                     <td class="text-danger font-weight-bold">
-                                        <?php if($ln->debit == true): ?>
-                                        -<?= $currency; ?><?= number_format($ln->debit); ?>
+                                        <?php if($ln->balance == true): ?>
+                                        -<?= $currency; ?><?= number_format($ln->balance); ?>
                                         <?php endif; ?>
                                     </td>
                                     <td>
@@ -194,7 +194,9 @@
                                                 </select>
                                             </div>
                                             <input type="hidden" name="salary" value="<?= $row->salary; ?>">
+                                            <input type="hidden" name="create_payroll" value="1">
                                             <input type="hidden" name="name" value="<?= $row->name; ?>">
+                                            <input type="hidden" name="ln_debt" value="<?= $ln->balance; ?>">
                                             <input type="hidden" name="bankDet"
                                                 value="<?= base64_encode(json_encode($bankDet)); ?>">
                                             <input type="hidden" name="token" value="<?= $row->token; ?>">
@@ -234,6 +236,9 @@
                                     <th>Description</th>
                                     <th>Period</th>
                                     <th>Salary</th>
+                                    <th>Loan Debt</th>
+                                    <th>Loan Refund</th>
+                                    <th>Disbursement Amount</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -249,7 +254,16 @@
                                     <td class="font-weight-bold"><?= $dis->name; ?></td>
                                     <td class="font-weight-bold"><?= $dis->description; ?></td>
                                     <td class="font-weight-bold"><?= $month_syntax; ?> <?= $period[0]; ?></td>
-                                    <td><?= $currency; ?><?= number_format($dis->amount); ?></td>
+                                    <td class="font-weight-bold text-dark">
+                                        <?= $currency; ?><?= number_format($dis->amount); ?></td>
+                                    <td class="font-weight-bold text-danger">
+                                        <?= $currency; ?><?= number_format($dis->ln_debt); ?></td>
+                                    <td class="font-weight-bold text-success">
+                                        <?php if($dis->loan_credit): ?>
+                                        <?= $currency; ?><?= number_format($dis->loan_credit); ?></td>
+                                    <?php endif; ?>
+                                    <td class="font-weight-bold text-warning">
+                                        <?= $currency; ?><?= number_format($dis->disbursement_amount); ?></td>
                                     <td><?= $status_syntax;?></td>
                                     <td>
                                         <form action="<?= $deleter; ?>" onsubmit="return removeFromDisburse(this)"

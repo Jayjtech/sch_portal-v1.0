@@ -25,7 +25,11 @@ $fetchQuestions = $conn->query("SELECT * FROM $question_tbl_a WHERE quest_id = '
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0"><?= $course_code; ?> <?= $quest_type; ?> questions</p>
+                    <p class="card-title mb-0"><?= $course_code; ?> <em class="text-success"><?= $quest_type; ?></em>
+                        questions</p>
+                    <div class="" align="right">
+                        <a href="create_course?upload_question" class="btn btn-dark">Back</a>
+                    </div>
                     <hr>
                     <div class="table-responsive">
                         <table class="myTable table table-striped table-borderless">

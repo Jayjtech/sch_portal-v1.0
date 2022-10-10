@@ -39,4 +39,6 @@ switch($current_term){
         $current_term_syntax = "Third Term";
         break;
 }
+
+$sch_short_icon = ''.BASE_URL.'/images/'.$admin_det->img.'';
 ?>

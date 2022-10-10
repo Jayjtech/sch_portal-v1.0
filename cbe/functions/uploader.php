@@ -843,4 +843,87 @@ if(isset($_POST['course_material'])){
   }
   header("location: ../../create_course?course_material");
  }
+
+$optionE = false;
+ if(isset($_POST['update_question'])){
+    $questionText = mysqli_real_escape_string($conn, $_POST['questionText']);
+    $optionA = mysqli_real_escape_string($conn, $_POST['optionA']);
+    $optionB = mysqli_real_escape_string($conn, $_POST['optionB']);
+    $optionC = mysqli_real_escape_string($conn, $_POST['optionC']);
+    $optionD = mysqli_real_escape_string($conn, $_POST['optionD']);
+    $quest_type = mysqli_real_escape_string($conn, $_POST['quest_type']);
+    // $optionE = mysqli_real_escape_string($conn, $_POST['optionE']);
+    $isCorrect = mysqli_real_escape_string($conn, $_POST['isCorrect']);
+    $ans = '["'.$optionA.'","'.$optionB.'","'.$optionC.'","'.$optionD.'"]';
+    $course_code = $_POST['course_code'];
+    $quest_img = $_POST['quest_img'];
+    $q_id = $_POST['q_id'];
+    $quest_id = $_POST['quest_id'];
+
+    $img_name = $_FILES['quest_img']['name'];
+    $img_size = $_FILES['quest_img']['size'];
+    $img_tmp = $_FILES['quest_img']['tmp_name'];
+
+     // ANSWER
+    if(empty($_FILES['quest_img']['name'])){
+        $target_dir = '';
+        }else{
+            $allowed_etx = array('png','jpg', 'jpeg', 'gif');
+            //Get file extension 
+            $file_ext = explode('.', $img_name);
+            $file_ext = strtolower(end($file_ext));
+            //CHECK IMAGE EXT
+            if(in_array($file_ext, $allowed_etx)){
+                // IMAGE DIRECTORY
+                $target_dir = "${img_name}";
+            }
+        }
+    
+    if($img_size <= 1000000){
+    // IF NO IMG IS UPLOADED, SET IT BACK TO THE PREVIOUS IMAGE
+            if($target_dir == ""){
+                $target_dir = $quest_img;
+            }else{
+                move_uploaded_file($img_tmp, '../../images/exam/'.$target_dir);
+            }
+            $updateA = $conn->query("UPDATE $question_tbl_a SET 
+                                    quest='$questionText', 
+                                    ans='$ans', 
+                                    img='$target_dir', 
+                                    isCorrect='$isCorrect' 
+                                    WHERE quest_id = '$quest_id'
+                                    AND q_id = '$q_id'
+                                    AND course_code = '$course_code'
+                                    ");
+            $updateB = $conn->query("UPDATE $question_tbl_b SET 
+                                    quest='$questionText', 
+                                    ans='$ans', 
+                                    img='$target_dir', 
+                                    isCorrect='$isCorrect' 
+                                    WHERE quest_id = '$quest_id'
+                                    AND q_id = '$q_id'
+                                    AND course_code = '$course_code'
+                                    ");
+            $updateC = $conn->query("UPDATE $question_tbl_c SET 
+                                    quest='$questionText', 
+                                    ans='$ans', 
+                                    img='$target_dir', 
+                                    isCorrect='$isCorrect' 
+                                    WHERE quest_id = '$quest_id'
+                                    AND q_id = '$q_id'
+                                    AND course_code = '$course_code'
+                                    ");
+
+if($updateC){
+            $_SESSION['message'] = 'The changes made has been saved!';
+            $_SESSION['msg_type'] = 'success';
+            $_SESSION['remedy'] = '';
+        }else{
+            $_SESSION['message'] = 'Changes could not be saved!';
+            $_SESSION['msg_type'] = 'error';
+            $_SESSION['remedy'] = '';
+        }
+    }
+     header('location:../../question_editor?qid='.$q_id.'&cd='.$course_code.'&qt='.$quest_type.'');
+}
 ?>

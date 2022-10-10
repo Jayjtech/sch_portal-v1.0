@@ -110,6 +110,7 @@
                                     % from staff salary at the
                                     instance of salary disbursement]</label>
                                 <div class="input-group">
+                                    <span class="input-group-text">%</span>
                                     <input type="text" name="loan_refund_rate" min="1"
                                         placeholder="Enter the number of month for refund" class="form-control" required
                                         value="<?= $admin_det->loan_refund_rate; ?>">

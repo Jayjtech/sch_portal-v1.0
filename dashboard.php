@@ -154,7 +154,7 @@
                     <p class="card-title"><?= $_SESSION['user_type']; ?>'s Details</p>
                     <hr>
                     <div class="row">
-                        <div class="col-sm-6 border-right" id="uploaded_image">
+                        <div class="col-sm-4 border-right" id="uploaded_image">
                             <div class="wrapper" style="background:url('images/profile/<?= $p_img; ?>'); height:150px;width:150px;position:relative;border:5px solid #fefeee;
 											border-radius: 50%;background-size: 100% 100%;margin: 0px auto;overflow:hidden;">
                                 <box-icon type='solid' name='camera'></box-icon>
@@ -162,7 +162,7 @@
                                     class="account-file-input">
                             </div>
                         </div>
-                        <div class="col-sm-6 mt-5" align="right">
+                        <div class="col-sm-8 mt-5" align="right">
                             <div class="" align="right">
                                 <h6><?= $det->userId;?></h6>
                                 <h6><?= $det->name;?></h6>

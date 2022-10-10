@@ -18,6 +18,12 @@
 </div>
 <!-- page-body-wrapper ends -->
 </div>
+
+<!-- TinyMCE -->
+<script src="vendor/tinymce/tinymce.min.js"></script>
+<script src="vendor/tiny.js"></script>
+<!-- End of tinyMCE -->
+
 <!-- container-scroller -->
 <script src="js/validator.js"></script>
 <script src="js/sweetalert2.js"></script>

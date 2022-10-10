@@ -7,10 +7,14 @@ $getList = $conn->query("SELECT * FROM $payroll_tbl WHERE status = 7 LIMIT 1");
 if($getList->num_rows != 0){
     $li = $getList->fetch_object();
     $reference = $li->disbursement_id;
+    $staffId = $li->userId;
     $staffToken = $li->staffToken;
     $rec_name = $li->name;
     $description = $li->description;
-    $amount = $li->amount;
+    $salary = $li->amount;
+    $amount = $li->disbursement_amount;
+    $ln_debt = $li->ln_debt;
+    $loan_credit = $li->loan_credit;
     $payment_month = $li->payment_month;
     $table = $payroll_tbl;
 }else{
@@ -90,8 +94,6 @@ if($res->responseBody->status == "SUCCESS"){
 }else{
     $status = 3;
 }
-
-echo $status_msg;
 
 $update = $conn->query("UPDATE $table SET 
                     status = '$status'
@@ -189,7 +191,7 @@ if($table == $loan_disbursement_tbl){
                                     <tr>
                                         <td style="font-family: Arial, &#039;Helvetica Neue&#039;, Helvetica, sans-serif; color: #AEAEAE; padding: 35px; text-align: center;">
                                             <p style="margin-top: 0; color: #74787E; font-size: 12px; line-height: 1.5em;">
-                                                &copy; ' . date('Y') . ' <a href="' . BASE_URL . '">' . $admin_det->sch_name . '</a>
+                                                &copy; ' . $year . ' <a href="' . BASE_URL . '">' . $admin_det->sch_name . '</a>
                                                 All right reserved
                                             </p>
                                         </td>
@@ -210,6 +212,39 @@ if($table == $loan_disbursement_tbl){
                         salary_count = '$new_salary_count'
                         WHERE token = '$staffToken'
                         ");
+
+    if($loan_credit != 0){
+        $text_message = '
+            <p style="margin-top: 0; color: #74787E; font-size: 16px; line-height: 1.5em;">
+                Hello '.$rec_name.', Your salary for the month of '.$month_syntax.' '.$period[0].' has been paid 
+                into your bank account.
+            </p>
+
+            <p style="margin-top: 0; color: #74787E; font-size: 16px; line-height: 1.5em;">
+                Amount: '.$currency.''.number_format($salary).'<br>
+                Loan refund: '.$currency.''.number_format($loan_credit).'<br>
+                Sent to bank account: '.$currency.''.number_format($amount).'<br>
+                Description: '.$description.'<br>
+                Disbursement Date: '.$date.'
+            </p>
+        ';
+
+        $loan_balance = ($ln_debt-$loan_credit);
+        $creditLoan = $conn->query("INSERT INTO $loan_tbl SET 
+                        credit = '$loan_credit',
+                        balance = '$loan_balance',
+                        userId = '$staffId',
+                        token = '$staffToken'
+                        ");
+    }else{
+        $text_message = '
+            <p style="margin-top: 0; color: #74787E; font-size: 16px; line-height: 1.5em;">
+                Hello '.$rec_name.', Your salary for the month of '.$month_syntax.' '.$period[0].' has been paid 
+                into your bank account.
+            </p>
+        ';
+    }
+    
     $message = '
             <!DOCTYPE html>
                 <html>
@@ -257,16 +292,7 @@ if($table == $loan_disbursement_tbl){
                                          Details
                                         </h1>
                                         
-                                        <p style="margin-top: 0; color: #74787E; font-size: 16px; line-height: 1.5em;">
-                                             Hello '.$rec_name.', Your salary for the month of '.$month_syntax.' '.$period[0].' has been paid 
-                                             into your bank account.
-                                        </p>
-                                        <p style="margin-top: 0; color: #74787E; font-size: 16px; line-height: 1.5em;">
-                                            Amount: '.$currency.''.number_format($amount).'<br>
-                                            Description: '.$description.'<br>
-                                            Disbursement Date: '.$date.'
-                                        </p>
-                                        
+                                        '.$text_message.'                                    
 
                                         <p style="margin-top: 0; color: #74787E; font-size: 16px; line-height: 1.5em;">
                                            <strong> Regards <br/> ' . $admin_det->sch_name . ' </strong>
@@ -284,7 +310,7 @@ if($table == $loan_disbursement_tbl){
                                     <tr>
                                         <td style="font-family: Arial, &#039;Helvetica Neue&#039;, Helvetica, sans-serif; color: #AEAEAE; padding: 35px; text-align: center;">
                                             <p style="margin-top: 0; color: #74787E; font-size: 12px; line-height: 1.5em;">
-                                                &copy; ' . date('Y') . ' <a href="' . BASE_URL . '">' . $admin_det->sch_name . '</a>
+                                                &copy; ' . $year . ' <a href="' . BASE_URL . '">' . $admin_det->sch_name . '</a>
                                                 All right reserved
                                             </p>
                                         </td>
@@ -302,8 +328,6 @@ if($table == $loan_disbursement_tbl){
             $msg_subject = "Salary Disbursement";
 }
 
-
-
   /**Send mail to the receiver */
         ini_set('display_error', 1);
         $to = $rec_email;
@@ -313,7 +337,6 @@ if($table == $loan_disbursement_tbl){
         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
         $headers .= "From:" . $from;
         mail($to, $subject, $message, $headers);
-
 }
 
 
@@ -342,5 +365,4 @@ if($table == $loan_disbursement_tbl){
 //             [destinationBankCode] => 100033
 //             [destinationBankName] => PALMPAY
 //         )
-
 // )

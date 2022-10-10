@@ -472,7 +472,7 @@ if(isset($_POST['disburser'])){
 }
 
 
-if(isset($_POST['bankDet'])){
+if(isset($_POST['create_payroll'])){
     $bankDet = base64_decode($_POST['bankDet']);
     $staffName = $_POST['name'];
     $token = mysqli_real_escape_string($conn, $_POST['token']);
@@ -480,7 +480,44 @@ if(isset($_POST['bankDet'])){
     $staffToken = mysqli_real_escape_string($conn, $_POST['token']);
     $salary = mysqli_real_escape_string($conn, $_POST['salary']);
     $payrollTitle = $_POST['payrollTitle'];
+    $ln_debt = $_POST['ln_debt'];
+    
+    
+    if($ln_debt != 0){
+        /**This show that the staff has a loan debt */
+        $getLoanDet = $conn->query("SELECT * FROM $loan_tbl WHERE amount != '' AND token='$staffToken' ORDER BY id DESC LIMIT 1");
+        /**We need to get the initial amount of the loan, in order to calculate what percentage to deduct from the salary */
+        $init = $getLoanDet->fetch_object();
+        $balance = $init->balance;
+        /**Getting loan refund rate */
+        $refund_rate = ($admin_det->loan_refund_rate/100);
+        $casual_refund_amount = ($refund_rate*$balance);
 
+        if($ln_debt > $casual_refund_amount){
+            /**If the debt is greater than the calculated percentage */
+            $left_over = 0;
+            $loan_credit = $casual_refund_amount;
+        }else if($ln_debt == $casual_refund_amount){
+            /**If the debt is equal to the calculated percentage */
+            $left_over = 0;
+            $loan_credit = $casual_refund_amount;
+        }else if($ln_debt < $casual_refund_amount){
+            /**If the debt is lesser than the calculated percentage */
+            $left_over = ($casual_refund_amount-$ln_debt);
+            $loan_credit = $ln_debt;
+        }
+    }else{
+        $left_over = 0;
+        $loan_credit = 0;
+    }
+    /**Final amount to disburse as salary for the staff */ 
+    $disbursement_amount = ($salary-$loan_credit+$left_over);
+    /**End */
+    
+// echo 'Actual salary: '.$salary.'<br>';
+// echo 'Loan credit: '.$loan_credit.'<br>';
+// echo 'Salary for the month: '.$disbursement_amount.'<br>';
+// exit();
     $check = $conn->query("SELECT * FROM $payroll_title_tbl WHERE disbursement_id='$payrollTitle'");
     $desc = $check->fetch_object();
     $description = $desc->description;
@@ -494,6 +531,9 @@ if(isset($_POST['bankDet'])){
                             bankDet = '$bankDet',
                             name = '$staffName',
                             amount = '$salary',
+                            ln_debt = '$ln_debt',
+                            loan_credit = '$loan_credit',
+                            disbursement_amount = '$disbursement_amount',
                             payment_month = '$pay_month',
                             disbursement_id = '$payrollTitle',
                             description = '$description'
@@ -515,10 +555,11 @@ if(isset($_POST['bankDet'])){
     header('location: ../adm_disbursement?key=staff_list');
 }
 
+
 if(isset($_POST['staff_level'])){
     $staff_level = $_POST['staff_level'];
     $salary_amount = mysqli_real_escape_string($conn, stripcslashes($_POST['salary_amount']));
-
+    
     $check = $conn->query("SELECT * FROM $staff_level_tbl WHERE level='$staff_level'");
     if($check->num_rows == 0){
         $insert = $conn->query("INSERT INTO $staff_level_tbl SET 
