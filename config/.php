@@ -594,4 +594,16 @@ $cr_course_material_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $course_mater
     date varchar(255) NOT NULL,
     PRIMARY KEY (id)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
+$cr_passage_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $passage_tbl (
+    id int(11) AUTO_INCREMENT NOT NULL,
+    passage varchar(10000000) NOT NULL,
+    tagged_questions varchar(255) NOT NULL,
+    quest_id varchar(255) NOT NULL,
+    course_code varchar(255) NOT NULL,
+    term varchar(255) NOT NULL,
+    session varchar(255) NOT NULL,
+    token varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 ?>

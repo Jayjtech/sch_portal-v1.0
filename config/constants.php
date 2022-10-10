@@ -17,6 +17,7 @@ $question_tbl_a = "quest_type_a";
 $question_tbl_b = "quest_type_b";
 $question_tbl_c = "quest_type_c";
 $instruction_tbl = "instructions";
+$passage_tbl = "passage";
 $score_tbl = "score_sheet";
 $settings_tbl = "settings";
 $evaluation_tbl = "evaluation";

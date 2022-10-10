@@ -305,5 +305,5 @@ setInterval(function() {
     calCompulsoryTotal();
 }, 1000);
 </script>
-
+<?php include "includes/sum_bills.php"; ?>
 <?php include "includes/footer.php"; ?>

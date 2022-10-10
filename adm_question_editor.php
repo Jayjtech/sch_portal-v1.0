@@ -1,13 +1,14 @@
 <?php include "includes/header.php"; ?>
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
+<?php include "includes/calls.php"; ?>
 <?php
 if(isset($_GET['qid'])){
 /**Get question */
 $q_id = $_GET['qid'];
 $cd = $_GET['cd'];
 $qt = $_GET['qt'];
-$getQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE q_id = '$q_id' AND course_code ='$cd' AND quest_type ='$qt'");
+$getQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE (q_id = '$q_id' AND course_code ='$cd' AND quest_type ='$qt' AND token='$token' AND term='$log_term' AND session='$log_session')");
     while($row = $getQuestion->fetch_object()){
         $quest_img = $row->img;
         if ($quest_img != "") {
@@ -39,7 +40,8 @@ $getQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE q_id = '$q_id' 
                     <p class="card-title mb-0"><?= $cd; ?> <em class="text-success"><?= $qt; ?></em> | Question
                         <?= $quest_no; ?></p>
                     <div class="" align="right">
-                        <a href="view_question?qd=<?= $quest_id; ?>" class="btn btn-dark">Back</a>
+                        <a href="adm_view_question?qd=<?= $quest_id; ?>" style="text-decoration:none;"
+                            class="btn btn-dark">Back</a>
                     </div>
                     <hr>
                     <form action="<?= $add_course; ?>" method="post" onsubmit="return updateQuest(this)"

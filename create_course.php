@@ -10,9 +10,11 @@
                 <div class="card-body">
                     <p class="card-title mb-0">Course Table [<?= $term_syntax; ?> term | <?= $log_session; ?>]</p>
                     <div class="" align="right">
-                        <a href="?index" class="btn btn-primary">Create course</a>
-                        <a href="?upload_question" class="btn btn-danger">Upload question</a>
-                        <a href="?course_material" class="btn btn-success">Upload materials</a>
+                        <a href="?index" class="btn btn-primary" style="text-decoration:none;">Create course</a>
+                        <a href="?upload_question" class="btn btn-danger" style="text-decoration:none;">Upload
+                            question</a>
+                        <a href="?course_material" class="btn btn-success" style="text-decoration:none;">Upload
+                            materials</a>
                     </div>
                     <hr>
                     <div class="table-responsive">
@@ -67,9 +69,11 @@
                 <div class="card-body">
                     <h4 class="card-title">Create Course</h4>
                     <div class="" align="right">
-                        <a href="?course_tbl" class="btn btn-dark">View courses</a>
-                        <a href="?upload_question" class="btn btn-danger">Upload question</a>
-                        <a href="?course_material" class="btn btn-success">Upload materials</a>
+                        <a href="?course_tbl" class="btn btn-dark" style="text-decoration:none;">View courses</a>
+                        <a href="?upload_question" class="btn btn-danger" style="text-decoration:none;">Upload
+                            question</a>
+                        <a href="?course_material" class="btn btn-success" style="text-decoration:none;">Upload
+                            materials</a>
                     </div>
                     <hr>
                     <p class="text-info font-weight-bold">Fill this form to create a course</p>
@@ -221,9 +225,10 @@
                 <div class="card-body">
                     <p class="card-title mb-0">Upload Questions and Instructions</p>
                     <div class="" align="right">
-                        <a href="?course_tbl" class="btn btn-dark">View courses</a>
-                        <a href="?index" class="btn btn-primary">Create course</a>
-                        <a href="?course_material" class="btn btn-success">Upload materials</a>
+                        <a href="?course_tbl" class="btn btn-dark" style="text-decoration:none;">View courses</a>
+                        <a href="?index" class="btn btn-primary" style="text-decoration:none;">Create course</a>
+                        <a href="?course_material" class="btn btn-success" style="text-decoration:none;">Upload
+                            materials</a>
                     </div>
                     <hr>
                     <div class="row mt-2">
@@ -365,26 +370,41 @@
                                     <th>Department</th>
                                     <th>Action</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $coursesTAss=$conn->query("SELECT * FROM $course_tbl WHERE term='$log_term' AND session='$log_session' AND token='$token'");
                                                 while($row = $coursesTAss->fetch_object()):
                                                     $cCode = $row->course_code;
-                                                
                                         ?>
                                 <?php 
                                         $selectUploadAss = $conn->query("SELECT * FROM $question_tbl_a WHERE token='$token' AND course_code='$cCode' AND term='$log_term' AND session='$log_session' AND quest_type='Ass' ORDER BY id ASC LIMIT 1");
-                                        while($sel1 = $selectUploadAss->fetch_object()){ 
+                                        while($sel1 = $selectUploadAss->fetch_object()){
+                                        $qd = $sel1->quest_id; 
+                                        $getPassage = $conn->query("SELECT * FROM $passage_tbl WHERE (quest_id='$qd' AND token='$token' AND term='$log_term' AND session='$log_session')");
+                                        $gP = $getPassage->fetch_object();
+                                       if($getPassage->num_rows == 0){
+                                            $btn = "Add passage";
+                                            $col = "primary";
+                                        }else{
+                                            $btn = "Edit passage";
+                                            $col = "info";
+                                        }
                                             ?>
                                 <tr>
                                     <td><?= $row->course; ?>[<?= $sel1->course_code; ?>]</td>
                                     <td><?= $sel1->quest_type; ?></td>
                                     <td><?= $row->ass_no_of_quest; ?></td>
                                     <td><?= $row->department; ?></td>
-                                    <td><a href="view_question?qd=<?= $sel1->quest_id; ?>" class="btn-sm btn-info"><i
+                                    <td><a href="adm_view_question?qd=<?= $sel1->quest_id; ?>"
+                                            style="text-decoration:none;" class="btn-sm btn-info"><i
                                                 class="mdi mdi-eye"></i>
                                             View</a></td>
+                                    <td><a href="adm_add_passage?qd=<?= $sel1->quest_id; ?>"
+                                            style="text-decoration:none;"
+                                            class="btn-sm btn-<?= $col;?>"><?= $btn; ?></a>
+                                    </td>
                                     <td>
                                         <form action="<?= $course_deleter; ?>" method="get"
                                             onsubmit="return delQuest(this)">
@@ -400,15 +420,31 @@
                                 <?php 
                                         $selectUploadTest = $conn->query("SELECT * FROM $question_tbl_a WHERE token='$token' AND course_code='$cCode' AND term='$log_term' AND session='$log_session' AND quest_type='Test' ORDER BY id ASC LIMIT 1");
                                         while($sel2 = $selectUploadTest->fetch_object()){ 
+                                        $qd = $sel2->quest_id;
+                                        $getPassage = $conn->query("SELECT * FROM $passage_tbl WHERE (quest_id='$qd' AND token='$token' AND term='$log_term' AND session='$log_session')");
+                                        $gP = $getPassage->fetch_object();
+                                       if($getPassage->num_rows == 0){
+                                            $btn = "Add passage";
+                                            $col = "primary";
+                                        }else{
+                                            $btn = "Edit passage";
+                                            $col = "info";
+                                        }
                                             ?>
                                 <tr>
                                     <td><?= $row->course; ?>[<?= $sel2->course_code; ?>]</td>
                                     <td><?= $sel2->quest_type; ?></td>
                                     <td><?= $row->test_no_of_quest; ?></td>
                                     <td><?= $row->department; ?></td>
-                                    <td><a href="view_question?qd=<?= $sel2->quest_id; ?>" class="btn-sm btn-info"><i
+                                    <td><a href="adm_view_question?qd=<?= $sel2->quest_id; ?>"
+                                            style="text-decoration:none;" class="btn-sm btn-info"><i
                                                 class="mdi mdi-eye"></i>
                                             View</a></td>
+
+                                    <td><a href="adm_add_passage?qd=<?= $sel2->quest_id; ?>"
+                                            style="text-decoration:none;"
+                                            class="btn-sm btn-<?= $col;?>"><?= $btn; ?></a>
+                                    </td>
                                     <td>
                                         <form action="<?= $course_deleter; ?>" method="get"
                                             onsubmit="return delQuest(this)">
@@ -424,15 +460,30 @@
                                 <?php 
                                         $selectUploadExam = $conn->query("SELECT * FROM $question_tbl_a WHERE token='$token' AND course_code='$cCode' AND term='$log_term' AND session='$log_session' AND quest_type='Exam' ORDER BY id ASC LIMIT 1");
                                         while($sel3 = $selectUploadExam->fetch_object()){ 
+                                        $qd = $sel3->quest_id;
+                                        $getPassage = $conn->query("SELECT * FROM $passage_tbl WHERE (quest_id='$qd' AND token='$token' AND term='$log_term' AND session='$log_session')");
+                                        $gP = $getPassage->fetch_object();
+                                       if($getPassage->num_rows == 0){
+                                            $btn = "Add passage";
+                                            $col = "primary";
+                                        }else{
+                                            $btn = "Edit passage";
+                                            $col = "info";
+                                        }
                                             ?>
                                 <tr>
                                     <td><?= $row->course; ?>[<?= $sel3->course_code; ?>]</td>
                                     <td><?= $sel3->quest_type; ?></td>
                                     <td><?= $row->exam_no_of_quest; ?></td>
                                     <td><?= $row->department; ?></td>
-                                    <td><a href="view_question?qd=<?= $sel3->quest_id; ?>" class="btn-sm btn-info"><i
+                                    <td><a href="adm_view_question?qd=<?= $sel3->quest_id; ?>"
+                                            style="text-decoration:none;" class="btn-sm btn-info"><i
                                                 class="mdi mdi-eye"></i>
                                             View</a></td>
+                                    <td><a href="adm_add_passage?qd=<?= $sel3->quest_id; ?>"
+                                            style="text-decoration:none;"
+                                            class="btn-sm btn-<?= $col;?>"><?= $btn; ?></a>
+                                    </td>
                                     <td>
                                         <form action="<?= $course_deleter; ?>" method="get"
                                             onsubmit="return delQuest(this)">

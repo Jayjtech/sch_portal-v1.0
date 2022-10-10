@@ -924,6 +924,50 @@ if($updateC){
             $_SESSION['remedy'] = '';
         }
     }
-     header('location:../../question_editor?qid='.$q_id.'&cd='.$course_code.'&qt='.$quest_type.'');
+     header('location:../../adm_question_editor?qid='.$q_id.'&cd='.$course_code.'&qt='.$quest_type.'');
+}
+
+if(isset($_POST['add_passage'])){
+    $passage = mysqli_real_escape_string($conn, $_POST['passage']);
+    $tagged_questions = mysqli_real_escape_string($conn, $_POST['tagged_questions']);
+    $course_code = mysqli_real_escape_string($conn, $_POST['course_code']);
+    $quest_id = mysqli_real_escape_string($conn, $_POST['quest_id']);
+
+    $check = $conn->query("SELECT * FROM $passage_tbl WHERE quest_id = '$quest_id'");
+    if($check->num_rows == 0){
+        $insert = $conn->query("INSERT INTO $passage_tbl SET
+                        passage = '$passage',
+                        tagged_questions = '$tagged_questions',
+                        course_code = '$course_code',
+                        quest_id = '$quest_id',
+                        token = '$token',
+                        term = '$log_term',
+                        session = '$log_session'
+        ");
+    }else{
+        $update = $conn->query("UPDATE $passage_tbl SET
+                        passage = '$passage',
+                        tagged_questions = '$tagged_questions'
+                        WHERE quest_id = '$quest_id' 
+                        AND course_code = '$course_code'
+                        AND token = '$token'
+                        AND term = '$log_term'
+                        AND session = '$log_session'
+        ");
+    }
+    if($insert){
+            $_SESSION['message'] = 'Passage successfully saved!';
+            $_SESSION['msg_type'] = 'success';
+            $_SESSION['remedy'] = '';
+    }else if($update){
+            $_SESSION['message'] = 'Passage successfully updated!';
+            $_SESSION['msg_type'] = 'success';
+            $_SESSION['remedy'] = '';
+    }else{
+            $_SESSION['message'] = 'An error occurred during the process!';
+            $_SESSION['msg_type'] = 'error';
+            $_SESSION['remedy'] = '';
+    }
+    header('location:../../adm_add_passage?qd='.$quest_id.'');
 }
 ?>

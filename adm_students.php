@@ -195,7 +195,5 @@
     </div>
     <?php endif; ?>
 
-
-
-
+    <?php include "includes/sum_bills.php"; ?>
     <?php include "includes/footer.php"; ?>
