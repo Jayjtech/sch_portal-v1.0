@@ -80,8 +80,10 @@ switch($exam_term){
                 </div>
             </div>
         </div>
-
+        <hr>
         <div class="container">
+            <div class="passage-el mb-5"></div>
+
             <!-- Render questions -->
             <div class="quest-el"></div>
             <!-- ! -->

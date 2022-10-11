@@ -40,7 +40,6 @@ $callInstruc = $conn->query("SELECT * FROM $instruction_tbl WHERE (term='$exam_t
 while($ins = $callInstruc->fetch_object()){
     $inst[] = $ins;
 }
-
 if($callInstruc->num_rows == 0){
     $_SESSION['message'] = 'Instruction is yet to be uploaded by the subject teacher!';
     $_SESSION['remedy'] = 'Kindly inform the teacher involved.';
@@ -53,6 +52,16 @@ for($i = 0; $i < count($inst); $i++){
     $instructions_json = ''.$inst[$i]->instruction.'';
 }
 
+
+/**Pull Passage from database */
+$getPassage = $conn->query("SELECT * FROM $passage_tbl WHERE (course_code='$exam_course_code' AND token='$teacher_token' AND term='$exam_term' AND session='$exam_session')");
+$gP = $getPassage->fetch_object();
+
+// $passage = '{"passage":"'.$gP->passage.'", "taggedQuestions":"'.$gP->tagged_questions.'"}';
+
+$passage = ''.$gP->passage.'';
+$tagged_questions = ''.$gP->tagged_questions.'';
+// echo $passage;
 /**Call Questions from database */
 $callQuestions = $conn->query("SELECT * FROM $quest_tbl WHERE (quest_type = '$quest_type' AND term='$exam_term' AND session='$exam_session' AND course_code='$exam_course_code'  AND token='$teacher_token') ORDER BY quest_no ASC");
 while($row = $callQuestions->fetch_object()){
@@ -66,15 +75,18 @@ if($callQuestions->num_rows == 0){
     header('location: ../e_exam');
 }
 
+
+
+/**Questions */
 $output = "";
 for($x = 0; $x < count($data)-1; $x++){
-   $output .= '{"quest":"'.$data[$x]->quest.'", "ans":'.$data[$x]->ans.', "isCorrect":'.$data[$x]->isCorrect.'},';
+   $output .= '{"quest":"'.$data[$x]->quest.'", "questImg":"'.$data[$x]->img.'", "qId":"'.$data[$x]->q_id.'", "ans":'.$data[$x]->ans.', "isCorrect":'.$data[$x]->isCorrect.'},';
 }
 
 $class = $data[$x]->class;
 $no_of_question = count($data);
 // Last question
-$output .= '{"quest":"'.$data[$x]->quest.'", "ans":'.$data[$x]->ans.', "isCorrect":'.$data[$x]->isCorrect.'}';
+$output .= '{"quest":"'.$data[$x]->quest.'", "questImg":"'.$data[$x]->img.'", "qId":"'.$data[$x]->q_id.'", "ans":'.$data[$x]->ans.', "isCorrect":'.$data[$x]->isCorrect.'}';
 
 // covering up all questions into a single array
 $output = '['.$output.']';

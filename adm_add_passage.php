@@ -80,9 +80,8 @@ if($getPassage->num_rows == 0){
                         <!-- Buttons for tagging questions -->
                         <p>Toggle question button to add or remove question number from the list.</p>
                         <?php for($i = 0; $i < count($data); $i++):?>
-                        <button class="mb-2 btn btn-primary border-right"
-                            onclick="addQuest(<?= $data[$i]->quest_no; ?>)">Q
-                            <?= $data[$i]->quest_no; ?></button>
+                        <button class="mb-2 btn btn-primary border-right" onclick="addQuest('<?= $data[$i]->q_id; ?>')">
+                            <?= $data[$i]->q_id; ?></button>
                         <?php endfor; ?>
                         <!-- End -->
 

@@ -27,7 +27,7 @@ let addQuest = (chosenQuest) => {
         let element_to_be_removed = chosenQuest;
         taggedQ = removeElement(passed_in_array, element_to_be_removed);
     }
-    screenEl.textContent = `[${taggedQ}]`;
+    screenEl.textContent = JSON.stringify(taggedQ);
     /**Clear question list */
     questListEl.innerHTML = ""
     for (x = 0; x < (taggedQ.length); x++) {

@@ -1,8 +1,11 @@
 <script type="text/javascript">
-let instructions = JSON.parse('<?= $instructions_json;?>')
-let examDetails = JSON.parse('<?= $exam_detail; ?>');
-let questions = JSON.parse('<?= $output; ?>');
+const instructions = JSON.parse('<?= $instructions_json;?>')
+const examDetails = JSON.parse('<?= $exam_detail; ?>');
+const questions = JSON.parse('<?= $output; ?>');
+const passageText = `<?= $passage; ?>`;
+const taggedQuestions = JSON.parse(`<?= $tagged_questions; ?>`);
 const startBtn = document.querySelector("#start-btn");
+const reportForm = document.querySelector("#reportForm");
 const mainEl = document.querySelector(".main-container");
 const prevBtn = document.querySelector("#prev-btn");
 const nextBtn = document.querySelector("#next-btn");
@@ -12,6 +15,7 @@ const courseTitleEl = document.querySelector("#course-el");
 const questCountEl = document.querySelector("#questCount-el");
 const mainBody = document.querySelector(".container");
 const submitBtn = document.querySelector(".btn-submit");
+const passageEl = document.querySelector(".passage-el");
 let showQuest = ""
 let showOptions = ""
 let answeredQuestions = []
@@ -30,6 +34,7 @@ let score = []
 let minLeft = 0;
 let newScore = 0
 let durationVal = examDetails.duration;
+
 
 
 /**Checking the initial value of the score on the local storage */
@@ -131,10 +136,13 @@ for (i = 0; i < instructions.length; i++) {
     instructEl.innerHTML += `<li>${instructions[i]}</li>`
 }
 
-
 /**When start exam btn is clicked */
 startBtn.addEventListener("click", function() {
-    setInterval(updateCountDown, 1000);
+    if (!localStorage.getItem('score')) {
+        /**This will initiate the count down once the start button is clicked */
+        setInterval(updateCountDown, 1000);
+    }
+    // setInterval(updateCountDown, 1000); /**Uncomment this if time should stop after refresh */
     saveScoreLocalStorage()
     nextBtn.style.display = "inline-flex"
     mainEl.innerHTML = ""
@@ -152,10 +160,50 @@ startBtn.addEventListener("click", function() {
     renderQuestion()
 })
 
+if (localStorage.getItem('score')) {
+    /**This will continue the countdown even if student refreshes the page */
+    setInterval(updateCountDown, 1000);
+}
+
 /**Render question */
 function renderQuestion() {
+    /**questId like Q1, Q2... */
+    /**Check if question was tagged for passage */
+    const questTag = taggedQuestions.find((check) => {
+        return check === questions[questNo].qId
+    })
+
+    if (questTag) {
+        /**Display passage if question exist in the tag */
+        passageEl.innerHTML = passageText
+    } else {
+        passageEl.innerHTML = ""
+    }
     /*save question*/
-    showQuest = `<h4 class="p-2 mt-2 mb-2"> ${qNo}. ${questions[questNo].quest}</h4>`
+    if (questions[questNo].quest && questions[questNo].questImg) {
+        showQuest = `
+                <div class="row mb-3">
+                    <span class="font-weight-bold col-sm-4 p-2 mt-2 mb-2"> ${qNo}. ${questions[questNo].quest}</span>
+                    <div class="col-sm-8">
+                        <img src="../images/exam/${questions[questNo].questImg}" width="500" height="350"  alt="Question Image">
+                    </div>
+                </div>
+                    `;
+    } else if (questions[questNo].questImg && !questions[questNo].quest) {
+        showQuest = `
+            <div class="row mb-3">
+            ${qNo}
+                    <div class="col-sm-12">
+                        <img src="../images/exam/${questions[questNo].questImg}" width="500" height="350"  alt="Question Image">
+                    </div>
+                </div>
+                    `;
+    } else if (questions[questNo].quest && !questions[questNo].questImg) {
+        showQuest = `<span class="font-weight-bold  p-2 mt-2 mb-2"> ${qNo}. ${questions[questNo].quest}</span>`;
+    } else {
+        showQuest = "";
+    }
+
     questEl.innerHTML += showQuest
     isCorrect = questions[questNo].quest
     /*Call Options*/
@@ -175,7 +223,6 @@ function assignLetterToOptions() {
         option = "D"
     }
 }
-
 
 function renderAnswers() {
     for (i = 0; i < questions[questNo].ans.length; i++) {
@@ -320,7 +367,8 @@ function updateCountDown() {
         /**Auto submit when time is up */
         answeredQuest.value = JSON.stringify(answeredQuestions);
         remainingMin.value = minLeft;
-        document.querySelector("#reportForm").submit();
+        /**Report form will be submitted automatically when time is up */
+        reportForm.submit();
         localStorage.removeItem('score');
         localStorage.removeItem('answeredQuestions');
         localStorage.removeItem('timeLeft');
@@ -337,11 +385,11 @@ function updateCountDown() {
 
             }).then((isOkay) => {
                 if (isOkay) {
-                    submitExam();
+                    reportForm.submit();
                 }
             })
         } else {
-            submitExam();
+            reportForm.submit();
         }
         return false;
     }
