@@ -596,6 +596,12 @@ if($setPosition){
 
 /**Upload teacher's comment */
 if(isset($_POST['upload_t_comment'])){
+    if($_POST['class_officiating']){
+        $class_to_be_evaluated = $_POST['class_officiating'];
+    }else{
+        $class_to_be_evaluated = $class_officiating;
+    }
+    
 // Allowed mime types
         $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
         // Validate whether selected file is a CSV file
@@ -630,22 +636,22 @@ if(isset($_POST['upload_t_comment'])){
                     $t_comment  =  mysqli_real_escape_string($conn, stripcslashes($line[18]));
                     $prom  = mysqli_real_escape_string($conn, stripcslashes($line[19]));
 
-                if ($prom == 1 || $prom == "JSS-1" || $prom == "JSS 1" || $prom == "JSS1" || $prom == "JS-1" || $prom == "JS1" || $prom == "J-1" || $prom == "J1" || $prom == "jss-1" || $prom == "jss1" || $prom == "js-1" || $prom == "j-1" || $prom == "j1") {
-                    $promoted_to = "JSS-1";
-                } else if ($prom == 2 || $prom == "JSS-2" || $prom == "JSS 2" || $prom == "JS 2" || $prom == "JSS2" || $prom == "JS-2" || $prom == "JS2" || $prom == "J-2" || $prom == "J2" || $prom == "jss-2" || $prom == "jss2" || $prom == "js-2" || $prom == "j-2" || $prom == "j2") {
-                    $promoted_to = "JSS-2";
-                } else if ($prom == 3 || $prom == "JSS-3" || $prom == "JSS 3" || $prom == "JS 3" || $prom == "JSS3" || $prom == "JS-3" || $prom == "JS3" || $prom == "J-3" || $prom == "J3" || $prom == "jss-3" || $prom == "jss3" || $prom == "js-3" || $prom == "j-3" || $prom == "j3") {
-                    $promoted_to = "JSS-3";
-                } else if ($prom == 4 || $prom == "SSS-1" || $prom == "SSS 1" || $prom == "SS 1" || $prom == "SSS1" || $prom == "SS-1" || $prom == "SS1" || $prom == "S-1" || $prom == "S1" || $prom == "sss-1" || $prom == "sss1" || $prom == "ss-1" || $prom == "s-1" || $prom == "s1") {
-                    $promoted_to = "SSS-1";
-                } else if ($prom == 5 || $prom == "SSS-2" || $prom == "SSS 2" || $prom == "SS 2" || $prom == "SSS2" || $prom == "SS-2" || $prom == "SS2" || $prom == "S-2" || $prom == "S2" || $prom == "sss-2" || $prom == "sss2" || $prom == "ss-2" || $prom == "s-2" || $prom == "s2") {
-                    $promoted_to = "SSS-2";
-                } else if ($prom == 6 || $prom == "SSS-3" || $prom == "SSS 3" || $prom == "SS 3" || $prom == "SSS3" || $prom == "SS-3" || $prom == "SS3" || $prom == "S-3" || $prom == "S3" || $prom == "sss-3" || $prom == "sss3" || $prom == "ss-3" || $prom == "s-3" || $prom == "s3") {
-                    $promoted_to = "SSS-3";
-                } else {
-                    $promoted_to = $class;
-                }
-                   
+                    if(in_array($prom,$jss1Array)){
+                        $promoted_to = "JSS-1";
+                    }else if(in_array($prom,$jss2Array)){
+                        $promoted_to = "JSS-2";
+                    }else if(in_array($prom,$jss3Array)){
+                        $promoted_to = "JSS-3";
+                    }else if(in_array($prom,$sss1Array)){
+                        $promoted_to = "SSS-1";
+                    }else if(in_array($prom,$sss2Array)){
+                        $promoted_to = "SSS-2";
+                    }else if(in_array($prom,$sss3Array)){
+                        $promoted_to = "SSS-3";
+                    }else{
+                        $promoted_to = $class;
+                    }
+
                 $updateEva = $conn->query("UPDATE $evaluation_tbl SET
                                             t_comment = '$t_comment',
                                             n_absent = '$n_absent',
@@ -670,10 +676,9 @@ if(isset($_POST['upload_t_comment'])){
                                                 curr_class = '$promoted_to'
                                                 WHERE userId = '$adm_no'
                     ");
-
-                        }
+                }
             /**Positioning */            
-        $callList = $conn->query("SELECT * FROM $evaluation_tbl WHERE (term='$log_term' AND session='$log_session' AND class='$class_officiating')");
+        $callList = $conn->query("SELECT * FROM $evaluation_tbl WHERE (term='$log_term' AND session='$log_session' AND class='$class_to_be_evaluated')");
             while($li = $callList->fetch_assoc()){
                 $data[] = $li;
             }
@@ -699,11 +704,11 @@ if(isset($_POST['upload_t_comment'])){
         }
                     
                 if($setPosition){
-                    $_SESSION['message'] = "".$term_syntax." term | ".$log_session." teacher's comment for ".$class_officiating." has been uploaded successfully!";
+                    $_SESSION['message'] = "".$term_syntax." term | ".$log_session." teacher's comment for ".$class_to_be_evaluated." has been uploaded successfully!";
                     $_SESSION['msg_type'] = "success";
                     $_SESSION['remedy'] = "";
                 }else{
-                    $_SESSION['message'] = "".$term_syntax." term | ".$log_session." teacher's comment for ".$class_officiating." could not be uploaded!";
+                    $_SESSION['message'] = "".$term_syntax." term | ".$log_session." teacher's comment for ".$class_to_be_evaluated." could not be uploaded!";
                     $_SESSION['msg_type'] = "error";
                     $_SESSION['remedy'] = "There may be error in the file you tried to upload.";
                 }
@@ -740,21 +745,21 @@ if(isset($_POST['upload_t_comment'])){
                     $prom  = mysqli_real_escape_string($conn, stripcslashes($line[7]));
                     $next_term_date  = mysqli_real_escape_string($conn, $line[8]);
 
-                if ($prom == 1 || $prom == "JSS-1" || $prom == "JSS1" || $prom == "JS-1" || $prom == "JS1" || $prom == "J-1" || $prom == "J1" || $prom == "jss-1" || $prom == "jss1" || $prom == "js-1" || $prom == "j-1" || $prom == "j1") {
-                    $promoted_to = "JSS-1";
-                } else if ($prom == 2 || $prom == "JSS-2" || $prom == "JSS2" || $prom == "JS-2" || $prom == "JS2" || $prom == "J-2" || $prom == "J2" || $prom == "jss-2" || $prom == "jss2" || $prom == "js-2" || $prom == "j-2" || $prom == "j2") {
-                    $promoted_to = "JSS-2";
-                } else if ($prom == 3 || $prom == "JSS-3" || $prom == "JSS3" || $prom == "JS-3" || $prom == "JS3" || $prom == "J-3" || $prom == "J3" || $prom == "jss-3" || $prom == "jss3" || $prom == "js-3" || $prom == "j-3" || $prom == "j3") {
-                    $promoted_to = "JSS-3";
-                } else if ($prom == 4 || $prom == "SSS-1" || $prom == "SSS1" || $prom == "SS-1" || $prom == "SS1" || $prom == "S-1" || $prom == "S1" || $prom == "sss-1" || $prom == "sss1" || $prom == "ss-1" || $prom == "s-1" || $prom == "s1") {
-                    $promoted_to = "SSS-1";
-                } else if ($prom == 5 || $prom == "SSS-2" || $prom == "SSS2" || $prom == "SS-2" || $prom == "SS2" || $prom == "S-2" || $prom == "S2" || $prom == "sss-2" || $prom == "sss2" || $prom == "ss-2" || $prom == "s-2" || $prom == "s2") {
-                    $promoted_to = "SSS-2";
-                } else if ($prom == 6 || $prom == "SSS-3" || $prom == "SSS3" || $prom == "SS-3" || $prom == "SS3" || $prom == "S-3" || $prom == "S3" || $prom == "sss-3" || $prom == "sss3" || $prom == "ss-3" || $prom == "s-3" || $prom == "s3") {
-                    $promoted_to = "SSS-3";
-                } else {
-                    $promoted_to = $class;
-                }
+                    if(in_array($prom,$jss1Array)){
+                        $promoted_to = "JSS-1";
+                    }else if(in_array($prom,$jss2Array)){
+                        $promoted_to = "JSS-2";
+                    }else if(in_array($prom,$jss3Array)){
+                        $promoted_to = "JSS-3";
+                    }else if(in_array($prom,$sss1Array)){
+                        $promoted_to = "SSS-1";
+                    }else if(in_array($prom,$sss2Array)){
+                        $promoted_to = "SSS-2";
+                    }else if(in_array($prom,$sss3Array)){
+                        $promoted_to = "SSS-3";
+                    }else {
+                        $promoted_to = $class;
+                    }
                    
                 $updateEva = $conn->query("UPDATE $evaluation_tbl SET
                                             t_comment = '$t_comment',

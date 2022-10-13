@@ -2,7 +2,11 @@
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
 <?php include "includes/edit_calls.php"; ?>
-
+<?php if(!in_array($det->position, $bursar)): ?>
+<script>
+window.location.href = "login?msg=Access denied!&msg_type=error"
+</script>
+<?php endif; ?>
 <div class="content-wrapper">
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -64,7 +68,7 @@
                     <h4 class="card-title">Review Student</h4>
                     <hr>
 
-                    <form action="<?= $pusher;?>" class="forms-sample" method="POST" onsubmit="return revStu(this)">
+                    <form action="<?= $pusher; ?>" class="forms-sample" method="POST" onsubmit="return revStu(this)">
                         <div class="row mt-3 mb-3">
                             <div class="col-sm-6">
                                 <div class="wrapper" style="background:url('images/profile/<?= $ed_img; ?>'); height:150px;width:150px;position:relative;border:5px solid #fefeee;
@@ -102,13 +106,13 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="text-info">Tuition fee discount in % eg. 1.0%[Pay full],
-                                        0.9%[Pay 90% of tuition fee]</label>
+                                    <label class="text-info">Compulsory fee discount in %</label>
                                     <input type="number" class="form-control" id="tuition_discount"
-                                        name="tuition_discount" placeholder="Enter tuition fee discount in % "
+                                        name="tuition_discount" placeholder="Enter tuition fee discount in %"
                                         value="<?= $edStu->tuition_discount; ?>">
                                 </div>
                             </div>
+
                             <input type="hidden" name="adm_no" value="<?= $edStu->userId?>">
                             <input type="hidden" name="review_student" value="1">
 
@@ -123,7 +127,22 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="">Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control form-control-lg" id="password"
+                                            name="code_d" placeholder="Password" onchange="show()"
+                                            value="<?= base64_decode($edStu->code_d); ?>" required>
+                                        <span class="input-group-text" id="eye-el" onclick="viewPassword()"><i
+                                                class="mdi mdi-eye"></i></span>
+                                        <p class="text-danger p-format" style="display:none;">Minimum length: 8; at
+                                            least an uppercase and a lowercase letter eg. Math14ew</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                         <hr>
                         <div class="mt-2 mb-3 navigator">
                             <a class="btn btn-light" onclick="openBills();"><i class="mdi mdi-receipt"></i> Click to
@@ -150,7 +169,7 @@
                                             <span class="input-group-text"><?= $currency; ?></span>
                                             <input type="number" class="form-control" id="<?= $row->bill_name; ?>"
                                                 name="<?= $row->bill_name; ?>" placeholder="Enter school fee"
-                                                value="<?= !empty($bil->$bill_name) ? $bil->$bill_name: null; ?>">
+                                                value="<?= !empty($bil->$bill_name) ? $bil->$bill_name: 0; ?>">
                                         </div>
                                     </div>
                                 </div>

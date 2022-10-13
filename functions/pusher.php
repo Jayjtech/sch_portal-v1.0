@@ -44,14 +44,16 @@
     }
 
 
-    if(isset($_POST['privileges'])){
-       $name = mysqli_real_escape_string($conn, $_POST['name']);
-       $class_officiating = mysqli_real_escape_string($conn, $_POST['class_officiating']);
-       $privileges = mysqli_real_escape_string($conn, $_POST['privileges']);
-       $position = mysqli_real_escape_string($conn, $_POST['position']);
-       $token = mysqli_real_escape_string($conn, $_POST['token']);
-    //    $sal = mysqli_real_escape_string($conn, $_POST['salary']);
-       $staff_level = mysqli_real_escape_string($conn, $_POST['level']);
+    if(isset($_POST['review_staff'])){
+        $name = mysqli_real_escape_string($conn, $_POST['name']);
+        $class_officiating = mysqli_real_escape_string($conn, $_POST['class_officiating']);
+        $privileges = mysqli_real_escape_string($conn, $_POST['privileges']);
+        $position = mysqli_real_escape_string($conn, $_POST['position']);
+        $token = mysqli_real_escape_string($conn, $_POST['token']);
+        $code_d = mysqli_real_escape_string($conn, $_POST['code_d']);
+        $hashed_password = substr(md5($code_d), 4);
+        $code_d = base64_encode($code_d);
+        $staff_level = mysqli_real_escape_string($conn, $_POST['level']);
 
         $getSalary = $conn->query("SELECT * FROM $staff_level_tbl WHERE level = '$staff_level'");
         $sal = $getSalary->fetch_object();
@@ -60,9 +62,10 @@
         $update = $conn->query("UPDATE $users_tbl SET 
                         name='$name',
                         class_officiating='$class_officiating',
-                        privileges='$privileges',
                         staff_level='$staff_level',
                         salary='$salary',
+                        code_d='$code_d',
+                        password='$hashed_password',
                         position='$position'
                         WHERE token = '$token'
                         ");
@@ -112,7 +115,10 @@
     $others = mysqli_real_escape_string($conn, $_POST['others']);
     $others_covers = mysqli_real_escape_string($conn, $_POST['others_covers']);
     $adm_no = mysqli_real_escape_string($conn, $_POST['adm_no']);
-  
+    $code_d = mysqli_real_escape_string($conn, $_POST['code_d']);
+    $hashed_password = substr(md5($code_d), 4);
+    $code_d = base64_encode($code_d);
+    
     /**Summing up all to get total */
         $actual_totalBill = $sch_fee+$ict+$music+$health+$transport+$sport+$excursion+$vs_fee+$pta+$development+$reg_fee+$uniform+$sport_wear+$cardigan+
         $id_card+$handbook+$sch_media+$security+$lesson+$club+$boarding_fee+$vocational+$sch_badge+$others;
@@ -131,7 +137,9 @@
                             name='$name',
                             tuition_discount='$tuition_discount',
                             curr_class='$curr_class',
-                            award_type='$award_type'
+                            award_type='$award_type',
+                            code_d='$code_d',
+                            password='$hashed_password'
                             WHERE token = '$token'
                             ");
 
@@ -283,7 +291,7 @@
             $_SESSION['msg_type'] = "success";
             $_SESSION['remedy'] = "";
         }
-        header('location: ../adm_info');
+        header('location: ../adm_info?school_info');
     }
 
 
@@ -590,4 +598,28 @@ if(isset($_POST['staff_level'])){
             $_SESSION['remedy'] = "";
         }
        header('location: ../adm_disbursement?key=create_payroll');
+}
+
+if(isset($_POST['set_disbursement_key'])){
+    $disbursement_source = mysqli_real_escape_string($conn, $_POST['disbursement_source']);
+    $disbursement_key = mysqli_real_escape_string($conn, $_POST['disbursement_key']);
+    $code_d = base64_encode($disbursement_key);
+    $hashed_key = substr(md5($disbursement_key), 4);
+
+    $update = $conn->query("UPDATE $settings_tbl SET 
+                        code_d = '$code_d',
+                        disbursementSource = '$disbursement_source',
+                        disbursement_key = '$hashed_key'
+                    ");
+
+        if($update){
+            $_SESSION['message'] = 'Changes successfully saved!';
+            $_SESSION['msg_type'] = "success";
+            $_SESSION['remedy'] = "";
+        }else{
+             $_SESSION['message'] = 'An error occurred during the process!';
+            $_SESSION['msg_type'] = "error";
+            $_SESSION['remedy'] = "";
+        }
+        header('location: ../adm_info?disbursement_key');
 }

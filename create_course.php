@@ -1,7 +1,11 @@
 <?php include "includes/header.php"; ?>
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
-
+<?php if(!in_array($det->position, $worker)): ?>
+<script>
+window.location.href = "login?msg=Access denied!&msg_type=error"
+</script>
+<?php endif; ?>
 <div class="content-wrapper">
     <?php if(isset($_GET['course_tbl']) == true):?>
     <div class="row">

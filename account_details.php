@@ -2,7 +2,11 @@
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
 <?php include "includes/edit_calls.php"; ?>
-
+<?php if(!in_array($det->position, $worker)): ?>
+<script>
+window.location.href = "login?msg=Access denied!&msg_type=error"
+</script>
+<?php endif; ?>
 <div class="content-wrapper">
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">

@@ -15,7 +15,15 @@
   <script src="js/sweetalert2.js"></script>
   <script src="js/sweetalert.js"></script>
 
-
+  <?php if(isset($_GET['msg'])):?>
+  <script>
+swal({
+    title: "<?= $_GET['msg']; ?>",
+    text: "<?= $_GET['remedy']; ?>",
+    icon: "<?= $_GET['msg_type']; ?>"
+})
+  </script>
+  <?php endif; ?>
   <!-- endinject -->
   </body>
 

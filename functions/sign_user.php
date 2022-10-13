@@ -8,6 +8,7 @@
         $pin = base64_encode($_POST['pin']);
         $userCategory = htmlspecialchars($_POST['userCategory']);
         $password = htmlspecialchars($_POST['password']);
+        $code_d = base64_encode($password);
         $os = mysqli_real_escape_string($conn, $_POST['os']);
         $ip = mysqli_real_escape_string($conn, $_POST['ip']);
         $device = mysqli_real_escape_string($conn, $_POST['device']);
@@ -63,6 +64,7 @@
                     userId = '$userId',
                     token = '$token',
                     pin = '$pin',
+                    code_d = '$code_d',
                     staff_type = '$staffType'
         ");
 

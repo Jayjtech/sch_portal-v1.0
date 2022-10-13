@@ -1,4 +1,28 @@
 <script>
+function viewKey() {
+    let x = document.querySelector("#disbursementKey");
+    let eyeEl = document.querySelector("#eye-el");
+    if (x.type === "password") {
+        x.type = "text"
+        eyeEl.innerHTML = `<i class="mdi mdi-eye-off"></i>`
+    } else {
+        x.type = "password"
+        eyeEl.innerHTML = `<i class="mdi mdi-eye"></i>`
+    }
+}
+
+function viewPassword() {
+    let x = document.querySelector("#password");
+    let eyeEl = document.querySelector("#eye-el");
+    if (x.type === "password") {
+        x.type = "text"
+        eyeEl.innerHTML = `<i class="mdi mdi-eye-off"></i>`
+    } else {
+        x.type = "password"
+        eyeEl.innerHTML = `<i class="mdi mdi-eye"></i>`
+    }
+}
+
 $(document).ready(function() {
     $(".result-type").change(function() {
         var resultType = $(this).val();
@@ -317,37 +341,76 @@ function delTimeTbl(form) {
     return false;
 }
 
+/**Validating password during user revision */
+function show() {
+    let pass = document.querySelector("#password").value;
+    let pFormat = document.querySelector(".p-format")
+    let lowerCaseLetters = /[a-z]/g;
+    let upperCaseLetters = /[A-Z]/g;
+    let numbers = /[0-9]/g;
+    if ((pass.length < 8) || (!pass.match(lowerCaseLetters)) || (!pass.match(
+            upperCaseLetters)) || (!pass.match(
+            numbers))) {
+        pFormat.style.display = "block"
+        pValid = 0
+    } else {
+        pFormat.style.display = "none"
+        pValid = 1
+    }
+}
+
 function revStaff(form) {
-    swal.fire({
-        title: `Are you sure you want to save changes?`,
-        text: `Staff's details will be updated!`,
-        icon: "warning",
-        showDenyButton: true,
-        confirmButtonText: 'Yes'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            form.submit();
-        } else if (result.isDenied) {
-            Swal.fire(`Nothing was changed!`, '', 'info')
-        }
-    })
+    if (!pValid) {
+        swal.fire({
+            title: `Invalid password format`,
+            text: `Minimum length: 8; at least an uppercase and a lowercase letter eg. Math14ew`,
+            icon: "warning",
+            showDenyButton: false,
+            confirmButtonText: 'Ok'
+        })
+    } else {
+        swal.fire({
+            title: `Are you sure you want to save changes?`,
+            text: `Staff's details will be updated!`,
+            icon: "warning",
+            showDenyButton: true,
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            } else if (result.isDenied) {
+                Swal.fire(`Nothing was changed!`, '', 'info')
+            }
+        })
+    }
     return false;
 }
 
+
 function revStu(form) {
-    swal.fire({
-        title: `Are you sure you want to save changes?`,
-        text: `Student's details will be updated!`,
-        icon: "warning",
-        showDenyButton: true,
-        confirmButtonText: 'Yes'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            form.submit();
-        } else if (result.isDenied) {
-            Swal.fire(`Nothing was changed!`, '', 'info')
-        }
-    })
+    if (!pValid) {
+        swal.fire({
+            title: `Invalid password format`,
+            text: `Minimum length: 8; at least an uppercase and a lowercase letter eg. Math14ew`,
+            icon: "warning",
+            showDenyButton: false,
+            confirmButtonText: 'Ok'
+        })
+    } else {
+        swal.fire({
+            title: `Are you sure you want to save changes?`,
+            text: `Student's details will be updated!`,
+            icon: "warning",
+            showDenyButton: true,
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            } else if (result.isDenied) {
+                Swal.fire(`Nothing was changed!`, '', 'info')
+            }
+        })
+    }
     return false;
 }
 
@@ -355,6 +418,21 @@ function delQuest(form) {
     swal.fire({
         title: `Are you sure you want delete this file?`,
         text: `Questions on this course will no longer exist!`,
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    })
+    return false;
+}
+
+function updateDisKey(form) {
+    swal.fire({
+        title: `Are you sure you want save the changes you made?`,
+        text: ``,
         icon: "warning",
         showDenyButton: true,
         confirmButtonText: 'Yes'

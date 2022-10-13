@@ -2,13 +2,57 @@
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
 <?php include "includes/edit_calls.php"; ?>
-
+<?php if(!in_array($det->position, $adminLevel1)): ?>
+<script>
+window.location.href = "login?msg=Access denied!&msg_type=error"
+</script>
+<?php endif; ?>
 <div class="content-wrapper">
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card position-relative">
                 <div class="card-body">
                     <h4 class="card-title">School Information</h4>
+                    <?php if(isset($_GET['disbursement_key'])): ?>
+                    <div class="" align="right">
+                        <a href="?school_info" class="btn btn-primary">School info</a>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="text-info font-weight-bold">The disbursement source account is your Monnify wallet
+                                number where funds will be disbursed from. </p>
+                            <form action="<?= $pusher; ?>" method="post" onsubmit="return updateDisKey(this)">
+                                <div class="form-group">
+                                    <label for="">Disbursement source account</label>
+                                    <input type="text" name="disbursement_source"
+                                        value="<?= $admin_det->disbursementSource; ?>" class="form-control"
+                                        placeholder="Monnify wallet number" required>
+                                </div>
+                                <input type="hidden" name="set_disbursement_key" value="1">
+                                <div class="form-group">
+                                    <label for="">Disbursement key</label>
+                                    <div class="input-group">
+                                        <input type="password" name="disbursement_key" class="form-control"
+                                            placeholder="Disbursement key" id="disbursementKey"
+                                            value="<?= base64_decode($admin_det->code_d); ?>" required>
+                                        <span class="input-group-text" id="eye-el" onclick="viewKey()"><i
+                                                class="mdi mdi-eye"></i></span>
+                                    </div>
+                                </div>
+                                <div class="" align="right">
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+
+
+                    <?php if(isset($_GET['school_info'])): ?>
+                    <div class="" align="right">
+                        <a href="?disbursement_key" class="btn btn-success">Disbursement key</a>
+                    </div>
                     <hr>
                     <div class="container row">
                         <p class="text-uppercase text-info font-weight-bold">Add school logo</p>
@@ -223,13 +267,12 @@
                             <button type="submit" class="btn btn-primary mr-2" name="update_sch_info">Save
                                 changes</button>
                         </div>
-
+                    </form>
+                    <?php endif; ?>
                 </div>
-                </form>
             </div>
         </div>
     </div>
-</div>
 
 
-<?php include "includes/footer.php"; ?>
+    <?php include "includes/footer.php"; ?>

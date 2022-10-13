@@ -71,9 +71,9 @@ if($resp->requestSuccessful != 1){
         $_SESSION['msg_type'] = 'error';
         $_SESSION['remedy'] = '';
         if($_SESSION['page'] == 'loan'){
-            header('location: ../../adm_loan_approval');
+            header('location: ../../adm_loan_approval?loan_disbursement_list');
         }else if($_SESSION['page'] == 'salary'){
-            header('location: ../../adm_disbursement');
+            header('location: ../../adm_disbursement?disbursement_list');
         }
     }else{
         $_SESSION['message'] = 'Disbursement is being processed';
@@ -86,8 +86,8 @@ if($resp->requestSuccessful != 1){
                                 WHERE batch_id = '$batch_id' 
                                 ");
         if($_SESSION['page'] == 'loan'){
-            header('location: ../../adm_loan_approval?key=loan_disbursement_list');
+            header('location: ../../adm_loan_approval?loan_disbursement_list');
         }else if($_SESSION['page'] == 'salary'){
-            header('location: ../../adm_disbursement?key=disbursement_list');
+            header('location: ../../adm_disbursement?disbursement_list');
         }
     }

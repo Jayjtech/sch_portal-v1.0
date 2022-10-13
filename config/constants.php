@@ -39,7 +39,10 @@ $payroll_title_tbl = "payroll_title";
 $staff_level_tbl = "staff_level";
 $loan_tbl = "loan";
 $loan_disbursement_tbl = "loan_disbursement";
+$expenses_tbl = "expenses";
+$transaction_tbl = "transactions";
 
+/**Links */
 $add_course = "cbe/functions/uploader";
 $cbe_request = "cbe/functions/receive_request";
 $course_deleter = "cbe/functions/deleter";
@@ -56,6 +59,7 @@ $sort_bill = "functions/sort_bill.php";
 $profileUploader = "functions/profileUploader.php";
 $schLogoUploader = "functions/schLogoUploader.php";
 $disburser = "functions/payment_gateway/disburser.php";
+$expenses_query = "functions/expenses.php";
 $receipt = "receipt_pdf";
 
 

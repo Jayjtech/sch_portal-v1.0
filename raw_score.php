@@ -23,7 +23,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php while($row = $callRawScore->fetch_object()):?>
+                                <?php while($row = $callRawScore->fetch_object()): ?>
                                 <tr>
                                     <td class="font-weight-bold"><?= $row->course; ?> [<?= $row->course_code; ?>]</td>
                                     <td><?= $row->ass; ?></td>
@@ -70,10 +70,19 @@
                                             $t_syntax = "Third Term";
                                             break;
                                     }
+                                    $bil_term = $row->term;
+                                    $bil_session = $row->session;
+                                    $curr_sess_bill_report = $conn->query("SELECT * FROM $bill_report_tbl 
+                        WHERE (adm_no = '$userId' AND term='$bil_term' AND session ='$bil_session') ORDER BY id DESC LIMIT 1");
+                        $BILL = $curr_sess_bill_report->fetch_object();
                                     ?>
                                 <tr>
                                     <td><?= $t_syntax; ?> [<?= $row->session; ?>]</td>
-                                    <td class="font-weight-bold"><?= $row->code; ?></td>
+                                    <td class="font-weight-bold">
+                                        <?php if($BILL->outstanding_after  == 0): ?>
+                                        <?= $row->code; ?>
+                                        <?php endif; ?>
+                                    </td>
                                     <td><a href="<?= $result_sheet_url; ?>?result_code=<?= $row->code; ?>"
                                             style="text-decoration:none;" class="btn-sm btn-warning">Check result</a>
                                     </td>

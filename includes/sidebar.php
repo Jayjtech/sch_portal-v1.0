@@ -196,37 +196,94 @@
                 </a>
             </li>
 
-            <?php if($det->user_type == "d29yaw=="):?>
+            <?php if(in_array($det->position,$worker)):?>
+
+            <?php if(in_array($det->position, $adminLevel1)): ?>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#c_panel" aria-expanded="false"
-                    aria-controls="c_panel">
+                <a class="nav-link" href="adm_info?school_info">
+                    <i class="icon-file menu-icon"></i>
+                    <span class="menu-title">School info</span>
+                </a>
+            </li>
+            <?php endif; ?>
+
+            <!-- Users nav -->
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#users" aria-expanded="false" aria-controls="users">
                     <i class="icon-layout menu-icon"></i>
-                    <span class="menu-title">Control Panel</span>
+                    <span class="menu-title">Users</span>
                     <i class="menu-arrow"></i>
                 </a>
-
-                <div class="collapse" id="c_panel">
+                <div class="collapse" id="users">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="adm_info">School info</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="adm_staff">Review staff</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_students">Review students</a>
-                        <li class="nav-item"> <a class="nav-link" href="create_course?index">Create course</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_exam">Exam setting</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_upload_score">Upload score</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_upload_comment">Upload comment</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_awards">Award Student</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_disbursement?key=staff_list">Salary
-                                payment</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_revenue?key=revenue">Student bills</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="adm_incentive?key=take_loan">Incentive/Loan</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_loan_approval?key=approve_loan">Loan
-                                Approval</a>
-                        <li class="nav-item"> <a class="nav-link" href="adm_document">Documentation</a>
-                        </li>
+                        <?php if(in_array($det->position, $bursar)): ?>
+                        <li class="nav-item"> <a class="nav-link" href="adm_students">Review students</a></li>
+                        <?php endif; ?>
+
+                        <?php if(in_array($det->position, $adminLevel1)): ?>
+                        <li class="nav-item"> <a class="nav-link" href="adm_staff">Review staff</a></li>
+                        <?php endif; ?>
+                        <li class="nav-item"> <a class="nav-link" href="adm_awards">Award Student</a></li>
+                    </ul>
+                </div>
+            </li>
+
+
+            <!-- Examination nav -->
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#exam_s" aria-expanded="false" aria-controls="exam_s">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">Examination</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="exam_s">
+                    <ul class="nav flex-column sub-menu">
+                        <?php if(in_array($det->position, $adminLevel2)): ?>
+                        <li class="nav-item"> <a class="nav-link" href="adm_exam?enrolment_list">Exam setting</a></li>
+                        <?php endif; ?>
+                        <li class="nav-item"> <a class="nav-link" href="create_course?index">Create course</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="adm_upload_score">Upload score</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="adm_upload_comment">Upload comment</a></li>
+                    </ul>
+                </div>
+            </li>
+
+
+            <!-- Finance -->
+            <?php if(in_array($det->position, $bursar)): ?>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#finance" aria-expanded="false"
+                    aria-controls="finance">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">Finance</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="finance">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="adm_disbursement?staff_list">Salary
+                                payment</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="adm_expenses?table">Expenses</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="adm_revenue?revenue">Student bills</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="adm_loan_approval?approve_loan">Loan
+                                Approval</a></li>
+
                     </ul>
                 </div>
             </li>
             <?php endif; ?>
+
+            <li class="nav-item">
+                <a class="nav-link" href="adm_incentive?take_loan">
+                    <i class="icon-grid menu-icon"></i>
+                    <span class="menu-title">Incentive/Loan</span>
+                </a>
+            </li>
+            <?php endif; ?>
+
+
+
+
+
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#profile" aria-expanded="false"
                     aria-controls="profile">
@@ -250,6 +307,8 @@
                     <span class="menu-title">My Course</span>
                 </a>
             </li>
+
+
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#e-learning" aria-expanded="false"
                     aria-controls="e-learning">
@@ -269,6 +328,8 @@
                     </ul>
                 </div>
             </li>
+
+
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#c_result" aria-expanded="false"
                     aria-controls="c_result">
@@ -299,68 +360,10 @@
                 </a>
             </li>
             <?php endif; ?>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-                    <i class="icon-grid-2 menu-icon"></i>
-                    <span class="menu-title">Tables</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="tables">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">Basic
-                                table</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
-                    <i class="icon-contract menu-icon"></i>
-                    <span class="menu-title">Icons</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="icons">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">Mdi icons</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-                    <i class="icon-head menu-icon"></i>
-                    <span class="menu-title">User Pages</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="auth">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a>
-                        </li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register
-                            </a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#error" aria-expanded="false" aria-controls="error">
-                    <i class="icon-ban menu-icon"></i>
-                    <span class="menu-title">Error pages</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="error">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a>
-                        </li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="pages/documentation/documentation.html">
-                    <i class="icon-paper menu-icon"></i>
-                    <span class="menu-title">Documentation</span>
-                </a>
-            </li>
         </ul>
     </nav>
     <!-- partial -->
     <div class="main-panel">
+        <script>
+        var baseUrl = document.querySelector('meta[name="baseUrl"]').content;
+        </script>

@@ -2,10 +2,15 @@
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
 <?php include "includes/edit_calls.php"; ?>
+<?php if(!in_array($det->position, $bursar)): ?>
+<script>
+window.location.href = "login?msg=Access denied!&msg_type=error"
+</script>
+<?php endif; ?>
 <?php $_SESSION['pg'] = "adm_revenue";?>
 
 <div class="content-wrapper">
-    <?php if(isset($_GET['key']) == "revenue"):?>
+    <?php if(isset($_GET['revenue']) == true):?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
@@ -118,7 +123,7 @@
                 <div class="card-body">
                     <p class="card-title mb-0">Bill Summary for</p>
                     <div class="mb-2" align="right">
-                        <a href="?key=revenue" class="btn btn-dark">Back</a>
+                        <a href="?revenue" class="btn btn-dark">Back</a>
                     </div>
                     <hr>
                     <p class="font-weight-bold"><?= $term_syntax?> term | <?= $log_session; ?>:</p>
@@ -140,7 +145,7 @@
                 <div class="card-body">
                     <p class="card-title mb-0">Sort <em><?= $bil->name; ?>'s</em> Bill</p>
                     <div class="mb-2" align="right">
-                        <a href="?key=revenue" class="btn btn-dark">Back</a>
+                        <a href="?revenue" class="btn btn-dark">Back</a>
                     </div>
                     <hr>
                     <div class="row mb-5">

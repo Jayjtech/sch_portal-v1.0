@@ -2,18 +2,23 @@
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
 <?php include "includes/edit_calls.php"; ?>
+<?php if(!in_array($det->position, $bursar)): ?>
+<script>
+window.location.href = "login?msg=Access denied!&msg_type=error"
+</script>
+<?php endif; ?>
 <?php $_SESSION['page'] = "salary"; ?>
 <div class="content-wrapper">
     <p id="walletResponse" class="font-weight-bold"></p>
     <p id="statusResponse" class="font-weight-bold"></p>
-    <?php if(($_GET['key']) == "create_payroll"):?>
+    <?php if(isset($_GET['create_payroll']) == true):?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card position-relative">
                 <div class="card-body">
                     <div align="right">
-                        <a href="?key=staff_list" class="btn btn-primary">Staff list</a>
-                        <a href="?key=disbursement_list" class="btn btn-success">Disbursement
+                        <a href="?staff_list" class="btn btn-primary">Staff list</a>
+                        <a href="?disbursement_list" class="btn btn-success">Disbursement
                             list</a>
                     </div>
                     <hr>
@@ -117,15 +122,15 @@
     </div>
     <?php endif; ?>
 
-    <?php if(($_GET['key']) == "staff_list"): ?>
+    <?php if(isset($_GET['staff_list']) == true): ?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <p class="card-title mb-0">List of Salary earning Staff</p>
                     <div align="right">
-                        <a href="?key=create_payroll" class="btn btn-primary">Create Payroll</a>
-                        <a href="?key=disbursement_list" class="btn btn-success">Disbursement list</a>
+                        <a href="?create_payroll" class="btn btn-primary">Create Payroll</a>
+                        <a href="?disbursement_list" class="btn btn-success">Disbursement list</a>
                     </div>
                     <hr>
                     <div class="" align="right">
@@ -148,7 +153,7 @@
                             <tbody>
                                 <?php while($row = $callStaff->fetch_object()):
                                     $staff_id = $row->userId;
-                                    $checkLoan = $conn->query("SELECT * FROM $loan_tbl WHERE userId='$staff_id' ORDER BY id DESC LIMIT 1");
+                                    $checkLoan = $conn->query("SELECT * FROM $loan_tbl WHERE (userId='$staff_id' AND status=1) ORDER BY id DESC LIMIT 1");
                                     $ln = $checkLoan->fetch_object();
                                     $st_position = $row->position;
                                     $st_privileges = $row->privileges;
@@ -216,15 +221,15 @@
     </div>
     <?php endif; ?>
 
-    <?php if(($_GET['key']) == "disbursement_list"): ?>
+    <?php if(isset($_GET['disbursement_list']) == true): ?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <p class="card-title mb-0">Disbursement List</p>
                     <div align="right">
-                        <a href="?key=create_payroll" class="btn btn-primary">Create Payroll</a>
-                        <a href="?key=staff_list" class="btn btn-success">Staff list</a>
+                        <a href="?create_payroll" class="btn btn-primary">Create Payroll</a>
+                        <a href="?staff_list" class="btn btn-success">Staff list</a>
                     </div>
                     <hr>
 

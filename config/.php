@@ -39,6 +39,7 @@ $create_user = $conn->query("CREATE TABLE IF NOT EXISTS $users_tbl (
     device varchar(255) NOT NULL,
     img varchar(255) NOT NULL,
     num_update int(11) NOT NULL,
+    code_d varchar(255) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 
@@ -416,6 +417,7 @@ $create_settings = $conn->query("CREATE TABLE IF NOT EXISTS $settings_tbl (
     mc varchar(255) NOT NULL,
     mc_p varchar(255) NOT NULL,
     img varchar(255) NOT NULL,
+    code_d varchar(255) NOT NULL,
     PRIMARY KEY (id)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 
@@ -604,6 +606,33 @@ $cr_passage_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $passage_tbl (
     term varchar(255) NOT NULL,
     session varchar(255) NOT NULL,
     token varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
+
+$cr_expenses_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $expenses_tbl (
+    id int(11) AUTO_INCREMENT NOT NULL,
+    description varchar(10000000) NOT NULL,
+    subject varchar(255) NOT NULL,
+    amount int(11) NOT NULL,
+    date varchar(255) NOT NULL,
+    token varchar(255) NOT NULL,
+    term int(11) NOT NULL,
+    session varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
+$cr_transaction_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $transaction_tbl (
+    id int(11) AUTO_INCREMENT NOT NULL,
+    userId varchar(255) NOT NULL,
+    track_id varchar(255) NOT NULL,
+    amount float(11) NOT NULL,
+    description varchar(255) NOT NULL,
+    term int(11) NOT NULL,
+    session varchar(255) NOT NULL,
+    wallet_bal float(11) NOT NULL,
+    time varchar(11) NOT NULL,
+    status int(11) NOT NULL,
     PRIMARY KEY (id)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 ?>

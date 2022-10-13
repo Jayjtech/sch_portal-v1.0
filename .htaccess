@@ -36,5 +36,6 @@ RewriteRule ^syllabus syllabus.php [NC,L]
 RewriteRule ^adm_question_editor adm_question_editor.php [NC,L]  
 RewriteRule ^adm_add_passage adm_add_passage.php [NC,L] 
 RewriteRule ^adm_view_question adm_view_question.php [NC,L]
+RewriteRule ^adm_expenses adm_expenses.php [NC,L]
 
 php_value date.timezone 'Africa/lagos'

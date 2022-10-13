@@ -104,8 +104,13 @@ if ($_GET['table'] == $bill_tbl) {
 
 
 if ($_GET['table'] == $evaluation_tbl && $_GET['type'] == "teacher") {
+     if($_GET['class_officiating']){
+          $class = $_GET['class_officiating'];
+     }else{
+          $class = $class_officiating;
+     }
      header('Content-Type: text/csv; charset=utf-8');
-     header("Content-Disposition: attachment; filename=Teacher's comment for ".$class_officiating." ".$term_syntax." ".$log_session.".csv");
+     header("Content-Disposition: attachment; filename=Teacher's comment for ".$class." ".$term_syntax." ".$log_session.".csv");
      $output = fopen("php://output", "w");
      if($log_term == 1 || $log_term == 2){
  fputcsv($output, array(
@@ -114,7 +119,7 @@ if ($_GET['table'] == $evaluation_tbl && $_GET['type'] == "teacher") {
      ));
 
      $query = "SELECT name, adm_no, class, overall_score, out_of, percent_score, n_absent, n_present, punctuality, attentiveness,
- neatness, honesty, relationship, skills, sport, clubs, fluency, handwriting, t_comment FROM $evaluation_tbl WHERE session='$log_session' AND term='$log_term' AND class='$class_officiating' ORDER BY percent_score DESC";
+ neatness, honesty, relationship, skills, sport, clubs, fluency, handwriting, t_comment FROM $evaluation_tbl WHERE session='$log_session' AND term='$log_term' AND class='$class' ORDER BY percent_score DESC";
      }else if($log_term == 3){
  fputcsv($output, array(
           'Name', 'Admission NO', 'Class', 'Overall Score', 'Out of', 'Percent Score', 'No Absent', 'No Present',
@@ -122,7 +127,7 @@ if ($_GET['table'] == $evaluation_tbl && $_GET['type'] == "teacher") {
      ));
 
      $query = "SELECT name, adm_no, class, overall_score, out_of, percent_score, n_absent, n_present, punctuality, attentiveness,
- neatness, honesty, relationship, skills, sport, clubs, fluency, handwriting, t_comment, promoted_to FROM $evaluation_tbl WHERE session='$log_session' AND term='$log_term' AND class='$class_officiating' ORDER BY percent_score DESC";
+ neatness, honesty, relationship, skills, sport, clubs, fluency, handwriting, t_comment, promoted_to FROM $evaluation_tbl WHERE session='$log_session' AND term='$log_term' AND class='$class' ORDER BY percent_score DESC";
      }
     
      $result = mysqli_query($conn, $query);

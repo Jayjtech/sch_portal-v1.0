@@ -2,19 +2,24 @@
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
 <?php include "includes/edit_calls.php"; ?>
+<?php if(!in_array($det->position, $bursar)): ?>
+<script>
+window.location.href = "login?msg=Access denied!&msg_type=error"
+</script>
+<?php endif; ?>
 <?php $_SESSION['page'] = "loan"; ?>
 <div class="content-wrapper">
     <p id="walletResponse" class="font-weight-bold"></p>
     <p id="statusResponse" class="font-weight-bold"></p>
-    <?php if(($_GET['key'])== "approve_loan"):?>
+    <?php if(isset($_GET['approve_loan'])== true):?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card position-relative">
                 <div class="card-body">
                     <p class="card-title">Loan approval</p>
                     <div align="right">
-                        <a href="?key=loan_disbursement_list" class="btn btn-warning">Loan disbursement list</a>
-                        <a href="?key=loan_setting" class="btn btn-primary">Loan settings</a>
+                        <a href="?loan_disbursement_list" class="btn btn-warning">Loan disbursement list</a>
+                        <a href="?loan_setting" class="btn btn-primary">Loan settings</a>
                     </div>
                     <hr>
 
@@ -71,15 +76,15 @@
 </div>
 <?php endif; ?>
 
-<?php if(($_GET['key'])== "loan_setting"):?>
+<?php if(isset($_GET['loan_setting'])== true):?>
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card position-relative">
             <div class="card-body">
                 <p class="card-title">Loan setting</p>
                 <div align="right">
-                    <a href="?key=loan_disbursement_list" class="btn btn-warning">Loan disbursement list</a>
-                    <a href="?key=approve_loan" class="btn btn-primary">Loan approval</a>
+                    <a href="?loan_disbursement_list" class="btn btn-warning">Loan disbursement list</a>
+                    <a href="?approve_loan" class="btn btn-primary">Loan approval</a>
                 </div>
                 <hr>
                 <div class="row mt-3 mb-3">
@@ -151,15 +156,15 @@
 <?php endif; ?>
 
 
-<?php if(($_GET['key']) == "loan_disbursement_list"): ?>
+<?php if(isset($_GET['loan_disbursement_list']) == true): ?>
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <p class="card-title mb-0">Loan Disbursement List</p>
                 <div align="right">
-                    <a href="?key=approve_loan" class="btn btn-primary">Loan approval</a>
-                    <a href="?key=loan_setting" class="btn btn-warning">Loan setting</a>
+                    <a href="?approve_loan" class="btn btn-primary">Loan approval</a>
+                    <a href="?loan_setting" class="btn btn-warning">Loan setting</a>
                 </div>
                 <hr>
 

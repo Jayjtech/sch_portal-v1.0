@@ -2,13 +2,22 @@
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
 <?php include "includes/edit_calls.php"; ?>
-
+<?php if(!in_array($det->position, $adminLevel2)): ?>
+<script>
+window.location.href = "login?msg=Access denied!&msg_type=error"
+</script>
+<?php endif; ?>
 <div class="content-wrapper">
+    <?php if(isset($_GET['result_template'])): ?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0">Result template setting <?= round(12.08)?></p>
+                    <p class="card-title mb-0">Result template setting</p>
+                    <div class="" align="right">
+                        <a href="?enrolment_list" class="btn btn-success">Enrolment list</a>
+                        <a href="?time_table" class="btn btn-primary">Time table</a>
+                    </div>
                     <hr>
                     <div class="row">
                         <div class="col-sm-6">
@@ -29,12 +38,18 @@
             </div>
         </div>
     </div>
+    <?php endif; ?>
 
+    <?php if(isset($_GET['enrolment_list'])): ?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <p class="card-title mb-0">Enrolment List for <?= $term_syntax?> term | <?= $log_session; ?></p>
+                    <div class="" align="right">
+                        <a href="?result_template" class="btn btn-danger">Result template</a>
+                        <a href="?time_table" class="btn btn-primary">Time table</a>
+                    </div>
                     <hr>
                     <div class="table-responsive">
                         <table class="myTable table table-striped table-borderless">
@@ -84,12 +99,18 @@
             </div>
         </div>
     </div>
+    <?php endif; ?>
 
+    <?php if(isset($_GET['time_table'])): ?>
     <div class="row">
         <div class="col-md-12 stretch-card grid-margin">
             <div class="card">
                 <div class="card-body">
                     <p class="card-title">Exam time-table</p>
+                    <div class="" align="right">
+                        <a href="result_template" class="btn btn-danger">Result template</a>
+                        <a href="?enrolment_list" class="btn btn-success">Enrolment list</a>
+                    </div>
                     <hr>
                     <div class="table-responsive">
                         <table class="myTable table table-striped table-borderless">
@@ -123,6 +144,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="row">
         <div class="col-md-12 stretch-card grid-margin">
@@ -227,7 +249,7 @@
             </div>
         </div>
     </div>
-
+    <?php endif; ?>
 
 </div>
 

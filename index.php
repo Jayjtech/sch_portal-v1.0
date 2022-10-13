@@ -82,4 +82,5 @@
         </div>
         <!-- page-body-wrapper ends -->
     </div>
+
     <?php include "includes/log_footer.php"; ?>

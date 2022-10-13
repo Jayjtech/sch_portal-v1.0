@@ -2,16 +2,20 @@
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
 <?php include "includes/edit_calls.php"; ?>
-
+<?php if(!in_array($det->position, $worker)): ?>
+<script>
+window.location.href = "login?msg=Access denied!&msg_type=error"
+</script>
+<?php endif; ?>
 <div class="content-wrapper">
-    <?php if(($_GET['key']) == "take_loan"):?>
+    <?php if(isset($_GET['take_loan']) == true):?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card position-relative">
                 <div class="card-body">
                     <p class="card-title">Request for loan</p>
                     <div align="right">
-                        <a href="?key=loan_details" class="btn btn-info">Loan Details</a>
+                        <a href="?loan_details" class="btn btn-info">Loan Details</a>
                     </div>
                     <hr>
                     <div class="row mt-3 mb-3">
@@ -89,14 +93,14 @@
     </div>
     <?php endif; ?>
 
-    <?php if(($_GET['key']) == "loan_details"): ?>
+    <?php if(isset($_GET['loan_details']) == true): ?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <p class="card-title mb-0">Loan balance details</p>
                     <div align="right">
-                        <a href="?key=take_loan" class="btn btn-primary">Request for loan</a>
+                        <a href="?take_loan" class="btn btn-primary">Request for loan</a>
                     </div>
                     <hr>
                     <div class="table-responsive">

@@ -89,6 +89,11 @@ switch($det->position){
         break;
 }
 
+/**Privilege Authenticator */
+$adminLevel1 = [1];
+$adminLevel2 = [1,2,3,4];
+$bursar = [1,6,7];
+$worker = [1,2,3,4,5,6,7];
 
 /**Courses Staff*/
 $callCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
@@ -131,8 +136,11 @@ if($det->position == 5){
 
 $callScoreSheet = $conn->query("SELECT * FROM $score_tbl WHERE (term='$log_term' AND session = '$log_session' AND teacher_token='$token') ORDER BY class ASC");
 
+if(in_array($det->position, $adminLevel2)){
+$callEvaluation = $conn->query("SELECT * FROM $evaluation_tbl WHERE (term='$log_term' AND session = '$log_session') ORDER BY percent_score DESC");
+}else{
 $callEvaluation = $conn->query("SELECT * FROM $evaluation_tbl WHERE (term='$log_term' AND session = '$log_session' AND class='$class_officiating') ORDER BY percent_score DESC");
-
+}
 /**Bills */
 $callBills = $conn->query("SELECT * FROM $bill_tbl WHERE (term='$log_term' AND session = '$log_session') ORDER BY compulsory_total ASC");
 $compulsoryBillSettings = $conn->query("SELECT * FROM $bill_setting_tbl WHERE status=1");
@@ -162,7 +170,8 @@ if($admin_det->loan_availability == 0){
      $loan_availability = "Available";
 }
 
-
+/**Expenses */
+$callExpenses = $conn->query("SELECT * FROM $expenses_tbl");
 
 /**Raw score */
 $callRawScore = $conn->query("SELECT * FROM $score_tbl WHERE (adm_no='$userId' AND term='$log_term' AND session='$log_session')");

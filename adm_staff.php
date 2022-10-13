@@ -2,7 +2,11 @@
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
 <?php include "includes/edit_calls.php"; ?>
-
+<?php if(!in_array($det->position, $adminLevel1)): ?>
+<script>
+window.location.href = "login?msg=Access denied!&msg_type=error"
+</script>
+<?php endif; ?>
 <div class="content-wrapper">
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -20,7 +24,7 @@
                                     <th>Type</th>
                                     <th>Class Officiating</th>
                                     <th>POD.</th>
-                                    <th>Privileges</th>
+                                    <!-- <th>Privileges</th> -->
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -31,16 +35,23 @@
                                     $given_month = false;
                                     $status = false;
                                     include "includes/status_const.php";
+                                       switch($row->img){
+                                            case false:
+                                            $st_img = 'default-img.jpg';
+                                            break;
+                                            case true:
+                                            $st_img = $row->img;
+                                            break;
+                                        }
                                     ?>
                                 <tr>
-                                    <td class="py-1"><img src="images/profile/<?= $row->img; ?>" alt="image" />
+                                    <td class="py-1"><img src="images/profile/<?= $st_img; ?>" alt="image" />
                                     </td>
                                     <td><?= $row->name; ?></td>
                                     <td class="font-weight-bold"><?= $row->userId; ?></td>
                                     <td><?= $row->staff_type; ?></td>
                                     <td><?= $row->class_officiating; ?></td>
                                     <td><?= $POD; ?></td>
-                                    <td><?= $priv; ?></td>
                                     <td>
                                         <a href="adm_staff?pod=<?= htmlspecialchars($row->token); ?>"
                                             class="btn-sm btn-primary"><i class="mdi mdi-pen"></i> Review </a>
@@ -75,6 +86,7 @@
                                 </div>
                             </div>
                             <input type="hidden" name="token" value="<?= $edS->token?>">
+                            <input type="hidden" name="review_staff" value="1">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">Post of Duty</label>
@@ -92,15 +104,16 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="">Privilege</label>
-                                    <select name="privileges" id="privileges" class="form-control">
-                                        <option value="<?= $assign_priv_val; ?>"><?= $assign_priv; ?></option>
-                                        <option value="1">|Student|Staff|Exam|Documents|Revenue|</option>
-                                        <option value="2">|Students|Staff|Exam|Documents|</option>
-                                        <option value="3">|Students|Staff|Exam|</option>
-                                        <option value="4">|Students|Staff|</option>
-                                        <option value="5">|Students|</option>
-                                    </select>
+                                    <label for="">Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control form-control-lg" id="password"
+                                            name="code_d" placeholder="Password" onchange="show()"
+                                            value="<?= base64_decode($edS->code_d); ?>">
+                                        <span class="input-group-text" id="eye-el" onclick="viewPassword()"><i
+                                                class="mdi mdi-eye"></i></span>
+                                        <p class="text-danger p-format" style="display:none;">Minimum length: 8; at
+                                            least an uppercase and a lowercase letter eg. Math14ew</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -120,6 +133,7 @@
                                     <select name="class_officiating" id="class_officiating" class="form-control"
                                         required>
                                         <option value="<?= $assign_class_val; ?>"><?= $assign_class; ?></option>
+                                        <option value="Non">Non</option>
                                         <?php for($i = 0; $i<count($classData); $i++){?>
                                         <option value="<?= $classData[$i]->class; ?>">
                                             <?= $classData[$i]->class; ?></option>

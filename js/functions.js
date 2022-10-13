@@ -1,4 +1,4 @@
-let baseUrl = "http://localhost/sch_portal-v1.0";
+var baseUrl = document.querySelector('meta[name="baseUrl"]').content;
 function viewPassword(){
     let x = document.querySelector("#password");
     let eyeEl = document.querySelector("#eye-el");
@@ -10,7 +10,6 @@ function viewPassword(){
         eyeEl.innerHTML = `<i class="mdi mdi-eye"></i>`
     }
 }
-
 
 /**Test Proceed */
 $("form#testProceed").on("submit", function(e){
@@ -183,9 +182,11 @@ $("form#registerForm").on("submit", function (e) {
     }else{
           let btnSuc = document.querySelector(".createUser");
             btnSuc.innerHTML = `<div class=""><em>Setting up account...</em><div>
-            <div class="progress mt-3">
-                <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" style="width: 60%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>`;
+                                    <div class="progress mt-3">
+                                        <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" 
+                                        style="width: 60%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    </div>
+                                </div>`;
         $.post(`${baseUrl}/functions/sign_user.php`, {
             key: "getData",
             name: name,
