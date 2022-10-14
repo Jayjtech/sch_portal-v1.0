@@ -40,6 +40,16 @@ switch($current_term){
         break;
 }
 
+ switch($admin_det->result_template){
+        case 1:
+            $r_t_syntax = "Default template";
+            $r_t_imgUrl = "images/carousel/banner_2.jpg";
+            break;
+        case 2:
+            $r_t_syntax = "Type 2 template";
+            $r_t_imgUrl = "images/carousel/banner_12.jpg";
+            break;
+    }
 $sch_short_icon = ''.BASE_URL.'/images/'.$admin_det->img.'';
 
 

@@ -99,6 +99,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                         <option value="5">Teacher</option>
                                         <option value="6">Bursar</option>
                                         <option value="7">Treasurer</option>
+                                        <option value="8">Casual staff</option>
                                     </select>
                                 </div>
                             </div>
@@ -107,7 +108,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     <label for="">Password</label>
                                     <div class="input-group">
                                         <input type="password" class="form-control form-control-lg" id="password"
-                                            name="code_d" placeholder="Password" onchange="show()"
+                                            name="code_d" placeholder="Password" onkeyup="show()"
                                             value="<?= base64_decode($edS->code_d); ?>">
                                         <span class="input-group-text" id="eye-el" onclick="viewPassword()"><i
                                                 class="mdi mdi-eye"></i></span>

@@ -54,12 +54,12 @@ if($create_user){
                 token = '$token',
                 user_type = '$user_type',
                 position = 1,
-                userId = '8395465343',
+                userId = '83954653',
                 email = 'admin@example.com',
                 pin = '$pin',
                 password = '9bdb52d04dc20036dbd8313ed055'
-      ");
-  }
+        ");
+    }
 }
 
 $cr_course_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $course_tbl (
@@ -179,10 +179,10 @@ $cr_score_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $score_tbl (
     tt_score_b float(11)  NOT NULL,
     position varchar(255)  NOT NULL,
     position_b varchar(255)  NOT NULL,
-    ca_cumulative float(255)  NOT NULL,
-    cumulative float(255)  NOT NULL,
-    cumulative_b float(255)  NOT NULL,
-    average float(255)  NOT NULL,
+    ca_cumulative float(11)  NOT NULL,
+    cumulative float(11)  NOT NULL,
+    cumulative_b float(11)  NOT NULL,
+    average float(11)  NOT NULL,
     grade varchar(50)  NOT NULL,
     remark varchar(50)  NOT NULL,
     grade_b varchar(50)  NOT NULL,
@@ -236,12 +236,14 @@ $cr_class_tbl = $conn->query("CREATE TABLE IF NOT EXISTS `$class_tbl` (
 ");
 
 if ($cr_class_tbl) {
-  for($x = 1; $x <= count($classes['class']); $x++){
-    $class = $classes['class'][$x];
+  for($x = 0; $x < count($classes); $x++){
+    $class = $classes[$x];
     $check = $conn->query("SELECT * FROM $class_tbl WHERE class = '$class'");
     if($check->num_rows == 0){
+      if($class){
       $insert = $conn->query("INSERT INTO $class_tbl (class, status) 
-      VALUES('$class', '1')");
+            VALUES('$class', '1')");
+      }
     }
   }
 }
@@ -319,7 +321,7 @@ $cr_student_award_tbl = $conn->query("CREATE TABLE IF NOT EXISTS `$student_award
 ");
 
 if ($cr_student_award_tbl) {
-  for($x = 1; $x <= count($stu_awards['award']); $x++){
+  for($x = 1; $x < count($stu_awards['award']); $x++){
     $award = $stu_awards['award'][$x];
     $check = $conn->query("SELECT * FROM $student_award_tbl WHERE award = '$award'");
     if($check->num_rows == 0){
@@ -337,12 +339,14 @@ $cr_session_tbl = $conn->query("CREATE TABLE IF NOT EXISTS `$session_tbl` (
 ");
 
 if ($cr_session_tbl) {
-  for($x = 1; $x <= count($sessions['session']); $x++){
-    $session = $sessions['session'][$x];
+  for($x = 0; $x < count($sessions); $x++){
+    $session = $sessions[$x];
     $check = $conn->query("SELECT * FROM $session_tbl WHERE session = '$session'");
     if($check->num_rows == 0){
-      $insert = $conn->query("INSERT INTO $session_tbl (session) 
-      VALUES('$session')");
+      if($session){
+        $insert = $conn->query("INSERT INTO $session_tbl (session) 
+              VALUES('$session')");
+      }
     }
   }
 }
@@ -392,7 +396,7 @@ $create_settings = $conn->query("CREATE TABLE IF NOT EXISTS $settings_tbl (
     yt_url varchar(255) NOT NULL,
     sch_phone_1 varchar(255) NOT NULL,
     sch_phone_2 varchar(255) NOT NULL,
-    result_sheet_type int(11) NOT NULL,
+    result_template int(11) NOT NULL,
     current_session varchar(255) NOT NULL,
     current_term int(11) NOT NULL,
     fl_sk_key varchar(255) NOT NULL,
@@ -418,14 +422,21 @@ $create_settings = $conn->query("CREATE TABLE IF NOT EXISTS $settings_tbl (
     mc_p varchar(255) NOT NULL,
     img varchar(255) NOT NULL,
     code_d varchar(255) NOT NULL,
+    compulsory_fee varchar(1000000) NOT NULL,
     PRIMARY KEY (id)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 
 if ($create_settings) {
     $check = $conn->query("SELECT * FROM $settings_tbl");
     if($check->num_rows == 0){
-      $insert = $conn->query("INSERT INTO $settings_tbl (sch_name, result_template) 
-      VALUES('Jayjtech', 1)");
+      $curr_session = ''.$year.'/'.($year+1).'';
+      $insert = $conn->query("INSERT INTO $settings_tbl SET 
+      sch_name = 'Jayjtech', 
+      result_template = '1',
+      current_term = '1',
+      current_session = '$curr_session',
+      img = 'logo.jpg'
+      ");
     }
 }
 
@@ -459,15 +470,6 @@ if ($create_settings) {
 //     /**Requirement */
 //     include "functions/instruction_push.php";
 //    }
-
-if ($create_settings) {
-    $check = $conn->query("SELECT * FROM $settings_tbl");
-    if($check->num_rows == 0){
-      $insert = $conn->query("INSERT INTO $settings_tbl (sch_name) 
-      VALUES('Jayjtech')");
-    }
-}
-
 
 $cr_banks_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $banks_tbl (
     id int(11) AUTO_INCREMENT NOT NULL,

@@ -152,6 +152,7 @@ $("form#registerForm").on("submit", function (e) {
     let userCategory = $("#userCategory").val();
     let myClass = $("#myClass").val();
     let staffType = $("#staffType").val();
+    let title = $("#title").val();
     let password = $("#password").val();
     let rPassword = $("#rPassword").val();
     let lowerCaseLetters = /[a-z]/g;
@@ -173,8 +174,10 @@ $("form#registerForm").on("submit", function (e) {
         swal({title: `Kindly select your current class!`, text: `The class field is required.`, icon: "warning", button: "Ok", dangerMode: false})
     }else if(staffType === ""){
         swal({title: `Kindly select staff type!`, text: `The staff type field is required.`, icon: "warning", button: "Ok", dangerMode: false})
+    }else if(title === ""){
+        swal({title: `Kindly select a title!`, text: `The title field is required.`, icon: "warning", button: "Ok", dangerMode: false})
     }else if(pin.length != 5 || pin === ""){
-        swal({title: `Invalid pin!`, text: `Pin must be 5 digits.`, icon: "warning", button: "Ok", dangerMode: false})
+        swal({title: `Invalid pin!`, text: `Pin must be 5 characters.`, icon: "warning", button: "Ok", dangerMode: false})
     }else if(!password.match(upperCaseLetters) || !password.match(lowerCaseLetters) || !password.match(numbers) || password.length < 8){
         swal({title: `Password too weak!`, text: `Password must contain uppercase letter, lowercase letter, number and shouldn't be less than 8 characters.`, icon: "warning", button: "Ok", dangerMode: false})
     }else if(password != rPassword){
@@ -198,6 +201,7 @@ $("form#registerForm").on("submit", function (e) {
             device: device,
             pin: pin,
             staffType: staffType,
+            title: title,
             password: password
         },
         function(response){
@@ -212,7 +216,7 @@ $("form#registerForm").on("submit", function (e) {
                     if(userCategory === "c3R1ZHk="){
                         window.location.href = `${baseUrl}/functions/payment_gateway/monnify.php`
                     }else{
-                        window.location.href = `${baseUrl}/login`
+                        window.location.href = `${baseUrl}/dashboard`
                     }
                 }
         });

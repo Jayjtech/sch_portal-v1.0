@@ -545,6 +545,22 @@ function removeFromDisburse(form) {
     return false;
 }
 
+
+function reTakeExam(form) {
+    swal.fire({
+        title: `Are you sure you want this student to re-take this exam?`,
+        text: ``,
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    })
+    return false;
+}
+
 function sortBill(form) {
     let wallBalance = parseInt(document.querySelector("#wallet-balance").value);
     let totalAmount = parseInt(document.querySelector("#total-amount").value);

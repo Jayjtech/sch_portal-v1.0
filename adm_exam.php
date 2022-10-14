@@ -19,25 +19,31 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                         <a href="?time_table" class="btn btn-primary">Time table</a>
                     </div>
                     <hr>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="">Select result template</label>
-                                <select name="result_type" class="result-type form-control">
-                                    <option value="1">Default</option>
-                                    <option value="2">Type 2</option>
-                                </select>
-                            </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="">Select result template</label>
+                            <select name="result_type" class="result-type form-control">
+                                <option value="1">Default</option>
+                                <option value="2">Type 2</option>
+                            </select>
                         </div>
-                        <div class="col-sm-6">
-                            <label for="">Preview</label>
-                            <div class="resultTypeResponse"></div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="">Preview</label>
+                        <div class="resultTypeResponse">
+                            <div class="alert alert-success col-sm-8">Current result template
+                                <em><strong><?= $r_t_syntax; ?></strong></em>
+                            </div>
+                            <div class="mt-3">
+                                <img src="<?= $r_t_imgUrl; ?>" class="img-thumbnail" alt="Result Template">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <?php endif; ?>
 
     <?php if(isset($_GET['enrolment_list'])): ?>
@@ -45,7 +51,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0">Enrolment List for <?= $term_syntax?> term | <?= $log_session; ?></p>
+                    <p class="card-title mb-0">Enrolment List for <?= $term_syntax; ?> term | <?= $log_session; ?></p>
                     <div class="" align="right">
                         <a href="?result_template" class="btn btn-danger">Result template</a>
                         <a href="?time_table" class="btn btn-primary">Time table</a>
@@ -58,9 +64,10 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     <th>Name</th>
                                     <th>Adm. No.</th>
                                     <th>Course[Code]</th>
+                                    <th>Status</th>
+                                    <th></th>
                                     <th>[ASS]+[CA1]+[CA2]+[CA3]+[EXAM] = [TOTAL]</th>
                                     <th>Token</th>
-                                    <th>Status</th>
                                     <th>Paper Type</th>
                                 </tr>
                             </thead>
@@ -75,20 +82,30 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                             $status = "Taken";
                                             $col = "badge badge-success";
                                             break;
-                                    }
+                                        }
                                     ?>
                                 <tr>
                                     <td><?= $enr->name; ?></td>
                                     <td class="font-weight-bold"><?= $enr->adm_no; ?></td>
                                     <td><?= $enr->course; ?>[<?= $enr->course_code; ?>]</td>
-                                    <td>[ <?= $enr->ass; ?> ] + [ <?= $enr->ca1; ?> ] + [ <?= $enr->ca2; ?> ] + [
-                                        <?= $enr->ca3; ?> ] + [
-                                        <?= $enr->exam; ?> ] =
-                                        [ <?= $enr->total; ?> ]</td>
-                                    <td><?= $enr->exam_token; ?></td>
                                     <td>
                                         <p class="<?= $col; ?>"><?= $status; ?></p>
                                     </td>
+                                    <td>
+                                        <?php if($status == "Taken"):?>
+                                        <form action="<?= $exam_query; ?>" onsubmit="return reTakeExam(this)"
+                                            method="post">
+                                            <input type="hidden" name="retake_exam" value="<?= $enr->exam_token ;?>">
+                                            <input type="hidden" name="student_name" value="<?= $enr->name ;?>">
+                                            <button type="submit" class="btn-sm btn-primary">Re-take</button>
+                                        </form>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>[ <?= $enr->ass; ?> ] + [ <?= $enr->ca1; ?> ] + [ <?= $enr->ca2; ?> ] + [
+                                        <?= $enr->ca3; ?> ] + [
+                                        <?= $enr->exam; ?> ]
+                                        [ <?= $enr->total; ?> ]</td>
+                                    <td><?= $enr->exam_token; ?></td>
                                     <td><?= $enr->paper_type; ?></td>
                                 </tr>
                                 <?php endwhile; ?>
@@ -116,7 +133,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                         <table class="myTable table table-striped table-borderless">
                             <thead>
                                 <tr>
-                                    <th>DAY[Date]</th>
+                                    <th>Day [Date]</th>
                                     <th>1st Period</th>
                                     <th>2nd Period</th>
                                     <th>3rd Period</th>
@@ -128,7 +145,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                             <tbody>
                                 <?php while($tim = $callTimeTable->fetch_object()): ?>
                                 <tr>
-                                    <td><?= $tim->day; ?>[<?= $tim->exam_date; ?>]</td>
+                                    <td><?= $tim->day; ?> [<?= $tim->exam_date; ?>]</td>
                                     <td><?= $tim->period_1; ?></td>
                                     <td><?= $tim->period_2; ?></td>
                                     <td><?= $tim->period_3; ?></td>

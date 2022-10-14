@@ -42,7 +42,7 @@ $loan_disbursement_tbl = "loan_disbursement";
 $expenses_tbl = "expenses";
 $transaction_tbl = "transactions";
 
-/**Links */
+/**Routes */
 $add_course = "cbe/functions/uploader";
 $cbe_request = "cbe/functions/receive_request";
 $course_deleter = "cbe/functions/deleter";
@@ -60,9 +60,12 @@ $profileUploader = "functions/profileUploader.php";
 $schLogoUploader = "functions/schLogoUploader.php";
 $disburser = "functions/payment_gateway/disburser.php";
 $expenses_query = "functions/expenses.php";
+$exam_query = "functions/exam_query.php";
 $receipt = "receipt_pdf";
 
-
+/**Result templates */
+$default_result_template = "images/carousel/banner_2.jpg";
+$result_template_a = "images/carousel/banner_12.jpg";
 $monnify_base_url = "https://api.monnify.com";
 // $monnify_base_url = "https://sandbox.monnify.com";
 
@@ -145,36 +148,29 @@ $instructions = [
 ];
 
 $classes = [
-    "class" => [
-        1 => "Creche",
-        2 => "KG-1",
-        3 => "KG-2",
-        4 => "NUR-1",
-        5 => "NUR-2[Basic-1]",
-        6 => "PRY-1[Basic-2]",
-        7 => "PRY-2[Basic-3]",
-        8 => "PRY-3[Basic-4]",
-        9 => "PRY-4[Basic-5]",
-        10 => "PRY-5[Basic-6]",
-        11 => "JSS-1",
-        12 => "JSS-2",
-        13 => "JSS-3",
-        14 => "SSS-1",
-        15 => "SSS-2",
-        16 => "SSS-3"
-    ]
+    "Creche",
+    "KG-1",
+    "KG-2",
+    "NUR-1",
+    "NUR-2[Basic-1]",
+    "PRY-1[Basic-2]",
+    "PRY-2[Basic-3]",
+    "PRY-3[Basic-4]",
+    "PRY-4[Basic-5]",
+    "PRY-5[Basic-6]",
+    "JSS-1",
+    "JSS-2",
+    "JSS-3",
+    "SSS-1",
+    "SSS-2",
+    "SSS-3"
 ];
 
 $sessions = [
-    "session" => [
-        1 => "2021/2022",
-        2 => "2022/2023",
-        3 => "2023/2024",
-        4 => "2024/2025",
-        5 => "2025/2026",
-        6 => "2026/2027"
-    ]
-];
+        "2020/2021",
+        ''.($year-1).'/'.($year).'',
+        ''.($year).'/'.($year+1).''
+        ];
 
 $bill_list = [
          [  
@@ -188,37 +184,37 @@ $bill_list = [
             "status" => 1
         ],
          [  
-            "bill_title" => "Uniform",
+            "bill_title" => "Uniform fee",
             "bill_name" => "uniform",
             "status" => 1
         ],
          [  
-            "bill_title" => "Sport wear",
+            "bill_title" => "Sport wear fee",
             "bill_name" => "sport_wear",
             "status" => 1
         ],
          [  
-            "bill_title" => "Cardigan",
+            "bill_title" => "Cardigan fee",
             "bill_name" => "cardigan",
             "status" => 1
         ],
          [  
-            "bill_title" => "Handbook",
+            "bill_title" => "Handbook fee",
             "bill_name" => "handbook",
             "status" => 1
         ],
          [  
-            "bill_title" => "Security",
+            "bill_title" => "Security fee",
             "bill_name" => "security",
             "status" => 1
         ],
          [  
-            "bill_title" => "ICT/Website",
+            "bill_title" => "ICT/Website fee",
             "bill_name" => "ict",
             "status" => 1
         ],
          [  
-            "bill_title" => "Vocational",
+            "bill_title" => "Vocational fee",
             "bill_name" => "vocational",
             "status" => 1
         ],
@@ -228,72 +224,72 @@ $bill_list = [
             "status" => 1
         ],
          [  
-            "bill_title" => "PTA",
+            "bill_title" => "PTA fee",
             "bill_name" => "pta",
             "status" => 1
         ],
          [  
-            "bill_title" => "Music",
+            "bill_title" => "Music fee",
             "bill_name" => "music",
             "status" => 1
         ],
          [  
-            "bill_title" => "Cardigan",
+            "bill_title" => "Cardigan fee",
             "bill_name" => "cardigan",
             "status" => 1
         ],
          [  
-            "bill_title" => "Extra lesson",
+            "bill_title" => "Extra lesson fee",
             "bill_name" => "lesson",
             "status" => 1
         ],
          [  
-            "bill_title" => "Health",
+            "bill_title" => "Health fee",
             "bill_name" => "health",
             "status" => 1
         ],
          [  
-            "bill_title" => "School media",
+            "bill_title" => "School media fee",
             "bill_name" => "sch_media",
             "status" => 1
         ],
          [  
-            "bill_title" => "Clubs & Societies",
+            "bill_title" => "Clubs & Societies fee",
             "bill_name" => "club",
             "status" => 1
         ],
          [  
-            "bill_title" => "Boarding",
+            "bill_title" => "Boarding fee",
             "bill_name" => "boarding_fee",
             "status" => 1
         ],
          [  
-            "bill_title" => "ID - card",
+            "bill_title" => "ID - card fee",
             "bill_name" => "id_card",
             "status" => 1
         ],
          [  
-            "bill_title" => "School badge",
+            "bill_title" => "School badge fee",
             "bill_name" => "sch_badge",
             "status" => 1
         ],
          [  
-            "bill_title" => "Valedictory Service",
+            "bill_title" => "Valedictory Service fee",
             "bill_name" => "vs_fee",
             "status" => 1
         ],
          [  
-            "bill_title" => "Transport",
+            "bill_title" => "Transport fee",
             "bill_name" => "transport",
             "status" => 1
         ],
          [  
-            "bill_title" => "Excursion",
+            "bill_title" => "Excursion fee",
             "bill_name" => "excursion",
             "status" => 1
         ],
          [  
-            "bill_title" => "Sport",
+            "bill_title" => "Sport fee",
             "bill_name" => "sport",
             "status" => 1
         ],

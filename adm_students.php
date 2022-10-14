@@ -132,7 +132,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     <label for="">Password</label>
                                     <div class="input-group">
                                         <input type="password" class="form-control form-control-lg" id="password"
-                                            name="code_d" placeholder="Password" onchange="show()"
+                                            name="code_d" placeholder="Password" onkeyup="show()"
                                             value="<?= base64_decode($edStu->code_d); ?>" required>
                                         <span class="input-group-text" id="eye-el" onclick="viewPassword()"><i
                                                 class="mdi mdi-eye"></i></span>

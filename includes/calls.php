@@ -87,6 +87,9 @@ switch($det->position){
     case 7:
         $POD = "Treasurer";
         break;
+    case 8:
+        $POD = "Casual staff";
+        break;
 }
 
 /**Privilege Authenticator */

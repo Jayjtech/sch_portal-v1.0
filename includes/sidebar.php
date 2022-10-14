@@ -352,7 +352,7 @@
             </li>
             <?php endif; ?>
 
-            <?php if($det->user_type == "d29yaw=="):?>
+            <?php if(in_array($det->position, $worker)): ?>
             <li class="nav-item">
                 <a class="nav-link" aria-controls="ui-basic" href="<?= $account_details; ?>">
                     <i class="icon-grid menu-icon"></i>

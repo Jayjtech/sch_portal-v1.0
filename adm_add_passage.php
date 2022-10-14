@@ -66,7 +66,14 @@ if($getPassage->num_rows == 0){
                                         question that is tagged here.</p>
                                     <div class="mt-2 col-sm-8 font-weight-bold">
                                         Tagged Questions:
-                                        <span class="text-success quest-list-el"><?= $gP->tagged_questions; ?></span>
+                                        <span class="text-success quest-list-el">
+                                            <?php
+                                                $list = json_decode($gP->tagged_questions);
+                                                for($x = 0; $x < count($list); $x++){
+                                                    echo $list[$x].', ';
+                                                }
+                                                ?>
+                                        </span>
                                     </div>
                                     <hr>
                                     <textarea name="tagged_questions" class="form-control" id="screen-el" cols="2"
@@ -96,5 +103,6 @@ if($getPassage->num_rows == 0){
         </div>
     </div>
 </div>
-<script src="js/passage.js"></script>
+<!-- Adder.js for adding item to a list -->
+<script src="js/adder.js"></script>
 <?php include "includes/footer.php"; ?>

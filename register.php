@@ -32,11 +32,12 @@
                                         <option value="d29yaw==">Staff</option>
                                     </select>
                                 </div>
-                                <div class="form-group categoryResponse"></div>
+                                <div class="categoryResponse"></div>
 
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <input type="password" id="pin" class="form-control" placeholder="5 digit Pin">
+                                        <input type="password" id="pin" class="form-control"
+                                            placeholder="5 character Pin">
                                         <span class="input-group-text" id="eye-el3" onclick="pin()"><i
                                                 class="mdi mdi-eye"></i></span>
                                     </div>

@@ -1,18 +1,31 @@
 <?php
     include "../config/db.php";
     if(isset($_POST['key']) == "getData"){
-        $name = htmlspecialchars($_POST['name']);
-        $email = htmlspecialchars($_POST['email']);
+        $name = htmlspecialchars(stripcslashes($_POST['name']));
+        $email = htmlspecialchars(stripcslashes($_POST['email']));
         $myClass = htmlspecialchars($_POST['myClass']);
         $staffType = htmlspecialchars($_POST['staffType']);
-        $pin = base64_encode($_POST['pin']);
+        $title = htmlspecialchars($_POST['title']);
+        $pin = base64_encode(stripcslashes($_POST['pin']));
         $userCategory = htmlspecialchars($_POST['userCategory']);
-        $password = htmlspecialchars($_POST['password']);
+        $password = htmlspecialchars(stripcslashes($_POST['password']));
         $code_d = base64_encode($password);
         $os = mysqli_real_escape_string($conn, $_POST['os']);
         $ip = mysqli_real_escape_string($conn, $_POST['ip']);
         $device = mysqli_real_escape_string($conn, $_POST['device']);
-        $userId = rand(1000000000,9999999999);
+        if($_POST['myClass']){
+            $userId = substr($year,-2).$day.rand(1000,9999);
+        }else{
+            $userId = rand(10000000,99999999);
+            $name = $title.'. '.$name;
+        }
+        /**Remove empty space at the end of an email */
+        if(substr($email,strlen($email)-1) == " "){
+            $email = substr($email,0,strlen($email)-1);
+        }else{
+            $email = $email;
+        }
+        
         $token = md5(date('Y')*time());
         $hash_pswd = substr(md5($password), 4);
         switch($userCategory){
@@ -43,11 +56,18 @@
             } else{
                 $response = [
                     "title" => "Account successfully created!",
-                    "text" => "Proceed to the login page to login.",
+                    "text" => "Redirecting to your dashboard.",
                     "type" => "success"
                 ];
             }
-        
+        $check2 = $conn->query("SELECT * FROM $users_tbl WHERE userId='$userId'");
+        if($check2->num_rows){
+            $response = [
+                    "title" => "An error occurred during the process!",
+                    "text" => "Please try again.",
+                    "type" => "error"
+                ];
+        }
         if($response['type'] == "success"){
         $insert_data = $conn->query("INSERT INTO $users_tbl SET
                     name = '$name',

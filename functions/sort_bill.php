@@ -192,3 +192,28 @@
     }
     header('location: '.$redirect_url.'');
 }
+
+
+if(isset($_POST['tagged_fees'])){
+    $tagged_fees = $_POST['tagged_fees'];
+    $update1 = $conn->query("UPDATE $settings_tbl SET compulsory_fee='$tagged_fees'");
+    $tagged_fees = json_decode($tagged_fees);
+    $update0 = $conn->query("UPDATE $bill_setting_tbl SET status=0");
+    
+    for($i = 0; $i<count($tagged_fees); $i++){
+        $bill_title = $tagged_fees[$i];
+        if($bill_title){
+        $update = $conn->query("UPDATE $bill_setting_tbl SET status=1 WHERE bill_title='$bill_title'");
+        }
+    }
+    if($update){
+        $_SESSION['message'] = 'Compulsory bills successfully set!';
+        $_SESSION['msg_type'] = 'success';
+        $_SESSION['remedy'] = '';
+    }else{
+        $_SESSION['message'] = 'Compulsory bills could not be set!';
+        $_SESSION['msg_type'] = 'error';
+        $_SESSION['remedy'] = '';
+    }
+    header('location:../adm_revenue?set_compulsory_fee');
+}

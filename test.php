@@ -317,6 +317,12 @@ include "config/db.php";
 //         echo $li += $$list[$x]['bill_name']; 
 //     }
 
-$n = 1;
-$m = 'n';
-echo $$m;
+$email = "jegedeoluwafemi1998@gmail.com ";
+// echo substr($email,strlen($email)-1);
+if(substr($email,strlen($email)-1) == " "){
+    $email = substr($email,0,strlen($email)-1);
+}else{
+    $email = $email;
+}
+
+echo $email;
