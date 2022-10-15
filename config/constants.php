@@ -311,10 +311,9 @@ $stu_awards = [
 // FUNCTION PAGES
 $score_recorder = "functions/submit-exam";
 $monnify_res = "functions/payment_gateway/monnify.php";
-          
-//Details
-$mailer_email = "support@ekreat.com";
-$sch_name = "Jayjtech Schools";
-$currency = "&#8358;";
-$currency_type = "NGN";
+
+// mk MK_PROD_QSXL9D2HBC
+// mc 587163315485
+// ms CHPS7PLRGAU2P6VPSPF2GKKQ55JFB8ML
+// 
 ?>

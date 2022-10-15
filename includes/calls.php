@@ -108,9 +108,9 @@ while($courseList = $selCourses->fetch_object()){
 }
 
 /**Call all staff */
-$callStaff = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'd29yaw=='");
+$callStaff = $conn->query("SELECT * FROM $users_tbl WHERE (user_type = 'd29yaw==' OR user_type = 'QWRtaW4=')");
 /**Total Salary */
-$salaryTotal = $conn->query("SELECT sum(salary) as total_salary FROM $users_tbl WHERE user_type='d29yaw=='");
+$salaryTotal = $conn->query("SELECT sum(salary) as total_salary FROM $users_tbl WHERE (user_type = 'd29yaw==' OR user_type = 'QWRtaW4=')");
 $salTol = $salaryTotal->fetch_object();
 /**User salary details */
 $mySalDet = $conn->query("SELECT * FROM $payroll_tbl WHERE staffToken='$token'");
@@ -155,6 +155,7 @@ $earning = $conn->query("SELECT sum(amount_paid) as already_earned FROM $bill_re
 $earn = $earning->fetch_object();
 
 $callStaffLevels = $conn->query("SELECT * FROM $staff_level_tbl ORDER BY salary_amount DESC");
+$callPayroll = $conn->query("SELECT * FROM $payroll_title_tbl ORDER BY id DESC");
 
 $bankList = $conn->query("SELECT * FROM $banks_tbl ORDER BY bank ASC");
 

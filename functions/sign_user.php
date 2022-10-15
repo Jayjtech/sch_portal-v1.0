@@ -132,7 +132,7 @@
                                                 
                                         <!-- Salutation -->
                                         <p style="margin-top: 0; color: #74787E; font-size: 16px; line-height: 1.5em;">
-                                         Thank you for registering with ' . $sch_name . '.
+                                         Thank you for registering with ' . $admin_det->sch_name . '.
                                         </p>
                                         
                                         <h1 style="margin-top: 0; color: #2F3133; font-size: 19px; font-weight: bold;">
@@ -147,7 +147,7 @@
                                         </p>
 
                                         <p style="margin-top: 0; color: #74787E; font-size: 16px; line-height: 1.5em;">
-                                           <strong> Regards <br/> ' . $sch_name . ' </strong>
+                                           <strong> Regards <br/> ' . $admin_det->sch_name . ' </strong>
                                         </p>
                                       </td>
                                 </tr>
@@ -162,7 +162,7 @@
                                     <tr>
                                         <td style="font-family: Arial, &#039;Helvetica Neue&#039;, Helvetica, sans-serif; color: #AEAEAE; padding: 35px; text-align: center;">
                                             <p style="margin-top: 0; color: #74787E; font-size: 12px; line-height: 1.5em;">
-                                                &copy; ' . date('Y') . ' <a href="' . BASE_URL . '">' . $sch_name . '</a>
+                                                &copy; ' . date('Y') . ' <a href="' . BASE_URL . '">' . $admin_det->sch_name . '</a>
                                                 All right reserved
                                             </p>
                                         </td>
@@ -181,8 +181,8 @@
             ini_set('display_error', 1);
             $to = $email;
 
-            $from = $mailer_email;
-            $subject = 'Welcome to ' . $sch_name;
+            $from = $admin_det->mailer_email;
+            $subject = 'Welcome to ' . $admin_det->sch_name;
 
             // To send HTML mail, the Content-type header must be set
             $headers = 'MIME-Version: 1.0' . "\r\n";

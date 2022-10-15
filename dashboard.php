@@ -42,7 +42,7 @@
         if($monnify_account == true):
          ?>
         <div class="col-md-6 grid-margin transparent">
-            <p class="font-weight-bold">Make your bank transfer to any of the accounts listed below and your wallet
+            <p class="font-weight-bold">Make your bank transfer into any of the accounts listed below and your wallet
                 will be funded automatically.</p>
             <div class="row">
                 <div class="col-md-6 mb-4 stretch-card transparent">
@@ -98,53 +98,27 @@
         <?php endif; ?>
 
         <?php }else{ /**Teacher */ ?>
+        <?php if($bank_account):?>
         <div class="col-md-6 grid-margin stretch-card">
-            <div class="card">
-
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-2">
-                        <p class="card-title">Created Courses[Subjects]</p>
-                        <div class="" align="right">
-                            <a href="create_course" class="btn btn-dark">Create course</a>
-                        </div>
-                    </div>
-                    <p class="font-weight-500 text-info">Note that the created courses[subjects] will be visible to
-                        students[pupils] in the selected category
-                    </p>
-                    <hr>
-                    <div class="table-responsive">
-                        <table class="myTable table table-striped table-borderless">
-                            <thead>
-                                <tr>
-                                    <th>Course[Subject]</th>
-                                    <th></th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php while($row = $callCourses->fetch_object()):?>
-                                <tr>
-                                    <td><?= $row->course; ?>[<?= $row->course_code; ?>]</td>
-                                    <td class="font-weight-medium">
-                                        <a href="" class="badge badge-primary">Publish</a>
-                                    </td>
-                                    <td>
-                                        <form action="<?= $course_deleter; ?>" method="GET"
-                                            onsubmit="return delForm(this);">
-                                            <input type="hidden" name="del" value="<?= $row->id; ?>">
-                                            <button type="submit" class="btn"><i class="mdi mdi-delete"
-                                                    style="font-size:25px;"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
-
-                                <?php endwhile; ?>
-                            </tbody>
-                        </table>
+            <div class="col-md-12 transparent">
+                <p class="text-info">Your earnings will be disbursed into this account.</p>
+                <div class="card card-dark-blue">
+                    <div class="card-body">
+                        <p class="mb-4">Bank: <span class="font-weight-bold"><?= $bank_account->bank; ?></span></p>
+                        <p class="fs-30 mb-2"><?= $bank_account->acc_no; ?></p>
+                        <p>Account holder: <span class="font-weight-bold"><?= $bank_account->acc_holder; ?></span></p>
                     </div>
                 </div>
             </div>
         </div>
+        <?php else: ?>
+        <div class="col-md-6 grid-margin transparent">
+            <p class="font-weight-bold">Click the button below to add your bank account details.</p>
+            <div class="row">
+                <a href="account_details" class="btn btn-primary">Add bank account details</a>
+            </div>
+        </div>
+        <?php endif; ?>
         <?php } ?>
     </div>
     <div class="row">
@@ -232,7 +206,7 @@
         <div class="col-md-6 grid-margin stretch-card">
             <div class="card position-relative">
                 <div class="card-body">
-                    <p class="card-title">News</p>
+                    <p class="card-title">News (coming soon!)</p>
                     <hr>
                     <div id="detailedReports" class="carousel slide detailed-report-carousel position-static pt-2"
                         data-ride="carousel">
@@ -323,7 +297,7 @@
     <?php endif; ?>
 
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-md-4 stretch-card grid-margin">
             <div class="card">
                 <div class="card-body">
@@ -522,8 +496,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
+    </div> -->
+    <!-- <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -553,7 +527,7 @@
 
 
         </div>
-    </div>
+    </div> -->
 </div>
 <!-- content-wrapper ends -->
 <script>

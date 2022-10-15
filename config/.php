@@ -47,6 +47,7 @@ if($create_user){
   $user_type = base64_encode('Admin');
   $token = md5(date('Y')*time());
   $pin = base64_encode('12345');
+  $adm_code_d = base64_encode('1234');
   $check = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'QWRtaW4=' AND position = 1");
   if($check->num_rows == 0){
     $insert = $conn->query("INSERT INTO $users_tbl SET 
@@ -57,7 +58,8 @@ if($create_user){
                 userId = '83954653',
                 email = 'admin@example.com',
                 pin = '$pin',
-                password = '9bdb52d04dc20036dbd8313ed055'
+                password = '9bdb52d04dc20036dbd8313ed055',
+                code_d = '$adm_code_d'
         ");
     }
 }
@@ -431,7 +433,7 @@ if ($create_settings) {
     if($check->num_rows == 0){
       $curr_session = ''.$year.'/'.($year+1).'';
       $insert = $conn->query("INSERT INTO $settings_tbl SET 
-      sch_name = 'Jayjtech', 
+      sch_name = 'Ekreat schools', 
       result_template = '1',
       current_term = '1',
       current_session = '$curr_session',

@@ -450,12 +450,12 @@
                     }
             }
         }
-         header("location: ../adm_revenue?key=revenue");
+         header("location: ../adm_revenue?revenue");
  fclose($csvFile);
     }
 
 
-if(isset($_POST['disburser'])){
+if(isset($_POST['create_payroll'])){
     $disburser = $_POST['disburser'];
     $disbursement_id = $_POST['disbursement_id'];
     $pay_month = mysqli_real_escape_string($conn, $_POST['month']);
@@ -476,11 +476,11 @@ if(isset($_POST['disburser'])){
         $_SESSION['msg_type'] = "error";
         $_SESSION['remedy'] = "";
     }
-    header('location: ../adm_disbursement?key=create_payroll');
+    header('location: ../adm_disbursement?create_payroll');
 }
 
 
-if(isset($_POST['create_payroll'])){
+if(isset($_POST['add_to_payroll'])){
     $bankDet = base64_decode($_POST['bankDet']);
     $staffName = $_POST['name'];
     $token = mysqli_real_escape_string($conn, $_POST['token']);
@@ -538,6 +538,7 @@ if(isset($_POST['create_payroll'])){
                             staffToken = '$staffToken',
                             bankDet = '$bankDet',
                             name = '$staffName',
+                            date = '$date',
                             amount = '$salary',
                             ln_debt = '$ln_debt',
                             loan_credit = '$loan_credit',
@@ -560,7 +561,7 @@ if(isset($_POST['create_payroll'])){
     $_SESSION['msg_type'] = "warning";
     $_SESSION['remedy'] = "";
 }
-    header('location: ../adm_disbursement?key=staff_list');
+    header('location: ../adm_disbursement?staff_list');
 }
 
 
@@ -597,7 +598,7 @@ if(isset($_POST['staff_level'])){
             $_SESSION['msg_type'] = "error";
             $_SESSION['remedy'] = "";
         }
-       header('location: ../adm_disbursement?key=create_payroll');
+       header('location: ../adm_disbursement?staff_level');
 }
 
 if(isset($_POST['set_disbursement_key'])){

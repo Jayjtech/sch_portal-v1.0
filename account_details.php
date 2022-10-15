@@ -60,6 +60,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                                 <th>Date</th>
                                                 <th>Amount</th>
                                                 <th>Description</th>
+                                                <th>Period</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
@@ -76,6 +77,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                                 <td class="font-weight-bold text-dark">
                                                     <?= $currency; ?><?= number_format($row->amount); ?></td>
                                                 <td><?= $row->description; ?></td>
+                                                <td><?= $row->payment_month; ?></td>
                                                 <td class="font-weight-bold text-danger"><?= $status_syntax;?></td>
                                             </tr>
                                             <?php endwhile; ?>

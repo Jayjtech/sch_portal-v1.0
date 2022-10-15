@@ -7,7 +7,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?= $sch_name; ?></title>
+    <title><?= $admin_det->sch_name; ?></title>
     <!-- plugins:css -->
     <link href="vendors/simple-datatables/style.css" rel="stylesheet">
     <link rel="stylesheet" href="vendors/feather/feather.css">

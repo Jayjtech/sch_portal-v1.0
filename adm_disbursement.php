@@ -11,20 +11,21 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
 <div class="content-wrapper">
     <p id="walletResponse" class="font-weight-bold"></p>
     <p id="statusResponse" class="font-weight-bold"></p>
-    <?php if(isset($_GET['create_payroll']) == true):?>
+    <?php if(isset($_GET['staff_level']) == true):?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card position-relative">
                 <div class="card-body">
+                    <h4 class="card-title">Create Staff level</h4>
                     <div align="right">
-                        <a href="?staff_list" class="btn btn-primary">Staff list</a>
+                        <a href="?staff_list" class="btn btn-primary">Add staff to payroll</a>
+                        <a href="?create_payroll" class="btn btn-dark">Create payroll</a>
                         <a href="?disbursement_list" class="btn btn-success">Disbursement
                             list</a>
                     </div>
                     <hr>
                     <div class="row mt-3 mb-3">
-                        <div class="col-sm-2">
-                            <h4 class="card-title">Create Staff level</h4>
+                        <div class="col-sm-4 border-right">
                             <form action="<?= $pusher; ?>" method="post">
                                 <div class="form-group">
                                     <label for="">Select Level</label>
@@ -66,7 +67,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                             </form>
                         </div>
 
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
                             <h4 class="card-title">Level table</h4>
                             <div class="table-responsive">
                                 <table class="myTable table table-striped table-borderless">
@@ -87,9 +88,29 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                 </table>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
 
-                        <div class="col-sm-3">
-                            <h4 class="card-title">Create Payroll</h4>
+
+    <?php if(isset($_GET['create_payroll'])): ?>
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card position-relative">
+                <div class="card-body">
+                    <h4 class="card-title">Create Payroll</h4>
+                    <div align="right">
+                        <a href="?staff_list" class="btn btn-primary">Add staff to payroll</a>
+                        <a href="?staff_level" class="btn btn-secondary">Staff Level</a>
+                        <a href="?disbursement_list" class="btn btn-success">Disbursement
+                            list</a>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-4 border-right">
                             <form action="<?= $pusher; ?>" class="forms-sample" method="POST"
                                 onsubmit="return payrollTitle(this)">
                                 <div class="">
@@ -106,6 +127,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                             placeholder="Enter a detailed description for the disbursement"></textarea>
                                     </div>
                                 </div>
+                                <input type="hidden" name="create_payroll" value="1">
                                 <input type="hidden" name="disburser" value="<?= $det->name; ?>">
                                 <input type="hidden" name="disbursement_id" value="<?= date('YmdHi').uniqid(); ?>">
 
@@ -114,6 +136,41 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                         payroll</button>
                                 </div>
                             </form>
+                        </div>
+
+                        <div class="col-sm-8">
+                            <h4 class="card-title">Payroll table</h4>
+                            <div class="table-responsive">
+                                <table class="myTable table table-striped table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th>Month</th>
+                                            <th>Description</th>
+                                            <th>Payroll ID</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php while($row = $callPayroll->fetch_object()):?>
+                                        <tr>
+                                            <td class="font-weight-bold"><?= $row->month?></td>
+                                            <td><?= $row->description; ?></td>
+                                            <td><?= $row->disbursement_id; ?></td>
+                                            <td>
+                                                <form action="<?= $deleter; ?>" method="post"
+                                                    onsubmit="return delPayroll(this)">
+                                                    <input type="hidden" name="delete_payroll"
+                                                        value="<?= $row->disbursement_id; ?>">
+                                                    <input type="hidden" name="month" value="<?= $row->month; ?>">
+                                                    <button class="btn-sm btn-danger"><i
+                                                            class="mdi mdi-delete"></i></button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        <?php endwhile; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -187,6 +244,9 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                         </p>
                                     </td>
                                     <td>
+                                        <?php if(!$staff_bnk): ?>
+                                        <p class="alert alert-danger">Yet to add bank account details!</p>
+                                        <?php else: ?>
                                         <form action="<?= $pusher; ?>" onsubmit="return addToDisburse(this)"
                                             method="post">
                                             <div class="form-group">
@@ -199,7 +259,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                                 </select>
                                             </div>
                                             <input type="hidden" name="salary" value="<?= $row->salary; ?>">
-                                            <input type="hidden" name="create_payroll" value="1">
+                                            <input type="hidden" name="add_to_payroll" value="1">
                                             <input type="hidden" name="name" value="<?= $row->name; ?>">
                                             <input type="hidden" name="ln_debt" value="<?= $ln->balance; ?>">
                                             <input type="hidden" name="bankDet"
@@ -208,6 +268,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                             <input type="hidden" name="userId" value="<?= $row->userId; ?>">
                                             <button class="btn-sm btn-success">Add <i class="mdi mdi-plus"></i></button>
                                         </form>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                                 <?php endwhile; ?>
@@ -229,7 +290,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                     <p class="card-title mb-0">Disbursement List</p>
                     <div align="right">
                         <a href="?create_payroll" class="btn btn-primary">Create Payroll</a>
-                        <a href="?staff_list" class="btn btn-success">Staff list</a>
+                        <a href="?staff_list" class="btn btn-success">Add staff to payroll</a>
                     </div>
                     <hr>
 
@@ -239,6 +300,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                 <tr>
                                     <th>Name</th>
                                     <th>Description</th>
+                                    <th>Dis - ID</th>
                                     <th>Period</th>
                                     <th>Salary</th>
                                     <th>Loan Debt</th>
@@ -258,6 +320,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                 <tr>
                                     <td class="font-weight-bold"><?= $dis->name; ?></td>
                                     <td class="font-weight-bold"><?= $dis->description; ?></td>
+                                    <td class="font-weight-bold"><?= $dis->disbursement_id; ?></td>
                                     <td class="font-weight-bold"><?= $month_syntax; ?> <?= $period[0]; ?></td>
                                     <td class="font-weight-bold text-dark">
                                         <?= $currency; ?><?= number_format($dis->amount); ?></td>

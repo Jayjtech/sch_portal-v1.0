@@ -429,6 +429,21 @@ function delQuest(form) {
     return false;
 }
 
+function delPayroll(form) {
+    swal.fire({
+        title: `Are you sure you want delete this payroll?`,
+        text: `Payroll will no longer exist!`,
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    })
+    return false;
+}
+
 function updateDisKey(form) {
     swal.fire({
         title: `Are you sure you want save the changes you made?`,
