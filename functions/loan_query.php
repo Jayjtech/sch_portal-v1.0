@@ -27,7 +27,7 @@ if(isset($_POST['set_loan'])){
         $_SESSION['remedy'] = "";
     }
 
-    header('location: ../adm_loan_approval?key=loan_setting');
+    header('location: ../adm_loan_approval?loan_setting');
 }
 
 
@@ -64,7 +64,7 @@ if(isset($_POST['loan_request'])){
         $_SESSION['msg_type'] = "error";
         $_SESSION['remedy'] = "";
     }
-     header('location: ../adm_incentive?key=take_loan');
+     header('location: ../adm_incentive?take_loan');
 }
 
 if(isset($_POST['approve_loan'])){
@@ -115,7 +115,7 @@ if(isset($_POST['approve_loan'])){
         $_SESSION['remedy'] = "";
 }
     
-     header('location: ../adm_loan_approval?key=approve_loan');
+     header('location: ../adm_loan_approval?approve_loan');
 }
 
 
@@ -135,7 +135,7 @@ if(isset($_POST['cancel_loan'])){
         $_SESSION['msg_type'] = "error";
         $_SESSION['remedy'] = "";
     }
-header('location: ../adm_incentive?key=take_loan');
+header('location: ../adm_incentive?take_loan');
 }
 
 if(isset($_POST['deny_loan'])){
@@ -156,5 +156,5 @@ if(isset($_POST['deny_loan'])){
         $_SESSION['remedy'] = "";
     }
 
-      header('location: ../adm_loan_approval?key=loan_disbursement_list');
+      header('location: ../adm_loan_approval?loan_disbursement_list');
 }

@@ -26,6 +26,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                             <thead>
                                 <tr>
                                     <th>Course</th>
+                                    <th>School</th>
                                     <th>No. of Question[Exam|Test|Ass]</th>
                                     <th>Duration[Exam|Test|Ass.]</th>
                                     <th>Mark[Exam|Test|Ass.]</th>
@@ -37,6 +38,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                 <?php while($row = $callCourses->fetch_object()):?>
                                 <tr>
                                     <td><?= $row->course; ?>[<?= $row->course_code;?>]</td>
+                                    <td><?= $row->sch_category; ?></td>
                                     <td>Exam: <?= $row->exam_no_of_quest; ?> | Test: <?= $row->test_no_of_quest; ?> |
                                         Ass: <?= $row->ass_no_of_quest; ?></td>
                                     <td>Exam: <?= $row->exam_duration; ?> | Test: <?= $row->test_duration; ?> |
@@ -100,21 +102,37 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                         placeholder="Enter course code">
                                 </div>
                             </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">School category</label>
+                                    <select name="sch_category" id="sch_category" class="form-control sch_category"
+                                        required>
+                                        <option value="">School category</option>
+                                        <option value="Senior-School">Senior School</option>
+                                        <option value="Junior-School">Junior School</option>
+                                        <option value="Primary-School">Primary School</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Department</label>
                                     <select name="department" id="department" class="form-control" required>
                                         <option value="">Choose department</option>
-                                        <option value="general">General</option>
+                                        <option value="Non">Non</option>
+                                        <option value="General">General</option>
                                         <option value="Art">Art</option>
                                         <option value="Science">Science</option>
                                         <option value="Commercial">Commercial</option>
                                     </select>
                                 </div>
                             </div>
+
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">How many question will you upload?</label>
+                                    <label for="exampleInputEmail1">How many questions will you upload?</label>
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <select name="ass_no_of_quest" id="ass_no_of_quest" class="form-control"
@@ -288,10 +306,13 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                             <select name="course_code" id="course-code-el" class="form-control"
                                                 required>
                                                 <option value="">Course code</option>
-                                                <?php for($i = 0; $i<count($coList); $i++){?>
-                                                <option value="<?= $coList[$i]->course_code; ?>">
+                                                <?php for($i = 0; $i<count($coList); $i++){
+                                                   $value = base64_encode('{"course_code":"'.$coList[$i]->course_code.'","sch_category":"'.$coList[$i]->sch_category.'"}'); 
+                                                    ?>
+                                                <option value="<?= $value; ?>">
                                                     <?= $coList[$i]->course; ?>
-                                                    [<?= $coList[$i]->course_code; ?>]</option>
+                                                    [<?= $coList[$i]->course_code; ?>] <?= $coList[$i]->sch_category; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -336,10 +357,13 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                             <select name="course_code" id="course-code-el2" class="form-control"
                                                 required>
                                                 <option value="">Course code</option>
-                                                <?php for($i = 0; $i<count($coList); $i++){?>
-                                                <option value="<?= $coList[$i]->course_code; ?>">
+                                                <?php for($i = 0; $i<count($coList); $i++){
+                                                    $value = base64_encode('{"course_code":"'.$coList[$i]->course_code.'","sch_category":"'.$coList[$i]->sch_category.'"}'); 
+                                                    ?>
+                                                <option value="<?= $value; ?>">
                                                     <?= $coList[$i]->course; ?>
-                                                    [<?= $coList[$i]->course_code; ?>]</option>
+                                                    [<?= $coList[$i]->course_code; ?>] <?= $coList[$i]->sch_category; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -381,8 +405,8 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                 <?php $coursesTAss=$conn->query("SELECT * FROM $course_tbl WHERE term='$log_term' AND session='$log_session' AND token='$token'");
                                                 while($row = $coursesTAss->fetch_object()):
                                                     $cCode = $row->course_code;
-                                        ?>
-                                <?php 
+                                    ?>
+                                <?php
                                         $selectUploadAss = $conn->query("SELECT * FROM $question_tbl_a WHERE token='$token' AND course_code='$cCode' AND term='$log_term' AND session='$log_session' AND quest_type='Ass' ORDER BY id ASC LIMIT 1");
                                         while($sel1 = $selectUploadAss->fetch_object()){
                                         $qd = $sel1->quest_id; 
@@ -395,17 +419,17 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                             $btn = "Edit passage";
                                             $col = "info";
                                         }
-                                            ?>
+                                    ?>
                                 <tr>
                                     <td><?= $row->course; ?>[<?= $sel1->course_code; ?>]</td>
                                     <td><?= $sel1->quest_type; ?></td>
                                     <td><?= $row->ass_no_of_quest; ?></td>
                                     <td><?= $row->department; ?></td>
-                                    <td><a href="adm_view_question?qd=<?= $sel1->quest_id; ?>"
+                                    <td><a href="adm_view_question?qd=<?= $sel1->quest_id; ?>&sch_category=<?= $sel1->sch_category; ?>"
                                             style="text-decoration:none;" class="btn-sm btn-info"><i
                                                 class="mdi mdi-eye"></i>
                                             View</a></td>
-                                    <td><a href="adm_add_passage?qd=<?= $sel1->quest_id; ?>"
+                                    <td><a href="adm_add_passage?qd=<?= $sel1->quest_id; ?>&sch_category=<?= $sel1->sch_category; ?>"
                                             style="text-decoration:none;"
                                             class="btn-sm btn-<?= $col;?>"><?= $btn; ?></a>
                                     </td>
@@ -440,12 +464,12 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     <td><?= $sel2->quest_type; ?></td>
                                     <td><?= $row->test_no_of_quest; ?></td>
                                     <td><?= $row->department; ?></td>
-                                    <td><a href="adm_view_question?qd=<?= $sel2->quest_id; ?>"
+                                    <td><a href="adm_view_question?qd=<?= $sel2->quest_id; ?>&sch_category=<?= $sel2->sch_category; ?>"
                                             style="text-decoration:none;" class="btn-sm btn-info"><i
                                                 class="mdi mdi-eye"></i>
                                             View</a></td>
 
-                                    <td><a href="adm_add_passage?qd=<?= $sel2->quest_id; ?>"
+                                    <td><a href="adm_add_passage?qd=<?= $sel2->quest_id; ?>&sch_category=<?= $sel2->sch_category; ?>"
                                             style="text-decoration:none;"
                                             class="btn-sm btn-<?= $col;?>"><?= $btn; ?></a>
                                     </td>
@@ -458,7 +482,6 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                                     class="mdi mdi-delete" style="font-size:15px;"></i></button>
                                         </form>
                                     </td>
-
                                 </tr>
                                 <?php } ?>
                                 <?php 
@@ -480,11 +503,11 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     <td><?= $sel3->quest_type; ?></td>
                                     <td><?= $row->exam_no_of_quest; ?></td>
                                     <td><?= $row->department; ?></td>
-                                    <td><a href="adm_view_question?qd=<?= $sel3->quest_id; ?>"
+                                    <td><a href="adm_view_question?qd=<?= $sel3->quest_id; ?>&sch_category=<?= $sel3->sch_category; ?>"
                                             style="text-decoration:none;" class="btn-sm btn-info"><i
                                                 class="mdi mdi-eye"></i>
                                             View</a></td>
-                                    <td><a href="adm_add_passage?qd=<?= $sel3->quest_id; ?>"
+                                    <td><a href="adm_add_passage?qd=<?= $sel3->quest_id; ?>&sch_category=<?= $sel3->sch_category; ?>"
                                             style="text-decoration:none;"
                                             class="btn-sm btn-<?= $col;?>"><?= $btn; ?></a>
                                     </td>
@@ -497,7 +520,6 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                                     class="mdi mdi-delete" style="font-size:15px;"></i></button>
                                         </form>
                                     </td>
-
                                 </tr>
                                 <?php } ?>
                                 <?php endwhile; ?>
@@ -507,8 +529,6 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                 </div>
             </div>
         </div>
-
-
     </div>
 
     <?php endif; ?>
@@ -561,10 +581,13 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                             <select name="course_code" id="course-code-el2" class="form-control"
                                                 required>
                                                 <option value="">Course code</option>
-                                                <?php for($i = 0; $i<count($coList); $i++){?>
-                                                <option value="<?= $coList[$i]->course_code; ?>">
+                                                <?php for($i = 0; $i<count($coList); $i++){
+                                                   $value = base64_encode('{"course_code":"'.$coList[$i]->course_code.'","sch_category":"'.$coList[$i]->sch_category.'"}'); 
+                                                    ?>
+                                                <option value="<?= $value; ?>">
                                                     <?= $coList[$i]->course; ?>
-                                                    [<?= $coList[$i]->course_code; ?>]</option>
+                                                    [<?= $coList[$i]->course_code; ?>] <?= $coList[$i]->sch_category; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>

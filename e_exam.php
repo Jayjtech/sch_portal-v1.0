@@ -25,7 +25,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $coursesT=$conn->query("SELECT * FROM $course_tbl WHERE (term='$log_term' AND session='$log_session') AND (department='$department' OR department='general')");
+                                <?php $coursesT=$conn->query("SELECT * FROM $course_tbl WHERE (term='$log_term' AND session='$log_session') AND (department='$department' OR department='General' OR department='Non')");
                                         while($row = $coursesT->fetch_object()):
                                             $cCode = $row->course_code;
                                              $teacher_token = $row->token;

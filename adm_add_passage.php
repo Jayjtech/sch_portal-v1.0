@@ -12,7 +12,8 @@ if(isset($_GET['qd'])){
 /**Get question */
 
 $qd = $_GET['qd'];
-$getQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE (quest_id = '$qd' AND token='$token' AND term='$log_term' AND session='$log_session')");
+$sch_category = $_GET['sch_category'];
+$getQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE (quest_id = '$qd' AND sch_category='$sch_category' AND token='$token' AND term='$log_term' AND session='$log_session')");
   while($row = $getQuestion->fetch_object()){
         $course_code = $row->course_code;
         $quest_type = $row->quest_type;
@@ -26,7 +27,7 @@ $getQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE (quest_id = '$q
     }
 }
 
-$getPassage = $conn->query("SELECT * FROM $passage_tbl WHERE (quest_id='$qd' AND token='$token' AND term='$log_term' AND session='$log_session')");
+$getPassage = $conn->query("SELECT * FROM $passage_tbl WHERE (quest_id='$qd' AND sch_category='$sch_category' AND token='$token' AND term='$log_term' AND session='$log_session')");
 $gP = $getPassage->fetch_object();
 if($getPassage->num_rows == 0){
     $btn = "Save passage";
@@ -59,6 +60,7 @@ if($getPassage->num_rows == 0){
 
                                 <input type="hidden" name="add_passage" value="1">
                                 <input type="hidden" name="course_code" value="<?= $course_code; ?>">
+                                <input type="hidden" name="sch_category" value="<?= $sch_category; ?>">
                                 <input type="hidden" name="quest_id" value="<?= $qd; ?>">
                                 <hr>
                                 <div class="col-sm-12 mb-2 mt-3">
@@ -78,7 +80,6 @@ if($getPassage->num_rows == 0){
                                     <hr>
                                     <textarea name="tagged_questions" class="form-control" id="screen-el" cols="2"
                                         style="display:none;" rows="2"><?= $gP->tagged_questions; ?></textarea>
-
                                 </div>
 
                                 <div class="mt-2" align="right">
@@ -96,8 +97,8 @@ if($getPassage->num_rows == 0){
                             <?= $data[$i]->q_id; ?></button>
                         <?php endfor; ?>
                         <!-- End -->
-
                     </div>
+
                 </div>
             </div>
         </div>

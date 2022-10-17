@@ -11,7 +11,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
 if(isset($_GET['qd'])){
 /**Get questions */
 $quest_id = $_GET['qd'];
-$fetchQuestions = $conn->query("SELECT * FROM $question_tbl_a WHERE (quest_id = '$quest_id' AND token='$token' AND term='$log_term' AND session='$log_session')");
+$fetchQuestions = $conn->query("SELECT * FROM $question_tbl_a WHERE (quest_id = '$quest_id' AND sch_category='$sch_category' AND token='$token' AND term='$log_term' AND session='$log_session')");
     while($row = $fetchQuestions->fetch_object()){
         $course_code = $row->course_code;
         $quest_type = $row->quest_type;
@@ -24,7 +24,7 @@ $fetchQuestions = $conn->query("SELECT * FROM $question_tbl_a WHERE (quest_id = 
         header('location:create_course?upload_question');
     }
 
-    $getPassage = $conn->query("SELECT * FROM $passage_tbl WHERE (quest_id='$quest_id' AND token='$token' AND term='$log_term' AND session='$log_session')");
+    $getPassage = $conn->query("SELECT * FROM $passage_tbl WHERE (quest_id='$quest_id' AND sch_category='$sch_category' AND token='$token' AND term='$log_term' AND session='$log_session')");
     $gP = $getPassage->fetch_object();
 }
 
@@ -67,7 +67,7 @@ $fetchQuestions = $conn->query("SELECT * FROM $question_tbl_a WHERE (quest_id = 
                                     ?>
                                 <tr>
                                     <td>
-                                        <a href="adm_question_editor?qid=<?= $data[$x]->q_id; ?>&cd=<?= $data[$x]->course_code; ?>&qt=<?= $data[$x]->quest_type; ?>"
+                                        <a href="adm_question_editor?qid=<?= $data[$x]->q_id; ?>&cd=<?= $data[$x]->course_code; ?>&qt=<?= $data[$x]->quest_type; ?>&sch_category=<?= $data[$x]->sch_category; ?>"
                                             class="btn-sm btn-primary" style="text-decoration:none;"><i
                                                 class="mdi mdi-pen"></i> Edit </a>
                                     </td>

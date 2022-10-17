@@ -209,7 +209,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                         <div class="form-group">
                                             <select name="class_category" id="class_category" class="form-control"
                                                 required>
-                                                <option value="">Class category</option>
+                                                <option value="">School category</option>
                                                 <option value="Senior-School">Senior School</option>
                                                 <option value="Junior-School">Junior School</option>
                                                 <option value="Primary-School">Primary School</option>

@@ -86,6 +86,9 @@
             </div>
         </div>
         <?php else: ?>
+        <script>
+        // window.location.href = "<?= $reserve_account; ?>"
+        </script>
         <div class="col-md-6 grid-margin transparent">
             <p class="font-weight-bold">Click the button below to reserve bank accounts.</p>
             <div class="row">
@@ -115,7 +118,7 @@
         <div class="col-md-6 grid-margin transparent">
             <p class="font-weight-bold">Click the button below to add your bank account details.</p>
             <div class="row">
-                <a href="account_details" class="btn btn-primary">Add bank account details</a>
+                <a href="<?= $account_details; ?>" class="btn btn-primary">Add bank account details</a>
             </div>
         </div>
         <?php endif; ?>

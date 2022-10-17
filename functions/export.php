@@ -41,15 +41,18 @@ if ($_GET['table'] == $time_tbl) {
 if ($_GET['table'] == $score_tbl) {
      $term = $_GET['term'];
      $session = $_GET['session'];
-     $course_code = $_GET['course_code'];
+     $course_details = $_GET['course_code'];
+     $course_details = json_decode(base64_decode($course_details));
+     $course_code = $course_details->course_code;
+     $sch_category = $course_details->sch_category;
     
      header('Content-Type: text/csv; charset=utf-8');
-     header('Content-Disposition: attachment; filename='.$term.' ['.$session.'] score-sheet for '.$course_code.'.csv');
+     header('Content-Disposition: attachment; filename='.$term.' ['.$session.'] score-sheet for '.$course_code.' '.$sch_category.'.csv');
      $output = fopen("php://output", "w");
-     fputcsv($output, array('NAME', 'ADM NO', 'COURSE CODE', 'ASS', 'CA1', 'CA2', 'CA3', 'THEORY SCORE', 'OBJECTIVE SCORE'));
+     fputcsv($output, array('SCHOOL CATEGORY', 'NAME', 'ADM NO', 'COURSE CODE', 'ASS', 'CA1', 'CA2', 'CA3', 'THEORY SCORE', 'OBJECTIVE SCORE'));
 
-     $query = $conn->query("SELECT name, adm_no, course_code, ass, ca1, ca2, ca3, theory, score FROM $score_tbl 
-     WHERE (course_code='$course_code' AND teacher_token='$token' AND term='$log_term' AND session='$log_session')");
+     $query = $conn->query("SELECT sch_category, name, adm_no, course_code, ass, ca1, ca2, ca3, theory, score FROM $score_tbl 
+     WHERE (course_code='$course_code' AND teacher_token='$token' AND term='$log_term' AND session='$log_session' AND sch_category='$sch_category')");
       while ($row = $query->fetch_assoc()) {
           fputcsv($output, $row);
      }
@@ -57,22 +60,26 @@ if ($_GET['table'] == $score_tbl) {
      fclose($output);
 }
 
-if (isset($_GET['quest_instruct']) == "question") {
+if (isset($_GET['quest_instruct'])) {
+     if($_GET['quest_instruct'] == "question"){
      header('Content-Type: text/csv; charset=utf-8');
      header('Content-Disposition: attachment; filename=Question-format.csv');
      $output = fopen("php://output", "w");
      fputcsv($output, array('Number', 'Question', 'A', 'B', 'C', 'D', 'IS CORRECT'));
      fputcsv($output, array('1', 'Apple begins with what letter?', 'Letter Q', 'Letter B', 'Letter A', 'Letter O', 'C'));
      fclose($output);
+     }
 }
 
-if (isset($_GET['quest_instruct']) == "instruction") {
+if (isset($_GET['quest_instruct'])) {
+     if($_GET['quest_instruct'] == "instruction"){ 
      header('Content-Type: text/csv; charset=utf-8');
      header('Content-Disposition: attachment; filename=Instruction-format.csv');
      $output = fopen("php://output", "w");
      fputcsv($output, array('INSTRUCTION 1', 'INSTRUCTION 2', 'INSTRUCTION 3', 'INSTRUCTION 4', 'INSTRUCTION 5', 'INSTRUCTION 6'));
      fputcsv($output, array('Write instruction 1 here...', 'Write instruction 2 here...', 'Write instruction 3 here...', 'Write instruction 4 here...', 'Write instruction 5 here...', 'Write instruction 6 here...'));
      fclose($output);
+     }
 }
 
 if ($_GET['table'] == $bill_tbl) {

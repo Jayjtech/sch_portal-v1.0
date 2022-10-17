@@ -98,6 +98,7 @@ if($res->responseBody->status == "SUCCESS"){
 $update = $conn->query("UPDATE $table SET 
                     status = '$status'
                     WHERE disbursement_id = '$reference'
+                    AND loan_id = '$loan_id'
                     ");
 
 if($res->responseBody->status == "SUCCESS"){

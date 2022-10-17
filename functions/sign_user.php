@@ -181,7 +181,7 @@
             ini_set('display_error', 1);
             $to = $email;
 
-            $from = $admin_det->mailer_email;
+            $from = $admin_det->sch_support_email;
             $subject = 'Welcome to ' . $admin_det->sch_name;
 
             // To send HTML mail, the Content-type header must be set

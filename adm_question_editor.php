@@ -13,7 +13,8 @@ if(isset($_GET['qid'])){
 $q_id = $_GET['qid'];
 $cd = $_GET['cd'];
 $qt = $_GET['qt'];
-$getQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE (q_id = '$q_id' AND course_code ='$cd' AND quest_type ='$qt' AND token='$token' AND term='$log_term' AND session='$log_session')");
+$sch_category = $_GET['sch_category'];
+$getQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE (q_id = '$q_id' AND sch_category='$sch_category' AND course_code ='$cd' AND quest_type ='$qt' AND token='$token' AND term='$log_term' AND session='$log_session')");
     while($row = $getQuestion->fetch_object()){
         $quest_img = $row->img;
         if ($quest_img != "") {
@@ -63,6 +64,7 @@ $getQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE (q_id = '$q_id'
                             <input type="hidden" name="quest_img" value="<?= $quest_img; ?>">
                             <input type="hidden" name="quest_type" value="<?= $qt; ?>">
                             <input type="hidden" name="quest_id" value="<?= $quest_id; ?>">
+                            <input type="hidden" name="sch_category" value="<?= $sch_category; ?>">
                             <div class="col-sm-6">
                                 <div class="col-sm-12">
                                     <p class="card-title">For question in image format</p>

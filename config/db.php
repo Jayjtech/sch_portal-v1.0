@@ -61,4 +61,7 @@ $sss1Array = ["SSS-1","SSS1","SS-1","SS1","S-1","S1","sss-1","sss1","ss-1","s-1"
 $sss2Array = ["SSS-2","SSS2","SS-2","SS2","S-2","S2","sss-2","sss2","ss-2","s-2","s2","sss 2","sss 2","Ss 2","ss 2","S 2","s 2","SSS 2","SS 2",2];
 $sss3Array = ["SSS-3","SSS3","SS-3","SS3","S-3","S3","sss-3","sss3","ss-3","s-3","s3","sss 3","sss 3","Ss 3","ss 3","S 3","s 3","SSS 3","SS 3",3];
 
+$secondarySchArray = ["Senior-School","Junior-School"];
+$primarySchArray = ["Primary-School"];
+
 ?>

@@ -461,9 +461,8 @@ function updateDisKey(form) {
 
 function uploadQuest(form) {
     let questType = document.getElementById("quest_type").value;
-    let courseCode = document.getElementById("course-code-el").value;
     swal.fire({
-        title: `You are about to upload ${courseCode} ${questType} QUESTIONS`,
+        title: `You are about to upload ${questType} QUESTIONS`,
         text: `Click yes to upload QUESTIONS.`,
         icon: "info",
         showDenyButton: true,
@@ -471,8 +470,6 @@ function uploadQuest(form) {
     }).then((result) => {
         if (result.isConfirmed) {
             form.submit();
-        } else if (result.isDenied) {
-            Swal.fire(`${courseCode} ${questType} QUESTIONS were not uploaded!`, '', 'info')
         }
     })
     return false;
@@ -482,7 +479,7 @@ function uploadInstruct(form) {
     let questType = document.getElementById("quest_type2").value;
     let courseCode = document.getElementById("course-code-el2").value;
     swal.fire({
-        title: `You are about to upload ${courseCode} ${questType} INSTRUCTIONS`,
+        title: `You are about to upload ${questType} INSTRUCTIONS`,
         text: `Click yes to upload INSTRUCTIONS.`,
         icon: "info",
         showDenyButton: true,
@@ -490,8 +487,6 @@ function uploadInstruct(form) {
     }).then((result) => {
         if (result.isConfirmed) {
             form.submit();
-        } else if (result.isDenied) {
-            Swal.fire(`${courseCode} ${questType} INSTRUCTIONS were not uploaded!`, '', 'info')
         }
     })
     return false;

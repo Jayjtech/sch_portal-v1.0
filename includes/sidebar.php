@@ -350,6 +350,12 @@
                     <span class="menu-title">Settle bills</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-controls="ui-basic" href="fund_wallet">
+                    <i class="icon-grid menu-icon"></i>
+                    <span class="menu-title">Fund wallet</span>
+                </a>
+            </li>
             <?php endif; ?>
 
             <?php if(in_array($det->position, $worker)): ?>

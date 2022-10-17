@@ -27,9 +27,22 @@ while($row = $Qualifiers->fetch_object()){
                     WHERE id = '$l_id'
                 ");
 }
-    $_SESSION['table'] = $table;
+if($record){
+ $_SESSION['table'] = $table;
     $_SESSION['batch_id'] = $batch_id;
     header('location: process_disbursement.php');
+}else{
+    $_SESSION['message'] = 'Disbursement record could not be updated!';
+    $_SESSION['msg_type'] = 'error';
+    $_SESSION['remedy'] = '';
+
+    if($_SESSION['page'] == 'loan'){
+            header('location: ../../adm_loan_approval?loan_disbursement_list');
+        }else if($_SESSION['page'] == 'salary'){
+            header('location: ../../adm_disbursement?disbursement_list');
+        }
+}
+   
 }
 
 

@@ -14,32 +14,60 @@ if(isset($_POST['exam_unit'])){
     $test_no_of_quest = mysqli_real_escape_string($conn, $_POST['test_no_of_quest']); 
     $exam_no_of_quest = mysqli_real_escape_string($conn, $_POST['exam_no_of_quest']); 
     $department = mysqli_real_escape_string($conn, $_POST['department']); 
+    $sch_category = mysqli_real_escape_string($conn, $_POST['sch_category']); 
     
     $classNo = substr($course_code, 3, 1);
     $term = substr($course_code, 5, 1);
-    switch($classNo){
-        case 1;
-        $class = "JSS-1";
-        break;
-        case 2;
-        $class = "JSS-2";
-        break;
-        case 3;
-        $class = "JSS-3";
-        break;
-        case 4;
-        $class = "SSS-1";
-        break;
-        case 5;
-        $class = "SSS-2";
-        break;
-        case 6;
-        $class = "SSS-3";
-        break;
+
+    if(in_array($sch_category,$secondarySchArray)){
+        switch($classNo){
+                case 1;
+                $class = "JSS-1";
+                break;
+                case 2;
+                $class = "JSS-2";
+                break;
+                case 3;
+                $class = "JSS-3";
+                break;
+                case 4;
+                $class = "SSS-1";
+                break;
+                case 5;
+                $class = "SSS-2";
+                break;
+                case 6;
+                $class = "SSS-3";
+                break;
+            }
+    }else if(in_array($sch_category,$primarySchArray)){
+        switch($classNo){
+                case 1;
+                $class = "NUR-2[Book-1]";
+                break;
+                case 2;
+                $class = "PRY-1[Book-2]";
+                break;
+                case 3;
+                $class = "PRY-2[Book-3]";
+                break;
+                case 4;
+                $class = "PRY-3[Book-4]";
+                break;
+                case 5;
+                $class = "PRY-4[Book-5]";
+                break;
+                case 6;
+                $class = "PRY-5[Book-6]";
+                break;
+            }
     }
-       echo $class;
+
+    // echo $class.'<br>';
+    // echo $term;
+    // exit();
     /**CHECK */
-    $check = $conn->query("SELECT * FROM $course_tbl WHERE (course_code ='$course_code' AND token='$token' AND session='$log_session')");
+    $check = $conn->query("SELECT * FROM $course_tbl WHERE (course_code ='$course_code' AND token='$token' AND sch_category='$sch_category' AND session='$log_session')");
     if($check->num_rows > 0){
         $_SESSION['message'] = "This course already exist!";
         $_SESSION['msg_type'] = "warning";
@@ -48,6 +76,7 @@ if(isset($_POST['exam_unit'])){
         $insert = $conn->query("INSERT INTO $course_tbl SET
                             course_code = '$course_code',
                             course = '$course',
+                            sch_category = '$sch_category',
                             ass_no_of_quest = '$ass_no_of_quest',
                             test_no_of_quest = '$test_no_of_quest',
                             exam_no_of_quest = '$exam_no_of_quest',
@@ -74,39 +103,66 @@ if(isset($_POST['exam_unit'])){
                 $_SESSION['remedy'] = "Try again later";
             }
     }
-    header('location: ../../create_course');
+    header('location: ../../create_course?index');
 }
 
 
 if(isset($_POST['push_quest'])){
-     $quest_type = mysqli_real_escape_string($conn, $_POST['quest_type']);
-     $course_code = mysqli_real_escape_string($conn, $_POST['course_code']);
-     $classNo = substr($course_code, 3, 1);
-     $term = substr($course_code, 5, 1);
-     $quest_id = rand(100000,999999);
+    $quest_type = mysqli_real_escape_string($conn, $_POST['quest_type']);
+    $course_details = $_POST['course_code'];
+    $quest_id = rand(100000,999999);
     
-    switch($classNo){
-        case 1;
-        $class = "JSS-1";
-        break;
-        case 2;
-        $class = "JSS-2";
-        break;
-        case 3;
-        $class = "JSS-3";
-        break;
-        case 4;
-        $class = "SSS-1";
-        break;
-        case 5;
-        $class = "SSS-2";
-        break;
-        case 6;
-        $class = "SSS-3";
-        break;
+    $course_details = json_decode(base64_decode($course_details));
+    $course_code = $course_details->course_code;
+    $sch_category = $course_details->sch_category;
+    $classNo = substr($course_code, 3, 1);
+    $term = substr($course_code, 5, 1);
+
+   if(in_array($sch_category,$secondarySchArray)){
+        switch($classNo){
+                case 1;
+                $class = "JSS-1";
+                break;
+                case 2;
+                $class = "JSS-2";
+                break;
+                case 3;
+                $class = "JSS-3";
+                break;
+                case 4;
+                $class = "SSS-1";
+                break;
+                case 5;
+                $class = "SSS-2";
+                break;
+                case 6;
+                $class = "SSS-3";
+                break;
+            }
+    }else if(in_array($sch_category,$primarySchArray)){
+        switch($classNo){
+                case 1;
+                $class = "NUR-2[Book-1]";
+                break;
+                case 2;
+                $class = "PRY-1[Book-2]";
+                break;
+                case 3;
+                $class = "PRY-2[Book-3]";
+                break;
+                case 4;
+                $class = "PRY-3[Book-4]";
+                break;
+                case 5;
+                $class = "PRY-4[Book-5]";
+                break;
+                case 6;
+                $class = "PRY-5[Book-6]";
+                break;
+            }
     }
 
-     $check = $conn->query("SELECT * FROM $course_tbl WHERE (course_code = '$course_code' AND term='$log_term' AND session='$log_session')");
+    $check = $conn->query("SELECT * FROM $course_tbl WHERE (course_code = '$course_code' AND term='$log_term' AND sch_category='$sch_category' AND session='$log_session')");
     if($check->num_rows > 0){
         $row = $check->fetch_object();
         if($quest_type == "Ass"){
@@ -155,25 +211,24 @@ if(isset($_POST['push_quest'])){
                     include "../../config/q_type.php";
 
         
-                    //To ensure that The same class is not uploaded over and again
-                    $checkQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE (course_code='$course_code' AND session='$log_session' AND term='$log_term' AND quest_no='$q_no' AND quest_type='$quest_type'  AND token='$token')");
+                //To ensure that The same class is not uploaded over and again
+                $checkQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE (course_code='$course_code' AND sch_category='$sch_category' AND session='$log_session' AND term='$log_term' AND quest_no='$q_no' AND quest_type='$quest_type'  AND token='$token')");
 
                     //insert data from CSV file 
                     if ($checkQuestion->num_rows == 0) {
-                        $query_a = "INSERT INTO $question_tbl_a (session, token, term, course_code, class, quest_no, quest, ans, isCorrect, q_id, quest_type, quest_id)
-     VALUES ('$log_session','$token', '$term', '$course_code', '$class', '$q_no','$quest', '$ans', '$isCorrect', '$q_id', '$quest_type', '$quest_id')";
+                        $query_a = "INSERT INTO $question_tbl_a (session, token, term, course_code, sch_category, class, quest_no, quest, ans, isCorrect, q_id, quest_type, quest_id)
+     VALUES ('$log_session','$token', '$term', '$course_code', '$sch_category', '$class', '$q_no','$quest', '$ans', '$isCorrect', '$q_id', '$quest_type', '$quest_id')";
                         mysqli_query($conn, $query_a);
 
-                        $query_b = "INSERT INTO $question_tbl_b (session, token, term, course_code, class, quest_no, quest, ans, isCorrect, q_id, quest_type, quest_id)
-     VALUES ('$log_session','$token', '$term', '$course_code', '$class', '$q_no_B','$quest', '$ans', '$isCorrect', '$q_id', '$quest_type', '$quest_id')";
+                        $query_b = "INSERT INTO $question_tbl_b (session, token, term, course_code, sch_category, class, quest_no, quest, ans, isCorrect, q_id, quest_type, quest_id)
+     VALUES ('$log_session','$token', '$term', '$course_code', '$sch_category', '$class', '$q_no_B','$quest', '$ans', '$isCorrect', '$q_id', '$quest_type', '$quest_id')";
                         mysqli_query($conn, $query_b);
 
-                        $query_c = "INSERT INTO $question_tbl_c (session, token, term, course_code, class, quest_no, quest, ans, isCorrect, q_id, quest_type, quest_id)
-     VALUES ('$log_session','$token', '$term', '$course_code', '$class', '$q_no_C','$quest', '$ans', '$isCorrect', '$q_id', '$quest_type', '$quest_id')";
+                        $query_c = "INSERT INTO $question_tbl_c (session, token, term, course_code, sch_category, class, quest_no, quest, ans, isCorrect, q_id, quest_type, quest_id)
+     VALUES ('$log_session','$token', '$term', '$course_code', '$sch_category', '$class', '$q_no_C','$quest', '$ans', '$isCorrect', '$q_id', '$quest_type', '$quest_id')";
                         mysqli_query($conn, $query_c);
 
                        
-
                 if($query_c){
                     $_SESSION['message'] = "Questions have been Uploaded!";
                     $_SESSION['msg_type'] = "success";
@@ -193,35 +248,63 @@ if(isset($_POST['push_quest'])){
             }
         }
     }
- header("location: ../../create_course");
+ header("location: ../../create_course?upload_question");
  fclose($csvFile);
     }
    
 if(isset($_POST['push_instruct'])){
-     $quest_type = mysqli_real_escape_string($conn, $_POST['quest_type']);
-     $course_code = mysqli_real_escape_string($conn, $_POST['course_code']);
-     $classNo = substr($course_code, 3, 1);
-     $term = substr($course_code, 5, 1);
-    
-    switch($classNo){
-        case 1;
-        $class = "JSS-1";
-        break;
-        case 2;
-        $class = "JSS-2";
-        break;
-        case 3;
-        $class = "JSS-3";
-        break;
-        case 4;
-        $class = "SSS-1";
-        break;
-        case 5;
-        $class = "SSS-2";
-        break;
-        case 6;
-        $class = "SSS-3";
-        break;
+    $quest_type = mysqli_real_escape_string($conn, $_POST['quest_type']);
+    $course_details = $_POST['course_code'];
+     
+    $course_details = json_decode(base64_decode($course_details));
+    $course_code = $course_details->course_code;
+    $sch_category = $course_details->sch_category;
+
+    $classNo = substr($course_code, 3, 1);
+    $term = substr($course_code, 5, 1);
+
+   if(in_array($sch_category,$secondarySchArray)){
+        switch($classNo){
+                case 1;
+                $class = "JSS-1";
+                break;
+                case 2;
+                $class = "JSS-2";
+                break;
+                case 3;
+                $class = "JSS-3";
+                break;
+                case 4;
+                $class = "SSS-1";
+                break;
+                case 5;
+                $class = "SSS-2";
+                break;
+                case 6;
+                $class = "SSS-3";
+                break;
+            }
+    }else if(in_array($sch_category,$primarySchArray)){
+        switch($classNo){
+                case 1;
+                $class = "NUR-2[Book-1]";
+                break;
+                case 2;
+                $class = "PRY-1[Book-2]";
+                break;
+                case 3;
+                $class = "PRY-2[Book-3]";
+                break;
+                case 4;
+                $class = "PRY-3[Book-4]";
+                break;
+                case 5;
+                $class = "PRY-4[Book-5]";
+                break;
+                case 6;
+                $class = "PRY-5[Book-6]";
+                break;
+            }
     }
 
    
@@ -259,7 +342,7 @@ if(isset($_POST['push_instruct'])){
                         $instructions = '["'.$instruct1.'","'.$instruct2.'","'.$instruct3.'","'.$instruct4.'"]';
                     }
                     //To ensure that The same class is not uploaded over and again
-                    $checkInstruction = $conn->query("SELECT * FROM $instruction_tbl WHERE (course_code='$course_code' AND session='$log_session' AND term='$log_term' AND quest_type='$quest_type')");
+                    $checkInstruction = $conn->query("SELECT * FROM $instruction_tbl WHERE (course_code='$course_code' AND sch_category='$sch_category' AND session='$log_session' AND term='$log_term' AND quest_type='$quest_type')");
                     if($checkInstruction->num_rows == 0){
                     //insert data from CSV file 
                     $insert = $conn->query("INSERT INTO $instruction_tbl SET
@@ -268,6 +351,7 @@ if(isset($_POST['push_instruct'])){
                                             quest_type = '$quest_type',
                                             instruction = '$instructions',
                                             term = '$log_term',
+                                            sch_category='$sch_category',
                                             session = '$log_session',
                                             class = '$class'
                                         ");
@@ -291,7 +375,7 @@ if(isset($_POST['push_instruct'])){
             }
         }
     
- header("location: ../../create_course");
+ header("location: ../../create_course?upload_question");
  fclose($csvFile);
     }
 
@@ -366,7 +450,7 @@ if(isset($_POST['push_instruct'])){
                     }
             }
         }
-         header("location: ../../adm_exam");
+         header("location: ../../adm_exam?time_table");
  fclose($csvFile);
     }
 
@@ -393,14 +477,15 @@ if(isset($_POST['push_instruct'])){
                 while (($line = fgetcsv($csvFile)) !== FALSE) {
 
                     // Get row data
-                    $adm_no  =  mysqli_real_escape_string($conn, $line[1]);
-                    $course_code  =  mysqli_real_escape_string($conn, stripcslashes($line[2]));
-                    $ass  =  mysqli_real_escape_string($conn, stripcslashes($line[3]));
-                    $ca1  =  mysqli_real_escape_string($conn, stripcslashes($line[4]));
-                    $ca2  =  mysqli_real_escape_string($conn, stripcslashes($line[5]));
-                    $ca3  =  mysqli_real_escape_string($conn, stripcslashes($line[6]));
-                    $theory  =  mysqli_real_escape_string($conn, $line[7]);
-                    $obj_score  =  mysqli_real_escape_string($conn, $line[8]);
+                    $sch_category = mysqli_real_escape_string($conn, $line[0]);
+                    $adm_no = mysqli_real_escape_string($conn, $line[2]);
+                    $course_code = mysqli_real_escape_string($conn, stripcslashes($line[3]));
+                    $ass = mysqli_real_escape_string($conn, stripcslashes($line[4]));
+                    $ca1 = mysqli_real_escape_string($conn, stripcslashes($line[5]));
+                    $ca2 = mysqli_real_escape_string($conn, stripcslashes($line[6]));
+                    $ca3 = mysqli_real_escape_string($conn, stripcslashes($line[7]));
+                    $theory = mysqli_real_escape_string($conn, $line[8]);
+                    $obj_score = mysqli_real_escape_string($conn, $line[9]);
                     $exam = ($theory+$obj_score);
                     $total = ($ass+$ca1+$ca2+$ca3+$exam);
 
@@ -424,21 +509,49 @@ if(isset($_POST['push_instruct'])){
                     }
 
                     $cl = substr($course_code, 3, 1);
-                    //FOR SECONDARY SCHOOL
-                    if ($cl == 1) {
-                        $class = "JSS-1";
-                    }else if ($cl == 2) {
-                        $class = "JSS-2";
-                    }else if ($cl == 3) {
-                        $class = "JSS-3";
-                    }else if ($cl == 4) {
-                        $class = "SSS-1";
-                    }else if ($cl == 5) {
-                        $class = "SSS-2";
-                    }else if ($cl == 6) {
-                        $class = "SSS-3";
-                    }else {
-                        $class = "";
+                    
+                    if(in_array($sch_category,$secondarySchArray)){
+                        switch($cl){
+                                case 1;
+                                $class = "JSS-1";
+                                break;
+                                case 2;
+                                $class = "JSS-2";
+                                break;
+                                case 3;
+                                $class = "JSS-3";
+                                break;
+                                case 4;
+                                $class = "SSS-1";
+                                break;
+                                case 5;
+                                $class = "SSS-2";
+                                break;
+                                case 6;
+                                $class = "SSS-3";
+                                break;
+                            }
+                    }else if(in_array($sch_category,$primarySchArray)){
+                        switch($cl){
+                                case 1;
+                                $class = "NUR-2[Book-1]";
+                                break;
+                                case 2;
+                                $class = "PRY-1[Book-2]";
+                                break;
+                                case 3;
+                                $class = "PRY-2[Book-3]";
+                                break;
+                                case 4;
+                                $class = "PRY-3[Book-4]";
+                                break;
+                                case 5;
+                                $class = "PRY-4[Book-5]";
+                                break;
+                                case 6;
+                                $class = "PRY-5[Book-6]";
+                                break;
+                            }
                     }
                     //update score-sheet 
                     $update1 = $conn->query("UPDATE $score_tbl SET
@@ -456,6 +569,7 @@ if(isset($_POST['push_instruct'])){
                                             WHERE course_code = '$course_code'
                                             AND adm_no = '$adm_no'
                                             AND term = '$log_term'
+                                            AND sch_category = '$sch_category'
                                             AND session = '$log_session'
                                             AND teacher_token = '$token'
                                             ");
@@ -796,12 +910,15 @@ if(isset($_POST['upload_t_comment'])){
 
 
 if(isset($_POST['course_material'])){    
-      $category = mysqli_real_escape_string($conn,$_POST['category']);
-      $course_code = mysqli_real_escape_string($conn,$_POST['course_code']);
-      $course_code = mysqli_real_escape_string($conn,$_POST['course_code']);
-      $title = mysqli_real_escape_string($conn,$_POST['title']);
-  
-      $query = $conn->query("SELECT * FROM $course_tbl WHERE course_code = '$course_code'");
+    $category = mysqli_real_escape_string($conn,$_POST['category']);
+    $title = mysqli_real_escape_string($conn,$_POST['title']);
+    $course_details = $_POST['course_code'];
+
+    $course_details = json_decode(base64_decode($course_details));
+    $course_code = $course_details->course_code;
+    $sch_category = $course_details->sch_category;
+
+      $query = $conn->query("SELECT * FROM $course_tbl WHERE course_code = '$course_code' AND sch_category='$sch_category'");
       while($row = $query->fetch_assoc()){
           $class = $row['class'];
           $course = $row['course'];
@@ -828,6 +945,7 @@ if(isset($_POST['course_material'])){
                 token = '$token', 
                 size = '$new_size', 
                 category = '$category',
+                sch_category = '$sch_category',
                 name = '$name', 
                 class = '$class',
                 title = '$title',
@@ -857,6 +975,7 @@ $optionE = false;
     $optionC = mysqli_real_escape_string($conn, $_POST['optionC']);
     $optionD = mysqli_real_escape_string($conn, $_POST['optionD']);
     $quest_type = mysqli_real_escape_string($conn, $_POST['quest_type']);
+    $sch_category = mysqli_real_escape_string($conn, $_POST['sch_category']);
     // $optionE = mysqli_real_escape_string($conn, $_POST['optionE']);
     $isCorrect = mysqli_real_escape_string($conn, $_POST['isCorrect']);
     $ans = '["'.$optionA.'","'.$optionB.'","'.$optionC.'","'.$optionD.'"]';
@@ -898,6 +1017,7 @@ $optionE = false;
                                     isCorrect='$isCorrect' 
                                     WHERE quest_id = '$quest_id'
                                     AND q_id = '$q_id'
+                                    AND sch_category = '$sch_category'
                                     AND course_code = '$course_code'
                                     ");
             $updateB = $conn->query("UPDATE $question_tbl_b SET 
@@ -907,6 +1027,7 @@ $optionE = false;
                                     isCorrect='$isCorrect' 
                                     WHERE quest_id = '$quest_id'
                                     AND q_id = '$q_id'
+                                    AND sch_category = '$sch_category'
                                     AND course_code = '$course_code'
                                     ");
             $updateC = $conn->query("UPDATE $question_tbl_c SET 
@@ -916,6 +1037,7 @@ $optionE = false;
                                     isCorrect='$isCorrect' 
                                     WHERE quest_id = '$quest_id'
                                     AND q_id = '$q_id'
+                                    AND sch_category = '$sch_category'
                                     AND course_code = '$course_code'
                                     ");
 
@@ -936,6 +1058,7 @@ if(isset($_POST['add_passage'])){
     $passage = mysqli_real_escape_string($conn, $_POST['passage']);
     $tagged_questions = mysqli_real_escape_string($conn, $_POST['tagged_questions']);
     $course_code = mysqli_real_escape_string($conn, $_POST['course_code']);
+    $sch_category = mysqli_real_escape_string($conn, $_POST['sch_category']);
     $quest_id = mysqli_real_escape_string($conn, $_POST['quest_id']);
 
     $check = $conn->query("SELECT * FROM $passage_tbl WHERE quest_id = '$quest_id'");
@@ -944,6 +1067,7 @@ if(isset($_POST['add_passage'])){
                         passage = '$passage',
                         tagged_questions = '$tagged_questions',
                         course_code = '$course_code',
+                        sch_category = '$sch_category',
                         quest_id = '$quest_id',
                         token = '$token',
                         term = '$log_term',
@@ -957,6 +1081,7 @@ if(isset($_POST['add_passage'])){
                         AND course_code = '$course_code'
                         AND token = '$token'
                         AND term = '$log_term'
+                        AND sch_category = '$sch_category'
                         AND session = '$log_session'
         ");
     }

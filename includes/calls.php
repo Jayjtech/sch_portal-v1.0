@@ -125,7 +125,7 @@ $callDisList = $conn->query("SELECT * FROM $payroll_tbl");
 $callStudents = $conn->query("SELECT * FROM $users_tbl WHERE user_type = 'c3R1ZHk=' ORDER BY curr_class ASC");
 
 /**Course student */
-$availableCourse = $conn->query("SELECT * FROM $course_tbl WHERE (class='$curr_class' AND term='$log_term' AND session='$log_session') AND (department='$department' OR department='general')");
+$availableCourse = $conn->query("SELECT * FROM $course_tbl WHERE (class='$curr_class' AND term='$log_term' AND session='$log_session') AND (department='$department' OR department='General' OR department='Non')");
 $enrolledCourse = $conn->query("SELECT * FROM $score_tbl WHERE adm_no='$userId' AND term='$log_term' AND session='$log_session'");
 /**Time table */
 $callTimeTable = $conn->query("SELECT * FROM $time_tbl WHERE (term='$log_term' AND session='$log_session')");

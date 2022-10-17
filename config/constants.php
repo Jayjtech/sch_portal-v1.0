@@ -152,12 +152,12 @@ $classes = [
     "KG-1",
     "KG-2",
     "NUR-1",
-    "NUR-2[Basic-1]",
-    "PRY-1[Basic-2]",
-    "PRY-2[Basic-3]",
-    "PRY-3[Basic-4]",
-    "PRY-4[Basic-5]",
-    "PRY-5[Basic-6]",
+    "NUR-2[Book-1]",
+    "PRY-1[Book-2]",
+    "PRY-2[Book-3]",
+    "PRY-3[Book-4]",
+    "PRY-4[Book-5]",
+    "PRY-5[Book-6]",
     "JSS-1",
     "JSS-2",
     "JSS-3",
@@ -301,19 +301,20 @@ $bill_list = [
 ];
 
 $stu_awards = [
-    "award" => [
-        1 => "Paying",
-        2 => "Full Scholarship",
-        3 => "Half Scholarship"
-    ]
+        "Paying",
+        "Full Scholarship",
+        "Half Scholarship"
 ];
 
 // FUNCTION PAGES
 $score_recorder = "functions/submit-exam";
 $monnify_res = "functions/payment_gateway/monnify.php";
+$currency_type = "NGN";
+$currency = "&#8358;";
 
 // mk MK_PROD_QSXL9D2HBC
 // mc 587163315485
 // ms CHPS7PLRGAU2P6VPSPF2GKKQ55JFB8ML
-// 
+// DB_PS #HxIw5aRLEyC
+// DB ekreqipn_sch_portal
 ?>

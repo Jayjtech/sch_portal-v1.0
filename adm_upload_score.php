@@ -73,10 +73,13 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                         <div class="form-group">
                                             <select name="course_code" id="course_code" class="form-control" required>
                                                 <option value="">Course code</option>
-                                                <?php for($i = 0; $i<count($coList); $i++){?>
-                                                <option value="<?= $coList[$i]->course_code; ?>">
+                                                <?php for($i = 0; $i<count($coList); $i++){
+                                                    $value = base64_encode('{"course_code":"'.$coList[$i]->course_code.'","sch_category":"'.$coList[$i]->sch_category.'"}'); 
+                                                    ?>
+                                                <option value="<?= $value; ?>">
                                                     <?= $coList[$i]->course; ?>
-                                                    [<?= $coList[$i]->course_code; ?>]</option>
+                                                    [<?= $coList[$i]->course_code; ?>] <?= $coList[$i]->sch_category; ?>
+                                                </option>
                                                 <?php } ?>
                                             </select>
                                         </div>

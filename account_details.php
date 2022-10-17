@@ -2,7 +2,7 @@
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
 <?php include "includes/edit_calls.php"; ?>
-<?php if(!in_array($det->position, $worker)): ?>
+<?php if($det->user_type == "c3R1ZHk="): ?>
 <script>
 window.location.href = "login?msg=Access denied!&msg_type=error"
 </script>
