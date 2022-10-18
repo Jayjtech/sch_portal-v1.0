@@ -21,7 +21,7 @@ if(!$_SESSION['token']){
                 </button>
                 <p class="card-title">
                 <div class="" align="right">
-                    Logged Academic Period: <?= $term_syntax; ?> Term [<?= $log_session;?>]
+                    LAP: <?= $term_syntax; ?> Term [<?= $log_session;?>]
                 </div>
 
                 </p>

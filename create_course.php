@@ -26,7 +26,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                             <thead>
                                 <tr>
                                     <th>Course</th>
-                                    <th>School</th>
+                                    <th>Class</th>
                                     <th>No. of Question[Exam|Test|Ass]</th>
                                     <th>Duration[Exam|Test|Ass.]</th>
                                     <th>Mark[Exam|Test|Ass.]</th>
@@ -38,7 +38,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                 <?php while($row = $callCourses->fetch_object()):?>
                                 <tr>
                                     <td><?= $row->course; ?>[<?= $row->course_code;?>]</td>
-                                    <td><?= $row->sch_category; ?></td>
+                                    <td><?= $row->class; ?></td>
                                     <td>Exam: <?= $row->exam_no_of_quest; ?> | Test: <?= $row->test_no_of_quest; ?> |
                                         Ass: <?= $row->ass_no_of_quest; ?></td>
                                     <td>Exam: <?= $row->exam_duration; ?> | Test: <?= $row->test_duration; ?> |
@@ -393,6 +393,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                             <thead>
                                 <tr>
                                     <th>Course</th>
+                                    <th>Class</th>
                                     <th>Type</th>
                                     <th>No. of Q</th>
                                     <th>Department</th>
@@ -422,6 +423,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     ?>
                                 <tr>
                                     <td><?= $row->course; ?>[<?= $sel1->course_code; ?>]</td>
+                                    <td><?= $sel1->class; ?></td>
                                     <td><?= $sel1->quest_type; ?></td>
                                     <td><?= $row->ass_no_of_quest; ?></td>
                                     <td><?= $row->department; ?></td>
@@ -461,6 +463,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                             ?>
                                 <tr>
                                     <td><?= $row->course; ?>[<?= $sel2->course_code; ?>]</td>
+                                    <td><?= $sel2->class; ?></td>
                                     <td><?= $sel2->quest_type; ?></td>
                                     <td><?= $row->test_no_of_quest; ?></td>
                                     <td><?= $row->department; ?></td>
@@ -500,6 +503,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                             ?>
                                 <tr>
                                     <td><?= $row->course; ?>[<?= $sel3->course_code; ?>]</td>
+                                    <td><?= $sel3->class; ?></td>
                                     <td><?= $sel3->quest_type; ?></td>
                                     <td><?= $row->exam_no_of_quest; ?></td>
                                     <td><?= $row->department; ?></td>

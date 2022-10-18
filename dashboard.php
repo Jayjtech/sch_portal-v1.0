@@ -28,9 +28,9 @@
                     <div class="weather-info">
                         <div class="d-flex">
                             <div>
-                                <h2 class="mb-0 font-weight-normal"><i class="mdi mdi-calendar"></i> Today
+                                <p class="mb-0 font-weight-normal"><i class="mdi mdi-calendar"></i> Today
                                     (<?= date('d'); ?> <?= date('M'); ?> <?= date('Y'); ?>)
-                                </h2>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -86,9 +86,11 @@
             </div>
         </div>
         <?php else: ?>
+        <?php if($admin_det->monnify_key && $admin_det->monnify_contract && $admin_det->monnify_secret):?>
         <script>
-        // window.location.href = "<?= $reserve_account; ?>"
+        window.location.href = "<?= $reserve_account; ?>"
         </script>
+        <?php endif; ?>
         <div class="col-md-6 grid-margin transparent">
             <p class="font-weight-bold">Click the button below to reserve bank accounts.</p>
             <div class="row">
@@ -533,6 +535,7 @@
     </div> -->
 </div>
 <!-- content-wrapper ends -->
+
 <script>
 function getWalletBal() {
     xmlhttp = new XMLHttpRequest();
@@ -545,4 +548,15 @@ setInterval(function() {
     getWalletBal();
 }, 1000);
 </script>
+
 <?php include "includes/footer.php"; ?>
+<?php if(!$det->home_address && $det->user_type != "QWRtaW4="):?>
+<script>
+window.location.href = "bio";
+swal.fire({
+    title: `Please take time to fill up your Bio-data!`,
+    text: `This is a very important requirement.`,
+    icon: `warning`,
+})
+</script>
+<?php endif; ?>

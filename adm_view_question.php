@@ -11,9 +11,11 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
 if(isset($_GET['qd'])){
 /**Get questions */
 $quest_id = $_GET['qd'];
+$sch_category = $_GET['sch_category'];
 $fetchQuestions = $conn->query("SELECT * FROM $question_tbl_a WHERE (quest_id = '$quest_id' AND sch_category='$sch_category' AND token='$token' AND term='$log_term' AND session='$log_session')");
     while($row = $fetchQuestions->fetch_object()){
         $course_code = $row->course_code;
+        $q_class = $row->class;
         $quest_type = $row->quest_type;
         $data[] = $row;
     }
@@ -34,7 +36,8 @@ $fetchQuestions = $conn->query("SELECT * FROM $question_tbl_a WHERE (quest_id = 
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0"><?= $course_code; ?> <em class="text-success"><?= $quest_type; ?></em>
+                    <p class="card-title mb-0"><?= $course_code; ?> <?= $q_class; ?> <em
+                            class="text-success"><?= $quest_type; ?></em>
                         questions</p>
                     <div class="" align="right">
                         <a href="create_course?upload_question" style="text-decoration:none;"

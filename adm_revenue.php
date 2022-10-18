@@ -37,6 +37,7 @@ $compulsoryFee = $conn->query("SELECT * FROM $bill_setting_tbl");
                                     <th>Class</th>
                                     <th>Total compulsory fee</th>
                                     <th>Total actual fee</th>
+                                    <th>Fund wallet</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -47,8 +48,14 @@ $compulsoryFee = $conn->query("SELECT * FROM $bill_setting_tbl");
                                     <td class="font-weight-bold"><?= $row->class; ?></td>
                                     <td><?= $currency; ?><?= number_format($row->compulsory_total); ?></td>
                                     <td><?= $currency; ?><?= number_format($row->actual_total); ?></td>
-                                    <td><a href="?sort_bill=<?= $row->userId;?>" style="text-decoration:none;"
-                                            class="btn-sm btn-success">View/Sort bills</a></td>
+                                    <td>
+                                        <a href="?cash_funding=<?= $row->userId;?>" style="text-decoration:none;"
+                                            class="btn-sm btn-success">Cash funding</a>
+                                    </td>
+                                    <td>
+                                        <a href="?sort_bill=<?= $row->userId;?>" style="text-decoration:none;"
+                                            class="btn-sm btn-primary">View/Sort bills</a>
+                                    </td>
                                 </tr>
                                 <?php endwhile; ?>
                             </tbody>
@@ -195,6 +202,50 @@ $compulsoryFee = $conn->query("SELECT * FROM $bill_setting_tbl");
                                 <?= $currency; ?><?= number_format($compBill->comp_total); ?></span><br>
                             <span class="text-success">Already Earned =
                                 <?= $currency; ?><?= number_format($earn->already_earned); ?></span><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endif;?>
+
+            <?php if(isset($_GET['cash_funding']) == true):?>
+            <div class="row">
+                <div class="col-md-12 stretch-card grid-margin">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-title mb-0">Cash funding for <?= $userDet->name; ?></p>
+                            <div class="mb-2" align="right">
+                                <a href="?revenue" class="btn btn-dark">Back</a>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <form action="<?= $fund_wallet; ?>" method="post"
+                                        onsubmit="return fundWallet(this)">
+                                        <p class="font-weight-bold text-info">Current wallet balance:
+                                            <?= $currency; ?><?= number_format($userDet->wallet); ?></p>
+                                        <input type="hidden" value="<?= $userDet->name; ?>" id="studentName">
+                                        <div class="form-group">
+                                            <label for="">Amount</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><?= $currency; ?></span>
+                                                <input type="number" class="form-control" min="1" name="amount"
+                                                    id="fundAmount" required placeholder="Enter funding amount">
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="cash_funding" value="1">
+                                        <input type="hidden" name="adm_no" value="<?= $userDet->userId; ?>">
+                                        <div class="form-group">
+                                            <textarea name="description" class="form-control" id="fundingDesc" rows="2"
+                                                required placeholder="Cash funding description"></textarea>
+                                        </div>
+
+                                        <div class="" align="right">
+                                            <button type="submit" class="btn btn-success">Confirm</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

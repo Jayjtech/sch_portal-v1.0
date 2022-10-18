@@ -17,6 +17,7 @@ $sch_category = $_GET['sch_category'];
 $getQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE (q_id = '$q_id' AND sch_category='$sch_category' AND course_code ='$cd' AND quest_type ='$qt' AND token='$token' AND term='$log_term' AND session='$log_session')");
     while($row = $getQuestion->fetch_object()){
         $quest_img = $row->img;
+        $q_class = $row->class;
         if ($quest_img != "") {
             $display_img = 'images/exam/' . $quest_img;
         } else {
@@ -43,11 +44,12 @@ $getQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE (q_id = '$q_id'
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0"><?= $cd; ?> <em class="text-success"><?= $qt; ?></em> | Question
+                    <p class="card-title mb-0"><?= $cd; ?> <?= $q_class; ?> <em class="text-success"><?= $qt; ?></em> |
+                        Question
                         <?= $quest_no; ?></p>
                     <div class="" align="right">
-                        <a href="adm_view_question?qd=<?= $quest_id; ?>" style="text-decoration:none;"
-                            class="btn btn-dark">Back</a>
+                        <a href="adm_view_question?qd=<?= $quest_id; ?>&sch_category=<?= $sch_category; ?>"
+                            style="text-decoration:none;" class="btn btn-dark">Back</a>
                     </div>
                     <hr>
                     <form action="<?= $add_course; ?>" method="post" onsubmit="return updateQuest(this)"
@@ -107,7 +109,7 @@ $getQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE (q_id = '$q_id'
                                 </div>
                                 <?php endfor; ?>
                                 <hr>
-                                <div class="col-sm-6 mb-2">
+                                <div class="col-sm-8 mb-2">
                                     <div class="form-group">
                                         <p class="card-title">Select the correct option</p>
                                         <select name="isCorrect" id="" class="form-control">

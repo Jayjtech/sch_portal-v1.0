@@ -14,7 +14,8 @@
                 <div class="card-body">
                     <h4 class="card-title">Student's detail</h4>
                     <hr>
-                    <form action="<?= $pusher;?>" class="forms-sample" method="GET" onsubmit="return bioData(this)">
+                    <form action="<?= $pusher;?>" class="forms-sample" method="POST" onsubmit="return bioData(this)">
+                        <input type="hidden" name="bio_data" value="1">
                         <h6 class="text-uppercase">Educational details</h6>
                         <div class="row mt-3 mb-3">
                             <div class="col-sm-4">
@@ -35,6 +36,7 @@
                                     <input type="text" class="form-control" value="<?= $det->email; ?>" readonly>
                                 </div>
                             </div>
+                            <?php if(!$det->staff_type):?>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="exampleInputUsername1">Current class</label>
@@ -77,6 +79,7 @@
                                     <label for="exampleInputEmail1">Department</label>
                                     <select name="department" id="department" class="form-control" required>
                                         <option value="">Choose department</option>
+                                        <option value="Non">Non</option>
                                         <option value="Art">Art</option>
                                         <option value="Science">Science</option>
                                         <option value="Commercial">Commercial</option>
@@ -84,10 +87,12 @@
                                 </div>
                             </div>
                             <?php }?>
+                            <?php endif; ?>
                         </div>
                         <hr>
                         <h6 class="text-uppercase">Other details</h6>
                         <div class="row">
+                            <?php if(!$det->staff_type):?>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Father's name</label>
@@ -113,6 +118,7 @@
                                         <?= $readonly; ?> required>
                                 </div>
                             </div>
+                            <?php endif; ?>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Your Date of Birth</label>
@@ -196,3 +202,12 @@
 
 </script>
 <?php include "includes/footer.php"; ?>
+<?php if(!$det->home_address && $det->user_type != "QWRtaW4="):?>
+<script>
+swal.fire({
+    title: `Please take time to fill-up your Bio-data!`,
+    text: `This is a very important requirement.`,
+    icon: `warning`,
+})
+</script>
+<?php endif; ?>

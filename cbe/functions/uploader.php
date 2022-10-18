@@ -1051,7 +1051,7 @@ if($updateC){
             $_SESSION['remedy'] = '';
         }
     }
-     header('location:../../adm_question_editor?qid='.$q_id.'&cd='.$course_code.'&qt='.$quest_type.'');
+     header('location:../../adm_question_editor?qid='.$q_id.'&cd='.$course_code.'&qt='.$quest_type.'&sch_category='.$sch_category.'');
 }
 
 if(isset($_POST['add_passage'])){
@@ -1098,6 +1098,6 @@ if(isset($_POST['add_passage'])){
             $_SESSION['msg_type'] = 'error';
             $_SESSION['remedy'] = '';
     }
-    header('location:../../adm_add_passage?qd='.$quest_id.'');
+    header('location:../../adm_add_passage?qd='.$quest_id.'&sch_category='.$sch_category.'');
 }
 ?>

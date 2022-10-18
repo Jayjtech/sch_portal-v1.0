@@ -636,6 +636,7 @@ $cr_expenses_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $expenses_tbl (
 
 $cr_transaction_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $transaction_tbl (
     id int(11) AUTO_INCREMENT NOT NULL,
+    confirmed_by varchar(255) NOT NULL,
     userId varchar(255) NOT NULL,
     track_id varchar(255) NOT NULL,
     amount float(11) NOT NULL,
@@ -643,7 +644,8 @@ $cr_transaction_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $transaction_tbl 
     term int(11) NOT NULL,
     session varchar(255) NOT NULL,
     wallet_bal float(11) NOT NULL,
-    time varchar(11) NOT NULL,
+    time varchar(50) NOT NULL,
+    date varchar(255) NOT NULL,
     status int(11) NOT NULL,
     PRIMARY KEY (id)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;");

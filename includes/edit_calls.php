@@ -118,4 +118,11 @@ if(isset($_GET['sort_bill'])){
     $selectWalletBal = $conn->query("SELECT * FROM $users_tbl WHERE userId = '$adm_no'");
     $wal = $selectWalletBal->fetch_object();
 }
+
+/**FUND STUDENT'S WALLET */
+if(isset($_GET['cash_funding'])){
+    $adm_no = $_GET['cash_funding'];
+    $getStudent = $conn->query("SELECT * FROM $users_tbl WHERE (userId = '$adm_no')");
+    $userDet = $getStudent->fetch_object();
+}
 ?>

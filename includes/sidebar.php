@@ -275,7 +275,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="adm_incentive?take_loan">
                     <i class="icon-grid menu-icon"></i>
-                    <span class="menu-title">Incentive/Loan</span>
+                    <span class="menu-title">Loan</span>
                 </a>
             </li>
             <?php endif; ?>

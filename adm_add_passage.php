@@ -17,6 +17,7 @@ $getQuestion = $conn->query("SELECT * FROM $question_tbl_a WHERE (quest_id = '$q
   while($row = $getQuestion->fetch_object()){
         $course_code = $row->course_code;
         $quest_type = $row->quest_type;
+        $q_class = $row->class;
         $data[] = $row;
     }
     if($getQuestion->num_rows == 0){
@@ -43,7 +44,8 @@ if($getPassage->num_rows == 0){
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title mb-0"><?= $course_code; ?> <em class="text-success"><?= $quest_type; ?></em>
+                    <p class="card-title mb-0"><?= $course_code; ?> <?= $q_class; ?> <em
+                            class="text-success"><?= $quest_type; ?></em>
                     </p>
                     <div class="" align="right">
                         <a href="create_course?upload_question" style="text-decoration:none;"

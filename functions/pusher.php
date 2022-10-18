@@ -3,18 +3,18 @@
     include "../includes/calls.php";
     $userId = $_SESSION['userId'];
     
-    if(isset($_GET['department'])){
-        $department = mysqli_real_escape_string($conn, $_GET['department']);
-        $pre_class = mysqli_real_escape_string($conn, $_GET['pre_class']);
-        $phone = htmlspecialchars(mysqli_real_escape_string($conn, $_GET['phone']));
-        $religion = htmlspecialchars(mysqli_real_escape_string($conn, $_GET['religion']));
-        $state_of_origin = htmlspecialchars(mysqli_real_escape_string($conn, $_GET['state_of_origin']));
-        $nationality = htmlspecialchars(mysqli_real_escape_string($conn, $_GET['nationality']));
-        $local_government = htmlspecialchars(mysqli_real_escape_string($conn, $_GET['local_government']));
-        $dob = htmlspecialchars(mysqli_real_escape_string($conn, $_GET['dob']));
-        $home_address = htmlspecialchars(mysqli_real_escape_string($conn, $_GET['home_address']));
-        $father_name = htmlspecialchars(mysqli_real_escape_string($conn, $_GET['father_name']));
-        $mother_name = htmlspecialchars(mysqli_real_escape_string($conn, $_GET['mother_name']));
+    if(isset($_POST['bio_data'])){
+        $department = mysqli_real_escape_string($conn, $_POST['department']);
+        $pre_class = mysqli_real_escape_string($conn, $_POST['pre_class']);
+        $phone = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['phone']));
+        $religion = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['religion']));
+        $state_of_origin = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['state_of_origin']));
+        $nationality = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['nationality']));
+        $local_government = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['local_government']));
+        $dob = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['dob']));
+        $home_address = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['home_address']));
+        $father_name = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['father_name']));
+        $mother_name = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['mother_name']));
 
         $update = $conn->query("UPDATE $users_tbl SET 
                             department = '$department',

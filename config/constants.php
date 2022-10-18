@@ -60,6 +60,7 @@ $profileUploader = "functions/profileUploader.php";
 $schLogoUploader = "functions/schLogoUploader.php";
 $disburser = "functions/payment_gateway/disburser.php";
 $expenses_query = "functions/expenses.php";
+$fund_wallet = "functions/payment_gateway/fund_wallet.php";
 $exam_query = "functions/exam_query.php";
 $receipt = "receipt_pdf";
 

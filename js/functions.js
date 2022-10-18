@@ -19,7 +19,7 @@ $("form#testProceed").on("submit", function(e){
     if(accessKey === "" || accessKey.length < 6){
         swal({title: `Invalid Access key!`, text: `Provide the correct Access key to proceed.`, icon: "info"})
     }else{
-        $.post(`${baseUrl}/functions/test_access.php`, {
+        $.post(`./functions/test_access.php`, {
                 key: "testAccess",
                 accessKey: accessKey
         },
@@ -31,7 +31,7 @@ $("form#testProceed").on("submit", function(e){
             dangerMode: false
             })
             if(swalResponse[0].icon === "success"){
-                window.location.href = `${baseUrl}/cbe/test`
+                window.location.href = `./cbe/test`
             }
         });
     };
@@ -131,7 +131,7 @@ myInput.onkeyup = function() {
 
             $.ajax({
                 type: "POST",
-                url: `${baseUrl}/functions/selectUser.php`,
+                url: `./functions/selectUser.php`,
                 data: request,
                 cache: false,
                 success: function(station) {
@@ -190,7 +190,7 @@ $("form#registerForm").on("submit", function (e) {
                                         style="width: 60%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                                     </div>
                                 </div>`;
-        $.post(`${baseUrl}/functions/sign_user.php`, {
+        $.post(`./functions/sign_user.php`, {
             key: "getData",
             name: name,
             email: email,
@@ -214,9 +214,9 @@ $("form#registerForm").on("submit", function (e) {
             })
                 if(swalResponse[0].type === "success"){
                     if(userCategory === "c3R1ZHk="){
-                        window.location.href = `${baseUrl}/functions/payment_gateway/monnify.php`
+                        window.location.href = `./functions/payment_gateway/monnify.php`
                     }else{
-                        window.location.href = `${baseUrl}/dashboard`
+                        window.location.href = `./dashboard`
                     }
                 }
         });
@@ -253,7 +253,7 @@ $("form#loginForm").on("submit", function(e){
             <div class="progress mt-3">
                 <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" style="width: 65%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>`;
-        $.post(`${baseUrl}/functions/log_user.php`, {
+        $.post(`functions/log_user.php`, {
                 key: "loginData",
                 passKey: passKey,
                 term: term,
@@ -270,7 +270,7 @@ $("form#loginForm").on("submit", function(e){
             dangerMode: false
             })
             if(swalResponse[0].type === "success"){
-                window.location.href = `${baseUrl}/dashboard`
+                window.location.href = `./dashboard`
             }
         });
     };

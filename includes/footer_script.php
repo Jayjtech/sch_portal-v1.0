@@ -492,6 +492,23 @@ function uploadInstruct(form) {
     return false;
 }
 
+function fundWallet(form) {
+    let studentName = document.getElementById("studentName").value;
+    let fundAmount = document.getElementById("fundAmount").value;
+    swal.fire({
+        title: `<?= $currency; ?>${fundAmount} will be added to ${studentName}'s wallet balance`,
+        text: `Click yes to proceed.`,
+        icon: "info",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    })
+    return false;
+}
+
 
 function schInfo(form) {
     swal.fire({
