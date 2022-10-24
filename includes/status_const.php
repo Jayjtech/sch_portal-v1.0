@@ -33,6 +33,9 @@ switch($status){
     case 10:
         $status_syntax = '<p class="badge badge-warning">On-hold</p>';
     break;
+    case 11:
+        $status_syntax = '<p class="badge badge-success">Checked</p>';
+    break;
 }
 
 switch($given_month){

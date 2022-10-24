@@ -1,6 +1,7 @@
 <?php 
 include "../../config/db.php";
 include "../../includes/calls.php";
+try{
 if(isset($_POST['exam_unit'])){
     $course_code = mysqli_real_escape_string($conn, $_POST['course_code']);
     $course = mysqli_real_escape_string($conn, $_POST['course']);
@@ -908,7 +909,7 @@ if(isset($_POST['upload_t_comment'])){
  fclose($csvFile);
     }
 
-
+/**Teachers uploading course materials */
 if(isset($_POST['course_material'])){    
     $category = mysqli_real_escape_string($conn,$_POST['category']);
     $title = mysqli_real_escape_string($conn,$_POST['title']);
@@ -952,7 +953,8 @@ if(isset($_POST['course_material'])){
                 course = '$course',
                 course_code = '$course_code',
                 date = '$date',
-                term = '$log_term'
+                term = '$log_term',
+                session = '$log_session'
                 ");
     if($sql){
         $_SESSION['message'] = ''.$category.' has been Uploaded!';
@@ -966,6 +968,71 @@ if(isset($_POST['course_material'])){
   }
   header("location: ../../create_course?course_material");
  }
+
+ /**Student submitting document */
+if(isset($_POST['submission'])){    
+    $mat_id = $_POST['mat_id'];
+      $query = $conn->query("SELECT * FROM $course_material_tbl WHERE id = '$mat_id'");
+      $row = $query->fetch_object();
+        $teacher = $row->name;
+        $course_code = $row->course_code;
+        $course = $row->course;
+        $teacher_token = $row->token;
+        $title = $row->title;
+      
+    $check = $conn->query("SELECT * FROM $submissions_tbl WHERE par_id = '$mat_id'");
+    if($check->num_rows == 0){
+            $file = rand(1000,9999)."-".$_FILES['file']['name'];
+                $file_loc = $_FILES['file']['tmp_name'];
+                $file_size = $_FILES['file']['size'];
+                $file_type = $_FILES['file']['type'];
+                $folder="student_submissions/";
+            
+                // new file size in KB
+                $new_size = $file_size/1024;  
+                // make file name in lower case
+                $new_file_name = strtolower($file);
+                // make file name in lower case
+                $final_file = str_replace(' ','-',$new_file_name);
+                
+                if(move_uploaded_file($file_loc,'../../'.$folder.$final_file)){
+                $sql = $conn->query("INSERT INTO $submissions_tbl SET 
+                            par_id = '$mat_id', 
+                            file = '$final_file', 
+                            adm_no = '$userId', 
+                            token = '$token', 
+                            teacher = '$teacher', 
+                            teacher_token = '$teacher_token', 
+                            size = '$new_size', 
+                            name = '$name', 
+                            class = '$curr_class',
+                            title = '$title',
+                            course = '$course',
+                            course_code = '$course_code',
+                            date = '$date',
+                            term = '$log_term',
+                            session = '$log_session'
+                            ");
+        if($sql){
+            $_SESSION['message'] = ''.$title.' successfully submitted!';
+            $_SESSION['msg_type'] = 'success';
+            $_SESSION['remedy'] = '';
+        }else{
+            $_SESSION['message'] = ''.$title.' could not be submitted!';
+            $_SESSION['msg_type'] = 'error';
+            $_SESSION['remedy'] = '';
+        }
+    }
+    }else{
+        $_SESSION['message'] = ''.$title.' has already been submitted!';
+        $_SESSION['msg_type'] = 'warning';
+        $_SESSION['remedy'] = '';
+    }
+   
+  
+  header("location: ../../course_materials?submissions");
+ }
+
 
 $optionE = false;
  if(isset($_POST['update_question'])){
@@ -1099,5 +1166,27 @@ if(isset($_POST['add_passage'])){
             $_SESSION['remedy'] = '';
     }
     header('location:../../adm_add_passage?qd='.$quest_id.'&sch_category='.$sch_category.'');
+}
+
+
+if(isset($_GET['val_res'])){
+    $id = $_GET['val_res'];
+    $update = $conn->query("UPDATE $submissions_tbl SET status = 11");
+    if($update){
+        $_SESSION['message'] = 'Response has been approved!';
+        $_SESSION['msg_type'] = 'success';
+        $_SESSION['remedy'] = '';
+    }else{
+        $_SESSION['message'] = 'Response could not be approved!';
+        $_SESSION['msg_type'] = 'error';
+        $_SESSION['remedy'] = '';
+    }
+     header("location: ../../create_course?course_material");
+}
+
+
+throw new Exception($conn->error);
+}catch(Exception $e){
+    echo '<div style="color:red;font-size:20px;">Oops, a programming error occurred during the process. Return to previous page and contact Ekreat solutions.</div>';
 }
 ?>

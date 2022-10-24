@@ -19,7 +19,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php while($row = $myCourseMat->fetch_object()):?>
+                                <?php while($row = $mySyllabus->fetch_object()):?>
                                 <tr>
                                     <td><?= $row->course; ?>[<?= $row->course_code;?>]</td>
                                     <td><?= $row->title; ?></td>

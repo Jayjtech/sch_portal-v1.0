@@ -1,6 +1,7 @@
 <?php 
 include "../../config/db.php";
 include "../../includes/calls.php";
+try{
 if(isset($_GET['del'])){
     $id = $_GET['del'];
     $check = $conn->query("SELECT * FROM $course_tbl WHERE id='$id'");
@@ -41,7 +42,7 @@ if(isset($_GET['del'])){
             $_SESSION['msg_type'] = "error";
             $_SESSION['remedy'] = "";
         }
-    header('location:../../create_course');
+    header('location:../../create_course?course_tbl');
 }
 
 if(isset($_GET['del_course'])){
@@ -97,7 +98,7 @@ if(isset($_GET['del_table'])){
         $_SESSION['msg_type'] = "error";
         $_SESSION['remedy'] = "";
       }
-      header('location:../../adm_exam');
+      header('location:../../adm_exam?time_table');
 }
 
 if(isset($_GET['del_quest'])){
@@ -121,7 +122,7 @@ if($del2){
         $_SESSION['msg_type'] = "error";
         $_SESSION['remedy'] = "";
       }
-       header('location:../../create_course');
+       header('location:../../create_course?upload_question');
 }
 
 
@@ -140,4 +141,34 @@ if(isset($_GET['del_mat'])){
         $_SESSION['remedy'] = "";
       }
        header('location:../../create_course?course_material');
+}
+
+if(isset($_GET['del_sub'])){
+    $id = $_GET['del_sub'];
+    $file = $_GET['document'];
+    $check = $conn->query("SELECT * FROM $submissions_tbl WHERE id = '$id'");
+    $ch = $check->fetch_object();
+    if($ch->status == 0){
+      $del = $conn->query("DELETE FROM $submissions_tbl WHERE id='$id'");
+          unlink('../../student_submissions/'.$file);
+    }else{
+        $_SESSION['message'] = 'Material has been marked and can no longer be deleted!';
+        $_SESSION['msg_type'] = "error";
+        $_SESSION['remedy'] = "";
+    }
+    
+    if($del){
+        $_SESSION['message'] = 'Material has been deleted!';
+        $_SESSION['msg_type'] = "success";
+        $_SESSION['remedy'] = "";
+      }else{
+        $_SESSION['message'] = 'Material could not be deleted!';
+        $_SESSION['msg_type'] = "error";
+        $_SESSION['remedy'] = "";
+      }
+       header('location:../../course_materials?submissions');
+}
+ throw new Exception($conn->error);
+}catch(Exception $e){
+ echo $e;
 }

@@ -324,6 +324,36 @@ function delCourse(form) {
     return false;
 }
 
+function docSub(form) {
+    swal.fire({
+        title: `Are you sure you want to submit?`,
+        text: "Once it it is marked, it can no longer be deleted.",
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    })
+    return false;
+}
+
+function delSub(form) {
+    swal.fire({
+        title: `Are you sure you want to delete?`,
+        text: "Document will no longer exist.",
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    })
+    return false;
+}
+
 function delTimeTbl(form) {
     swal.fire({
         title: `Are you sure you want to delete this time table?`,
@@ -336,6 +366,21 @@ function delTimeTbl(form) {
             form.submit();
         } else if (result.isDenied) {
             Swal.fire(`Time-table left untouched!`, '', 'info')
+        }
+    })
+    return false;
+}
+
+function valRes(form) {
+    swal.fire({
+        title: `Are you sure you want to approve this document?`,
+        text: "The student will no longer be able to delete this file once approved.",
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
         }
     })
     return false;

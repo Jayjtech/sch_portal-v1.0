@@ -604,7 +604,29 @@ $cr_course_material_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $course_mater
     file varchar(255) NOT NULL,
     size float(11) NOT NULL,
     term int(11) NOT NULL,
+    session varchar(255) NOT NULL,
     date varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
+$cr_submissions_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $submissions_tbl (
+    id int(11) AUTO_INCREMENT NOT NULL,
+    par_id varchar(255) NOT NULL,
+    name varchar(255) NOT NULL,
+    adm_no varchar(255) NOT NULL,
+    token varchar(255) NOT NULL,
+    teacher varchar(255)  NOT NULL,
+    teacher_token varchar(255)  NOT NULL,
+    course varchar(255) NOT NULL,
+    course_code varchar(255) NOT NULL,
+    title varchar(255) NOT NULL,
+    class varchar(255) NOT NULL,
+    file varchar(255) NOT NULL,
+    size float(11) NOT NULL,
+    term int(11) NOT NULL,
+    session varchar(255) NOT NULL,
+    date varchar(255) NOT NULL,
+    status int(11) NOT NULL,
     PRIMARY KEY (id)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 

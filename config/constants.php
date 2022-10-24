@@ -41,6 +41,7 @@ $loan_tbl = "loan";
 $loan_disbursement_tbl = "loan_disbursement";
 $expenses_tbl = "expenses";
 $transaction_tbl = "transactions";
+$submissions_tbl = "submissions";
 
 /**Routes */
 $add_course = "cbe/functions/uploader";

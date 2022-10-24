@@ -134,7 +134,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">How many questions will you upload?</label>
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-4">
                                             <select name="ass_no_of_quest" id="ass_no_of_quest" class="form-control"
                                                 required>
                                                 <option value="">Ass</option>
@@ -151,7 +151,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                                 <option value="100">100</option>
                                             </select>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-4">
                                             <select name="test_no_of_quest" id="test_no_of_quest" class="form-control"
                                                 required>
                                                 <option value="">Test</option>
@@ -168,7 +168,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                                 <option value="100">100</option>
                                             </select>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-4">
                                             <select name="exam_no_of_quest" id="exam_no_of_quest" class="form-control"
                                                 required>
                                                 <option value="">Exam</option>
@@ -193,17 +193,17 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Mark per question [Ass | Test | Exam]</label>
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-4">
                                             <input type="number" class="form-control" id="ass_unit" min="1"
                                                 name="ass_unit" placeholder="Ass" required>
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <div class="col-4">
                                             <input type="number" class="form-control" id="test_unit" min="1"
                                                 name="test_unit" placeholder="Test" required>
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <div class="col-4">
                                             <input type="number" class="form-control" id="exam_unit" min="1"
                                                 name="exam_unit" placeholder="Exam" required>
                                         </div>
@@ -215,15 +215,15 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Duration in minutes</label>
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-4">
                                             <input type="number" class="form-control" id="ass_duration" min="3"
                                                 name="ass_duration" placeholder="Ass" required>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-4">
                                             <input type="number" class="form-control" id="test_duration" min="3"
                                                 name="test_duration" placeholder="Test" required>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-4">
                                             <input type="number" class="form-control" id="exam_duration" min="3"
                                                 name="exam_duration" placeholder="Exam" required>
                                         </div>
@@ -637,6 +637,53 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                 </table>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 stretch-card grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title mb-0">Response from my students</p>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="myTable table table-striped table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Course</th>
+                                    <th>Title</th>
+                                    <th></th>
+                                    <th>Validation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while($row = $callSubmissions->fetch_object()):
+                                    $status = $row->status;
+                                    include "includes/status_const.php";
+                                    ?>
+                                <tr>
+                                    <td><?= $row->name; ?></td>
+                                    <td><?= $row->course; ?>[<?= $row->course_code;?>]</td>
+                                    <td><?= $row->title; ?></td>
+                                    <td><a href="course_material/<?= $row->file; ?>">View</a></td>
+                                    <td>
+                                        <?php if($row->status == 0): ?>
+                                        <form action="<?= $add_course; ?>" method="get" onsubmit="return valRes(this)">
+                                            <input type="hidden" name="val_res" value="<?= $row->id; ?>">
+                                            <button type="submit" class="btn-sm btn-info"><i class="mdi mdi-check"
+                                                    style="font-size:15px;"></i></button>
+                                        </form>
+                                        <?php else: ?>
+                                        <p><?= $status_syntax; ?></p>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

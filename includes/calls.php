@@ -100,7 +100,8 @@ $worker = [1,2,3,4,5,6,7];
 
 /**Courses Staff*/
 $callCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
-$callMaterial = $conn->query("SELECT * FROM $course_material_tbl WHERE token='$token' AND term='$log_term'");
+$callMaterial = $conn->query("SELECT * FROM $course_material_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
+$callSubmissions = $conn->query("SELECT * FROM $submissions_tbl WHERE teacher_token='$token' AND term='$log_term' AND session='$log_session'");
 $created_course_count = $callCourses->num_rows;
 $selCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");
 while($courseList = $selCourses->fetch_object()){
@@ -194,9 +195,11 @@ if($admin_det->result_template == 1){
 $myBill = $conn->query("SELECT * FROM $bill_tbl WHERE (userId='$userId' AND term='$log_term' AND session='$log_session')");
 $mb = $myBill->fetch_object();
 /**My course materials */
-$myCourseMat = $conn->query("SELECT * FROM $course_material_tbl WHERE (term='$log_term' AND class='$curr_class') AND (category='Lesson note' OR category='Document')");
+$myCourseMat = $conn->query("SELECT * FROM $course_material_tbl WHERE (term='$log_term' AND session='$log_session' AND  class='$curr_class') AND (category='Lesson note' OR category='Document')");
 /**My Syllabus */
-$myCourseMat = $conn->query("SELECT * FROM $course_material_tbl WHERE (term='$log_term' AND class='$curr_class' AND category='Syllabus')");
-
+$mySyllabus = $conn->query("SELECT * FROM $course_material_tbl WHERE (term='$log_term' AND session='$log_session' AND class='$curr_class' AND category='Syllabus')");
+/**My Submissions */
+$mySubmissions = $conn->query("SELECT * FROM $submissions_tbl WHERE (term='$log_term' AND session='$log_session' AND class='$curr_class')");
+$matTitle = $conn->query("SELECT * FROM $course_material_tbl WHERE (term='$log_term' AND session='$log_session' AND  class='$curr_class') AND (category='Lesson note' OR category='Document')");
 
 ?>

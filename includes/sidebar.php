@@ -294,7 +294,7 @@
                 <div class="collapse" id="profile">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="bio">BIO-DATA</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="document">Documents</a>
+                        <li class="nav-item"> <a class="nav-link" href="#">Documents</a>
                         </li>
                     </ul>
                 </div>
@@ -320,7 +320,7 @@
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"><a class="nav-link" href="syllabus">Syllabus</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="course_materials">Course
+                        <li class="nav-item"><a class="nav-link" href="course_materials?material_table">Course
                                 materials</a>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="e_exam">E-exam</a>
