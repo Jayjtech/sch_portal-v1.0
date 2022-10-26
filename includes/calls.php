@@ -31,6 +31,7 @@ switch($log_term){
         $term_syntax = "Third";
         break;
 }
+
 $callSession = $conn->query("SELECT * FROM $session_tbl ORDER BY session ASC");
 $callClass = $conn->query("SELECT * FROM $class_tbl ORDER BY id ASC");
 while($caClass = $callClass->fetch_object()){
@@ -97,6 +98,7 @@ $adminLevel1 = [1];
 $adminLevel2 = [1,2,3,4];
 $bursar = [1,6,7];
 $worker = [1,2,3,4,5,6,7];
+
 
 /**Courses Staff*/
 $callCourses = $conn->query("SELECT * FROM $course_tbl WHERE token='$token' AND term='$log_term' AND session='$log_session'");

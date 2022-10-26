@@ -2,7 +2,7 @@
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
 <?php include "includes/edit_calls.php"; ?>
-<?php if(!in_array($det->position, $adminLevel1)): ?>
+<?php if(!in_array($det->position, $adminLevel2)): ?>
 <script>
 window.location.href = "login?msg=Access denied!&msg_type=error"
 </script>
@@ -53,8 +53,13 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     <td><?= $row->class_officiating; ?></td>
                                     <td><?= $POD; ?></td>
                                     <td>
+                                        <?php if($row->position != 1){ ?>
                                         <a href="adm_staff?pod=<?= htmlspecialchars($row->token); ?>"
                                             class="btn-sm btn-primary"><i class="mdi mdi-pen"></i> Review </a>
+                                        <?php }else if($det->position == 1 && $row->position == 1){ ?>
+                                        <a href="adm_staff?pod=<?= htmlspecialchars($row->token); ?>"
+                                            class="btn-sm btn-primary"><i class="mdi mdi-pen"></i> Review </a>
+                                        <?php } ?>
                                     </td>
                                 </tr>
                                 <?php endwhile; ?>
@@ -87,6 +92,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                             </div>
                             <input type="hidden" name="token" value="<?= $edS->token?>">
                             <input type="hidden" name="review_staff" value="1">
+                            <?php if(in_array($det->position, $adminLevel1)): ?>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">Post of Duty</label>
@@ -103,6 +109,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     </select>
                                 </div>
                             </div>
+                            <?php endif; ?>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">Password</label>
@@ -117,6 +124,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     </div>
                                 </div>
                             </div>
+                            <?php if(in_array($det->position, $adminLevel1)): ?>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">Level</label>
@@ -128,6 +136,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     </select>
                                 </div>
                             </div>
+                            <?php endif; ?>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">Class Officiating</label>

@@ -2,7 +2,7 @@
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
 <?php include "includes/edit_calls.php"; ?>
-<?php if(!in_array($det->position, $bursar)): ?>
+<?php if(!in_array($det->position, $adminLevel2)): ?>
 <script>
 window.location.href = "login?msg=Access denied!&msg_type=error"
 </script>
@@ -144,12 +144,13 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                         </div>
 
                         <hr>
+                        <?php if(in_array($det->position, $adminLevel1)): ?>
                         <div class="mt-2 mb-3 navigator">
                             <a class="btn btn-light" onclick="openBills();"><i class="mdi mdi-receipt"></i> Click to
                                 view
                                 student's bills</a>
                         </div>
-
+                        <?php endif; ?>
                         <div class="container bill-container">
                             <p class="text-uppercase text-info">BILLS</p>
                             <div class="row">

@@ -65,7 +65,7 @@ $compulsoryFee = $conn->query("SELECT * FROM $bill_setting_tbl");
             </div>
         </div>
     </div>
-
+    <?php if(in_array($det->position, $adminLevel2)): ?>
     <div class="row">
         <div class="col-md-6 stretch-card grid-margin">
             <div class="card">
@@ -128,6 +128,7 @@ $compulsoryFee = $conn->query("SELECT * FROM $bill_setting_tbl");
             </div>
         </div>
     </div>
+    <?php endif; ?>
     <?php endif; ?>
 
     <?php if(isset($_GET['set_compulsory_fee']) == true):?>

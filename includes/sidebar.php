@@ -216,14 +216,14 @@
                 </a>
                 <div class="collapse" id="users">
                     <ul class="nav flex-column sub-menu">
-                        <?php if(in_array($det->position, $bursar)): ?>
+                        <?php if(in_array($det->position, $adminLevel2)): ?>
                         <li class="nav-item"> <a class="nav-link" href="adm_students">Review students</a></li>
                         <?php endif; ?>
 
-                        <?php if(in_array($det->position, $adminLevel1)): ?>
+                        <?php if(in_array($det->position, $adminLevel2)): ?>
                         <li class="nav-item"> <a class="nav-link" href="adm_staff">Review staff</a></li>
                         <?php endif; ?>
-                        <li class="nav-item"> <a class="nav-link" href="adm_awards">Award Student</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="#">Award Student</a></li>
                     </ul>
                 </div>
             </li>

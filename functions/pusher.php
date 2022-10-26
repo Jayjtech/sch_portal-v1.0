@@ -45,15 +45,30 @@
 
 
     if(isset($_POST['review_staff'])){
+        $token = mysqli_real_escape_string($conn, $_POST['token']);
+        $getUser = $conn->query("SELECT * FROM $users_tbl WHERE token = '$token'");
+        $user_det = $getUser->fetch_object();
+
+
         $name = mysqli_real_escape_string($conn, $_POST['name']);
         $class_officiating = mysqli_real_escape_string($conn, $_POST['class_officiating']);
         $privileges = mysqli_real_escape_string($conn, $_POST['privileges']);
-        $position = mysqli_real_escape_string($conn, $_POST['position']);
-        $token = mysqli_real_escape_string($conn, $_POST['token']);
+
+        if($_POST['position']){
+            $position = mysqli_real_escape_string($conn, $_POST['position']);
+        }else{
+            $position = $user_det->position;
+        }
+
+         if($_POST['level']){
+            $staff_level = mysqli_real_escape_string($conn, $_POST['level']);
+        }else{
+            $staff_level = $user_det->level;
+        }
+        
         $code_d = mysqli_real_escape_string($conn, $_POST['code_d']);
         $hashed_password = substr(md5($code_d), 4);
         $code_d = base64_encode($code_d);
-        $staff_level = mysqli_real_escape_string($conn, $_POST['level']);
 
         $getSalary = $conn->query("SELECT * FROM $staff_level_tbl WHERE level = '$staff_level'");
         $sal = $getSalary->fetch_object();
