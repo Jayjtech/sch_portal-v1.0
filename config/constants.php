@@ -4,7 +4,6 @@ define("DB_HOST", "localhost");
 define("DB_USER", "root");
 define("DB_PASS", "");
 define("BASE_URL", "http://localhost/sch_portal-v1.0");
-
 $date = date("d-m-Y");
 $day = date("d");
 $month = date("m");

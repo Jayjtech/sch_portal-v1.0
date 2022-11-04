@@ -44,7 +44,7 @@
                                     }
                                     ?>
                                 <?php 
-                                    $selectUpload = $conn->query("SELECT * FROM $question_tbl_a WHERE (course_code='$cCode' AND session='$log_session' AND quest_type='Ass' AND token='$teacher_token') LIMIT 1");
+                                    $selectUpload = $conn->query("SELECT * FROM $question_tbl_a WHERE (course_code='$cCode' AND session='$log_session' AND quest_type='Ass' AND token='$teacher_token' AND class='$curr_class') LIMIT 1");
                                     while($sel = $selectUpload->fetch_object()){ 
                                         $quest_id = $sel->quest_id;
                                         /**Checking if test has been taken */
@@ -96,7 +96,7 @@
                                 </tr>
                                 <?php } ?>
                                 <?php 
-                                    $selectUpload = $conn->query("SELECT * FROM $question_tbl_a WHERE (course_code='$cCode' AND session='$log_session' AND quest_type='Test' AND token='$teacher_token') LIMIT 1");
+                                    $selectUpload = $conn->query("SELECT * FROM $question_tbl_a WHERE (course_code='$cCode' AND session='$log_session' AND quest_type='Test' AND token='$teacher_token' AND class='$curr_class') LIMIT 1");
                                     while($sel = $selectUpload->fetch_object()){ 
                                         $quest_id = $sel->quest_id;
                                         // $teacher_token = $row->token;
@@ -147,7 +147,7 @@
                                 </tr>
                                 <?php } ?>
                                 <?php 
-                                    $selectUpload = $conn->query("SELECT * FROM $question_tbl_a WHERE (course_code='$cCode' AND session='$log_session' AND quest_type='Exam' AND token='$teacher_token') LIMIT 1");
+                                    $selectUpload = $conn->query("SELECT * FROM $question_tbl_a WHERE (course_code='$cCode' AND session='$log_session' AND quest_type='Exam' AND token='$teacher_token' AND class='$curr_class') LIMIT 1");
                                     while($sel = $selectUpload->fetch_object()){ 
                                         $quest_id = $sel->quest_id;
                                         // $teacher_token = $row->token;

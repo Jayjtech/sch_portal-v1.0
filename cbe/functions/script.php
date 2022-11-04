@@ -1,9 +1,9 @@
-<script type="text/javascript">
-const instructions = JSON.parse('<?= $instructions_json;?>')
+<script>
+const instructions = JSON.parse('<?= $instructions_json;?>');
 const examDetails = JSON.parse('<?= $exam_detail; ?>');
 const questions = JSON.parse('<?= $output; ?>');
 const passageText = `<?= $passage; ?>`;
-const taggedQuestions = JSON.parse(`<?= $tagged_questions; ?>`);
+
 const startBtn = document.querySelector("#start-btn");
 const reportForm = document.querySelector("#reportForm");
 const mainEl = document.querySelector(".main-container");
@@ -34,6 +34,13 @@ let score = []
 let minLeft = 0;
 let newScore = 0
 let durationVal = examDetails.duration;
+
+/**Checking if there is any tagged question*/
+let taggQ = '<?= $tagged_questions; ?>';
+let taggedQuestions = [];
+if (taggQ == true) {
+    taggedQuestions = JSON.parse(`<?= $tagged_questions; ?>`);
+}
 
 
 

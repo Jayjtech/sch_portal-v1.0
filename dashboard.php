@@ -546,7 +546,7 @@ function getWalletBal() {
 getWalletBal();
 setInterval(function() {
     getWalletBal();
-}, 1000);
+}, 10000);
 </script>
 
 <?php include "includes/footer.php"; ?>
