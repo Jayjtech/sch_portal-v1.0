@@ -1,5 +1,9 @@
 <?php
 include "config/db.php";
 session_destroy();
-header('location:login');
 ?>
+
+<script>
+localStorage.clear();
+window.location.href = "login";
+</script>

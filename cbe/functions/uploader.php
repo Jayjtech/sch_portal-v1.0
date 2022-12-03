@@ -2,7 +2,7 @@
 include "../../config/db.php";
 include "../../includes/calls.php";
 try{
-if(isset($_POST['exam_unit'])){
+if(isset($_POST['pushCourse'])){
     $course_code = mysqli_real_escape_string($conn, $_POST['course_code']);
     $course = mysqli_real_escape_string($conn, $_POST['course']);
     $exam_unit = mysqli_real_escape_string($conn, $_POST['exam_unit']);
@@ -105,6 +105,107 @@ if(isset($_POST['exam_unit'])){
             }
     }
     header('location: ../../create_course?index');
+}
+
+if(isset($_POST['reviewCourse'])){
+    $course_code = mysqli_real_escape_string($conn, $_POST['course_code']);
+    $course = mysqli_real_escape_string($conn, $_POST['course']);
+    $exam_unit = mysqli_real_escape_string($conn, $_POST['exam_unit']);
+    $test_unit = mysqli_real_escape_string($conn, $_POST['test_unit']);
+    $ass_unit = mysqli_real_escape_string($conn, $_POST['ass_unit']);
+    $exam_duration = mysqli_real_escape_string($conn, $_POST['exam_duration']);
+    $test_duration = mysqli_real_escape_string($conn, $_POST['test_duration']);
+    $ass_duration = mysqli_real_escape_string($conn, $_POST['ass_duration']);
+    $ass_no_of_quest = mysqli_real_escape_string($conn, $_POST['ass_no_of_quest']); 
+    $test_no_of_quest = mysqli_real_escape_string($conn, $_POST['test_no_of_quest']); 
+    $exam_no_of_quest = mysqli_real_escape_string($conn, $_POST['exam_no_of_quest']); 
+    $department = mysqli_real_escape_string($conn, $_POST['department']); 
+    $sch_category = mysqli_real_escape_string($conn, $_POST['sch_category']); 
+    
+    $classNo = substr($course_code, 3, 1);
+    $term = substr($course_code, 5, 1);
+
+    if(in_array($sch_category,$secondarySchArray)){
+        switch($classNo){
+                case 1;
+                $class = "JSS-1";
+                break;
+                case 2;
+                $class = "JSS-2";
+                break;
+                case 3;
+                $class = "JSS-3";
+                break;
+                case 4;
+                $class = "SSS-1";
+                break;
+                case 5;
+                $class = "SSS-2";
+                break;
+                case 6;
+                $class = "SSS-3";
+                break;
+            }
+    }else if(in_array($sch_category,$primarySchArray)){
+        switch($classNo){
+                case 1;
+                $class = "NUR-2[Book-1]";
+                break;
+                case 2;
+                $class = "PRY-1[Book-2]";
+                break;
+                case 3;
+                $class = "PRY-2[Book-3]";
+                break;
+                case 4;
+                $class = "PRY-3[Book-4]";
+                break;
+                case 5;
+                $class = "PRY-4[Book-5]";
+                break;
+                case 6;
+                $class = "PRY-5[Book-6]";
+                break;
+            }
+    }
+
+    // echo $class.'<br>';
+    // echo $term;
+    // exit();
+    /**CHECK */
+    $check = $conn->query("SELECT * FROM $score_tbl WHERE (course_code ='$course_code' AND teacher_token='$token' AND sch_category='$sch_category' AND session='$log_session')");
+    if($check->num_rows > 0){
+        $_SESSION['message'] = "Some students already registered this course!";
+        $_SESSION['msg_type'] = "warning";
+        $_SESSION['remedy'] = "You can delete and recreate the course.";
+    }else{
+        $update = $conn->query("UPDATE $course_tbl SET
+                            course = '$course',
+                            sch_category = '$sch_category',
+                            ass_no_of_quest = '$ass_no_of_quest',
+                            test_no_of_quest = '$test_no_of_quest',
+                            exam_no_of_quest = '$exam_no_of_quest',
+                            exam_unit = '$exam_unit',
+                            test_unit = '$test_unit',
+                            ass_unit = '$ass_unit',
+                            exam_duration = '$exam_duration',
+                            test_duration = '$test_duration',
+                            ass_duration = '$ass_duration',
+                            department = '$department'
+                            WHERE course_code = '$course_code'
+                            AND token = '$token'
+                            ");
+            if($update){
+                $_SESSION['message'] = "Course has been successfully updated!";
+                $_SESSION['msg_type'] = "success";
+                $_SESSION['remedy'] = "";
+            }else{
+                $_SESSION['message'] = "An error occurred the process!";
+                $_SESSION['msg_type'] = "error";
+                $_SESSION['remedy'] = "Try again later";
+            }
+        }
+    header('location: ../../create_course?index='.$course_code.'&sch_category='.$sch_category.'');
 }
 
 
@@ -1182,6 +1283,61 @@ if(isset($_GET['val_res'])){
         $_SESSION['remedy'] = '';
     }
      header("location: ../../create_course?course_material");
+}
+
+if(isset($_POST['set_to_public'])){
+    $course_code = $_POST['course_code'];
+    $course_details = json_decode(base64_decode($course_code));
+    $course_code = $course_details->course_code;
+    $sch_category = $course_details->sch_category;
+
+    $update = $conn->query("UPDATE $score_tbl SET public = '1' 
+    WHERE course_code = '$course_code'
+    AND teacher_token = '$token'
+    AND sch_category = '$sch_category'
+     ");
+
+     if($update){
+        $_SESSION['message'] = 'Exam tokens have successfully been set to public!';
+        $_SESSION['msg_type'] = 'success';
+        $_SESSION['remedy'] = 'Students can now see the exam token!';
+     }else{
+        $_SESSION['message'] = 'An error occurred during the process!';
+        $_SESSION['msg_type'] = 'error';
+        $_SESSION['remedy'] = '';
+     }
+     header("location: ../../adm_enrolment_list?index");
+}
+
+
+if(isset($_GET['changeExamStatus'])){
+    $adm_no = $_GET['changeExamStatus'];
+    $tokenStatus = $_GET['status'];
+    $course_code = $_GET['course_code'];
+
+    if($tokenStatus == 0){
+        $newStatus = 1;
+    }else{
+        $newStatus = 0;
+    }
+
+    $check = $conn->query("SELECT * FROM $score_tbl WHERE adm_no='$adm_no'");
+    if($check->num_rows == 0){
+        $_SESSION['message'] = 'Invalid request!';
+        $_SESSION['msg_type'] = 'warning';
+        $_SESSION['remedy'] = '';
+    }else{
+        $update = $conn->query("UPDATE $score_tbl SET public = '$newStatus' 
+            WHERE course_code = '$course_code'
+            AND teacher_token = '$token'
+            AND adm_no = '$adm_no'
+            ");
+
+        $_SESSION['message'] = 'Exam token status successfully updated!';
+        $_SESSION['msg_type'] = 'success';
+        $_SESSION['remedy'] = '';
+    }
+    header("location: ../../adm_enrolment_list?index");
 }
 
 

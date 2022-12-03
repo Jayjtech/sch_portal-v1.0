@@ -242,6 +242,8 @@
                         <li class="nav-item"> <a class="nav-link" href="adm_exam?enrolment_list">Exam setting</a></li>
                         <?php endif; ?>
                         <li class="nav-item"> <a class="nav-link" href="create_course?index">Create course</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="adm_enrolment_list?index">Enrolment list</a>
+                        </li>
                         <li class="nav-item"> <a class="nav-link" href="adm_upload_score">Upload score</a></li>
                         <li class="nav-item"> <a class="nav-link" href="adm_upload_comment">Upload comment</a></li>
                     </ul>

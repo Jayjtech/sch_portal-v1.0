@@ -38,7 +38,7 @@ if(isset($_POST['examDet'])){
         $save = $conn->query("UPDATE $score_tbl SET
                     minLeft = '$minLeft',
                     score = '$current_score',
-                    answeredQuestions = '$answered_quest',
+                    -- answeredQuestions = '$answered_quest',
                     duration = '$duration',
                     day = '$day',
                     status = '1',
@@ -70,11 +70,13 @@ if(isset($_POST['examDet'])){
                             ");
     }
 
-    $record = $conn->query("INSERT INTO $cbe_report_tbl SET 
+    
+    if($save){
+        $record = $conn->query("INSERT INTO $cbe_report_tbl SET 
                         adm_no = '$adm_no',
                         test_taken = '$quest_id'
                             ");
-    if($save){
+                            
         $_SESSION['message'] = "Exam submitted successfully!";
         $_SESSION['msg_type'] = "success";
         $_SESSION['remedy'] = "";

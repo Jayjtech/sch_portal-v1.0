@@ -98,6 +98,7 @@
                                     <td>
                                         <form name="enrolC" action="<?= $enrolCourse; ?>" method="GET"
                                             onsubmit="return enrolCourse(this)">
+                                            <input type="hidden" name="sch_category" value="<?= $row->sch_category; ?>">
                                             <input type="hidden" name="course_code" value="<?= $row->course_code; ?>">
                                             <input type="hidden" name="course" value="<?= $row->course; ?>">
                                             <input type="hidden" name="teacher_token" value="<?= $row->token; ?>">

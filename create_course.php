@@ -1,6 +1,7 @@
 <?php include "includes/header.php"; ?>
 <?php include "includes/navbar.php"; ?>
 <?php include "includes/sidebar.php"; ?>
+<?php include "includes/edit_calls.php"; ?>
 <?php if(!in_array($det->position, $worker)): ?>
 <script>
 window.location.href = "login?msg=Access denied!&msg_type=error"
@@ -25,18 +26,29 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                         <table class="myTable table table-striped table-borderless">
                             <thead>
                                 <tr>
+                                    <th></th>
+                                    <th></th>
                                     <th>Course</th>
                                     <th>Class</th>
                                     <th>No. of Question[Exam|Test|Ass]</th>
                                     <th>Duration[Exam|Test|Ass.]</th>
                                     <th>Mark[Exam|Test|Ass.]</th>
                                     <th>Session</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php while($row = $callCourses->fetch_object()):?>
                                 <tr>
+                                    <td>
+                                        <form action="<?= $course_deleter; ?>" method="GET"
+                                            onsubmit="return delForm(this);">
+                                            <input type="hidden" name="del" value="<?= $row->id; ?>">
+                                            <button type="submit" class="btn-sm btn-danger"><i class="mdi mdi-delete"
+                                                    style="font-size:15px;"></i></button>
+                                        </form>
+                                    </td>
+                                    <td><a href="?index=<?= $row->course_code; ?>&sch_category=<?= $row->sch_category; ?>"
+                                            class="btn-sm btn-primary">Review</a></td>
                                     <td><?= $row->course; ?>[<?= $row->course_code;?>]</td>
                                     <td><?= $row->class; ?></td>
                                     <td>Exam: <?= $row->exam_no_of_quest; ?> | Test: <?= $row->test_no_of_quest; ?> |
@@ -47,15 +59,6 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     <td>Exam: <?= $row->exam_unit; ?> | Test: <?= $row->test_unit; ?> |
                                         Ass: <?= $row->ass_unit; ?></td>
                                     <td><?= $row->session; ?></td>
-
-                                    <td>
-                                        <form action="<?= $course_deleter; ?>" method="GET"
-                                            onsubmit="return delForm(this);">
-                                            <input type="hidden" name="del" value="<?= $row->id; ?>">
-                                            <button type="submit" class="btn-sm btn-danger"><i class="mdi mdi-delete"
-                                                    style="font-size:15px;"></i></button>
-                                        </form>
-                                    </td>
                                 </tr>
                                 <?php endwhile; ?>
                             </tbody>
@@ -89,7 +92,8 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="exampleInputUsername1">Course[Subject] title</label>
-                                    <input type="text" class="form-control" id="course" name="course" required
+                                    <input type="text" class="form-control" id="course" name="course"
+                                        value="<?= !empty($courseDet->course) ? $courseDet->course:null; ?>" required
                                         placeholder="Enter course title">
                                 </div>
                             </div>
@@ -98,7 +102,9 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     <label for="exampleInputEmail1">Course code</label> <span class="cCA text-danger"
                                         style="display:none;"><small>No space; no symbol; 6 characters e.g MAT101
                                         </small></span>
-                                    <input type="text" class="form-control" id="course_code" name="course_code" required
+                                    <input type="text" class="form-control"
+                                        value="<?= !empty($courseDet->course_code) ? $courseDet->course_code:null; ?>"
+                                        id="course_code" name="course_code" required <?= $readonly;?>
                                         placeholder="Enter course code">
                                 </div>
                             </div>
@@ -108,7 +114,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     <label for="exampleInputEmail1">School category</label>
                                     <select name="sch_category" id="sch_category" class="form-control sch_category"
                                         required>
-                                        <option value="">School category</option>
+                                        <option value="<?= $sch_catValue; ?>"><?= $sch_cat;?></option>
                                         <option value="Senior-School">Senior School</option>
                                         <option value="Junior-School">Junior School</option>
                                         <option value="Primary-School">Primary School</option>
@@ -120,7 +126,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Department</label>
                                     <select name="department" id="department" class="form-control" required>
-                                        <option value="">Choose department</option>
+                                        <option value="<?= $departValue; ?>"><?= $departM; ?></option>
                                         <option value="Non">Non</option>
                                         <option value="General">General</option>
                                         <option value="Art">Art</option>
@@ -137,7 +143,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                         <div class="col-4">
                                             <select name="ass_no_of_quest" id="ass_no_of_quest" class="form-control"
                                                 required>
-                                                <option value="">Ass</option>
+                                                <option value="<?= $assValue; ?>"><?= $ass; ?></option>
                                                 <option value="5">5</option>
                                                 <option value="10">10</option>
                                                 <option value="20">20</option>
@@ -154,7 +160,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                         <div class="col-4">
                                             <select name="test_no_of_quest" id="test_no_of_quest" class="form-control"
                                                 required>
-                                                <option value="">Test</option>
+                                                <option value="<?= $testValue; ?>"><?= $test; ?></option>
                                                 <option value="5">5</option>
                                                 <option value="10">10</option>
                                                 <option value="20">20</option>
@@ -171,7 +177,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                         <div class="col-4">
                                             <select name="exam_no_of_quest" id="exam_no_of_quest" class="form-control"
                                                 required>
-                                                <option value="">Exam</option>
+                                                <option value="<?= $examValue; ?>"><?= $exam; ?></option>
                                                 <option value="5">5</option>
                                                 <option value="10">10</option>
                                                 <option value="20">20</option>
@@ -195,17 +201,23 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     <div class="row">
                                         <div class="col-4">
                                             <input type="number" class="form-control" id="ass_unit" min="1"
-                                                name="ass_unit" placeholder="Ass" required>
+                                                name="ass_unit"
+                                                value="<?= !empty($courseDet->ass_unit) ? $courseDet->ass_unit:null; ?>"
+                                                placeholder="Ass" required>
                                         </div>
 
                                         <div class="col-4">
                                             <input type="number" class="form-control" id="test_unit" min="1"
-                                                name="test_unit" placeholder="Test" required>
+                                                name="test_unit"
+                                                value="<?= !empty($courseDet->test_unit) ? $courseDet->test_unit:null; ?>"
+                                                placeholder="Test" required>
                                         </div>
 
                                         <div class="col-4">
                                             <input type="number" class="form-control" id="exam_unit" min="1"
-                                                name="exam_unit" placeholder="Exam" required>
+                                                name="exam_unit"
+                                                value="<?= !empty($courseDet->exam_unit) ? $courseDet->exam_unit:null; ?>"
+                                                placeholder="Exam" required>
                                         </div>
                                     </div>
                                 </div>
@@ -217,22 +229,31 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     <div class="row">
                                         <div class="col-4">
                                             <input type="number" class="form-control" id="ass_duration" min="3"
-                                                name="ass_duration" placeholder="Ass" required>
+                                                name="ass_duration"
+                                                value="<?= !empty($courseDet->ass_duration) ? $courseDet->ass_duration:null; ?>"
+                                                placeholder="Ass" required>
                                         </div>
                                         <div class="col-4">
                                             <input type="number" class="form-control" id="test_duration" min="3"
-                                                name="test_duration" placeholder="Test" required>
+                                                name="test_duration"
+                                                value="<?= !empty($courseDet->test_duration) ? $courseDet->test_duration:null; ?>"
+                                                placeholder="Test" required>
                                         </div>
                                         <div class="col-4">
                                             <input type="number" class="form-control" id="exam_duration" min="3"
-                                                name="exam_duration" placeholder="Exam" required>
+                                                name="exam_duration"
+                                                value="<?= !empty($courseDet->exam_duration) ? $courseDet->exam_duration:null; ?>"
+                                                placeholder="Exam" required>
                                         </div>
+                                        <input type="hidden" name="<?= $revCourseQuery; ?>">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- <input type="submit" class="btn btn-primary mr-2" name="pushCourse" value="Submit"> -->
-                        <button type="submit" class="btn btn-primary mr-2" name="pushCourse">Submit</button>
+                        <div class="" align="right">
+                            <button type="submit" class="btn btn-primary mr-2"> <?= $revCourseTag; ?></button>
+                        </div>
+
                     </form>
                 </div>
             </div>

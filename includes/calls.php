@@ -135,7 +135,7 @@ $callTimeTable = $conn->query("SELECT * FROM $time_tbl WHERE (term='$log_term' A
 
 if($det->position == 5){
     /**Teacher */
-    $callEnrolmentList = $conn->query("SELECT * FROM $score_tbl WHERE (class = '$class_officiating' AND term='$log_term' AND session = '$log_session')");
+    $callEnrolmentList = $conn->query("SELECT * FROM $score_tbl WHERE (teacher_token = '$token' AND term='$log_term' AND session = '$log_session')");
 }else{
     $callEnrolmentList = $conn->query("SELECT * FROM $score_tbl WHERE (term='$log_term' AND session = '$log_session')");
 }
@@ -204,4 +204,16 @@ $mySyllabus = $conn->query("SELECT * FROM $course_material_tbl WHERE (term='$log
 $mySubmissions = $conn->query("SELECT * FROM $submissions_tbl WHERE (term='$log_term' AND session='$log_session' AND class='$curr_class')");
 $matTitle = $conn->query("SELECT * FROM $course_material_tbl WHERE (term='$log_term' AND session='$log_session' AND  class='$curr_class') AND (category='Lesson note' OR category='Document')");
 
+//DELETE QUERIES
+$conn->query("DELETE FROM $score_tbl WHERE adm_no=''");
+$conn->query("DELETE FROM $users_tbl WHERE userId=''");
+
+//Logout when session expires
+if(!$userId){
+    ?>
+<script type="text/javascript">
+window.location.href = "<?= BASE_URL; ?>";
+</script>
+<?php
+}
 ?>

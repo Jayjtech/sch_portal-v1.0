@@ -31,6 +31,7 @@ $("form#testProceed").on("submit", function(e){
             dangerMode: false
             })
             if(swalResponse[0].icon === "success"){
+                localStorage.clear();
                 window.location.href = `./cbe/test`
             }
         });

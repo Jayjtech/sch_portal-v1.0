@@ -103,7 +103,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     </td>
                                     <td>[ <?= $enr->ass; ?> ] + [ <?= $enr->ca1; ?> ] + [ <?= $enr->ca2; ?> ] + [
                                         <?= $enr->ca3; ?> ] + [
-                                        <?= $enr->exam; ?> ]
+                                        <?= !empty($enr->exam) ? :$enr->score; ?> ]
                                         [ <?= $enr->total; ?> ]</td>
                                     <td><?= $enr->exam_token; ?></td>
                                     <td><?= $enr->paper_type; ?></td>

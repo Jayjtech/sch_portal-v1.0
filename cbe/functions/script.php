@@ -1,7 +1,7 @@
 <script>
 const instructions = JSON.parse('<?= $instructions_json;?>');
 const examDetails = JSON.parse('<?= $exam_detail; ?>');
-const questions = JSON.parse('<?= $output; ?>');
+const questions = JSON.parse(`<?= $output; ?>`);
 const passageText = `<?= $passage; ?>`;
 
 const startBtn = document.querySelector("#start-btn");
@@ -108,6 +108,7 @@ let selectAns = (chosenOpt) => {
         answeredQuestions[questNo] = answeredStorage
         score.push(newScore)
     }
+    console.log(<?= $unit; ?>)
     /**Clear navigator container */
     answeredEl.innerHTML = ""
 

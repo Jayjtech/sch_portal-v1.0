@@ -44,6 +44,7 @@ if(isset($_POST['quest_type'])){
 
     if($quest_type == "Exam"){
         header('location:../../test_proceed');
+        // header('location:../test');
     }else{
         header('location:../test');
     }

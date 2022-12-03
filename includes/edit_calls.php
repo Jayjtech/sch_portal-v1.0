@@ -7,6 +7,20 @@ $assign_class = "Assign Class";
 $curr_class = "Change Class";
 $award_val = "Give award";
 $award = "";
+// Review course parameters:
+$sch_catValue = "";
+$departValue = "";
+$assValue = "";
+$ass = "Ass";
+$test = "Test";
+$testValue = "";
+$exam = "Exam";
+$examValue = "";
+$departM = "Choose department";
+$sch_cat = "School category";
+$revCourseQuery = "pushCourse";
+$revCourseTag = "Save";
+$readonly = "";
 /**REVIEW STAFF */
 if(isset($_GET['pod'])){
     $token = mysqli_real_escape_string($conn,$_GET['pod']);
@@ -101,6 +115,22 @@ if(isset($_GET['rev'])){
     $bil = $selectBills->fetch_object();
 }
 
+/**REVIEW COURSE */
+if(isset($_GET['index']) && isset($_GET['sch_category'])){
+    $course_code = $_GET['index'];
+    $sch_category = $_GET['sch_category'];
+    $courseDetails = $conn->query("SELECT * FROM $course_tbl WHERE (token = '$token' AND sch_category='$sch_category' AND course_code= '$course_code' AND term='$log_term' AND session='$log_session')");
+    $courseDet = $courseDetails->fetch_object();
+    $sch_catValue = $sch_cat = $courseDet->sch_category;
+    $departValue = $departM = $courseDet->department;
+    $assValue = $ass = $courseDet->ass_no_of_quest;
+    $testValue = $test = $courseDet->test_no_of_quest;
+    $examValue = $exam = $courseDet->exam_no_of_quest;
+    $revCourseQuery = "reviewCourse";
+    $revCourseTag = "Update";
+    $readonly = "readonly";
+}
+
 
 /**SORT STUDENT BILLS */
 if(isset($_GET['sort_bill'])){
@@ -125,4 +155,6 @@ if(isset($_GET['cash_funding'])){
     $getStudent = $conn->query("SELECT * FROM $users_tbl WHERE (userId = '$adm_no')");
     $userDet = $getStudent->fetch_object();
 }
+
+
 ?>
