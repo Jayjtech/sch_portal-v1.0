@@ -149,6 +149,7 @@ $callEvaluation = $conn->query("SELECT * FROM $evaluation_tbl WHERE (term='$log_
 }
 /**Bills */
 $callBills = $conn->query("SELECT * FROM $bill_tbl WHERE (term='$log_term' AND session = '$log_session') ORDER BY compulsory_total ASC");
+$clearBills = $conn->query("SELECT * FROM $clearance_tbl WHERE (term='$log_term' AND session = '$log_session')");
 $compulsoryBillSettings = $conn->query("SELECT * FROM $bill_setting_tbl WHERE status=1");
 $actualBillSettings = $conn->query("SELECT * FROM $bill_setting_tbl WHERE status=0");
 $getTotalCompulsoryBill = $conn->query("SELECT sum(compulsory_total) as comp_total FROM $bill_tbl WHERE (term='$log_term' AND session='$log_session')");
@@ -209,7 +210,7 @@ $conn->query("DELETE FROM $score_tbl WHERE adm_no=''");
 $conn->query("DELETE FROM $users_tbl WHERE userId=''");
 
 //Logout when session expires
-if(!$userId){
+if(!$userId || !$log_session || !$log_term){
     ?>
 <script type="text/javascript">
 window.location.href = "<?= BASE_URL; ?>";

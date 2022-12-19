@@ -216,6 +216,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     $st_privileges = $row->privileges;
                                     $given_month = false;
                                     $status = false;
+                                    $your_term = false;
                                     include "includes/status_const.php";
                                         $staff_bnk = json_decode($row->bank_details);
                                         
@@ -315,6 +316,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                         $period = explode("-", $dis->payment_month);
                                         $given_month = $period[1];
                                         $status = $dis->status;
+                                        $your_term = false;
                                         include "includes/status_const.php";
                                     ?>
                                 <tr>
@@ -372,6 +374,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                         <?php for($i = 0; $i<count($payRData); $i++){
                                             $period = explode("-", $payRData[$i]->month);
                                             $given_month = $period[1];
+                                            $your_term = false;
                                            include "includes/status_const.php";
                                             ?>
                                         <option value="<?= $payRData[$i]->disbursement_id; ?>">

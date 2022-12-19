@@ -266,6 +266,7 @@
                                 payment</a></li>
                         <li class="nav-item"> <a class="nav-link" href="adm_expenses?table">Expenses</a></li>
                         <li class="nav-item"> <a class="nav-link" href="adm_revenue?revenue">Student bills</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="adm_clearance?index">Clearance</a></li>
                         <li class="nav-item"> <a class="nav-link" href="adm_loan_approval?approve_loan">Loan
                                 Approval</a></li>
 

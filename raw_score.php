@@ -59,32 +59,34 @@
                             </thead>
                             <tbody>
                                 <?php while($row = $callResultPins->fetch_object()):
-                                    switch($row->term){
-                                        case 1:
-                                            $t_syntax = "First Term";
-                                            break;
-                                        case 2:
-                                            $t_syntax = "Second Term";
-                                            break;
-                                        case 3:
-                                            $t_syntax = "Third Term";
-                                            break;
-                                    }
+                                    $your_term = $row->term;
+                                    include "includes/status_const.php";
                                     $bil_term = $row->term;
                                     $bil_session = $row->session;
                                     $curr_sess_bill_report = $conn->query("SELECT * FROM $bill_report_tbl 
                         WHERE (adm_no = '$userId' AND term='$bil_term' AND session ='$bil_session') ORDER BY id DESC LIMIT 1");
                         $BILL = $curr_sess_bill_report->fetch_object();
+
+                        $check_clearance = $conn->query("SELECT * FROM $clearance_tbl 
+                        WHERE (adm_no = '$userId' AND status=12 AND term='$bil_term' AND session ='$bil_session')");
+
                                     ?>
                                 <tr>
                                     <td><?= $t_syntax; ?> [<?= $row->session; ?>]</td>
                                     <td class="font-weight-bold">
-                                        <?php if($BILL->outstanding_after  == 0): ?>
+                                        <?php //if($BILL->outstanding_after  == 0 || $check_clearance->num_rows > 0): ?>
+                                        <?php if($check_clearance->num_rows > 0): ?>
                                         <?= $row->code; ?>
+                                        <?php else: ?>
+                                        <p class="text-warning">You haven't cleared all your bills</p>
                                         <?php endif; ?>
                                     </td>
-                                    <td><a href="<?= $result_sheet_url; ?>?result_code=<?= $row->code; ?>"
+                                    <td>
+                                        <?php //if($BILL->outstanding_after  == 0 || $check_clearance->num_rows > 0): ?>
+                                        <?php if($check_clearance->num_rows > 0): ?>
+                                        <a href="<?= $result_sheet_url; ?>?result_code=<?= $row->code; ?>"
                                             style="text-decoration:none;" class="btn-sm btn-warning">Check result</a>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                                 <?php endwhile; ?>

@@ -48,6 +48,7 @@ $new_salary_count = ($old_salary_count+1);
 
 $period = explode("-", $payment_month);
 $given_month= $period[1];
+$your_term = false;
 include "../../includes/status_const.php";
 
 

@@ -24,8 +24,8 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     <th>Type</th>
                                     <th>Class Officiating</th>
                                     <th>POD.</th>
-                                    <!-- <th>Privileges</th> -->
-                                    <th>Action</th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -34,6 +34,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     $st_privileges = $row->privileges;
                                     $given_month = false;
                                     $status = false;
+                                    $your_term = false;
                                     include "includes/status_const.php";
                                        switch($row->img){
                                             case false:
@@ -60,6 +61,27 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                         <a href="adm_staff?pod=<?= htmlspecialchars($row->token); ?>"
                                             class="btn-sm btn-primary"><i class="mdi mdi-pen"></i> Review </a>
                                         <?php } ?>
+                                    </td>
+                                    <td>
+                                        <?php if($row->activity == 5): ?>
+                                        <form action="<?= $pusher; ?>" method="POST"
+                                            onsubmit="return activateStaff(this)">
+                                            <input type="hidden" name="userId" value="<?= $row->userId?>">
+                                            <input type="hidden" name="activate_staff" value="<?= $row->userId?>">
+                                            <button type="submit" name="" class="btn-sm btn-primary"><i
+                                                    class="mdi mdi-"></i>Activate</button>
+                                        </form>
+                                        <?php else:?>
+                                        <?php if($row->position != 1): ?>
+                                        <form action="<?= $pusher; ?>" method="POST"
+                                            onsubmit="return deactivateStaff(this)">
+                                            <input type="hidden" name="userId" value="<?= $row->userId?>">
+                                            <input type="hidden" name="deactivate_staff" value="<?= $row->userId?>">
+                                            <button type="submit" name="" class="btn-sm btn-danger"><i
+                                                    class="mdi mdi-"></i>Deactivate</button>
+                                        </form>
+                                        <?php endif; ?>
+                                        <?php endif;?>
                                     </td>
                                 </tr>
                                 <?php endwhile; ?>

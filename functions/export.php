@@ -1,9 +1,6 @@
 <?php
 require "../config/db.php";
 require "../includes/calls.php";
-$log_term = $_SESSION['log_term'];
-$log_session = $_SESSION['log_session'];
-$token = $_SESSION['token'];
 
 if ($_GET['table'] == $time_tbl) {
      $term = $_GET['term'];
@@ -59,6 +56,29 @@ if ($_GET['table'] == $score_tbl) {
      
      fclose($output);
 }
+
+if ($_GET['table'] == $clearance_tbl) {
+     $term = $_GET['term'];
+     $session = $_GET['session'];
+    
+     header('Content-Type: text/csv; charset=utf-8');
+     header('Content-Disposition: attachment; filename='.$term.' ['.$session.'] clearance list.csv');
+     $output = fopen("php://output", "w");
+     fputcsv($output, array('STUDENT NAME', 'ADM NO', 'CLEARED[1/12], NOT-CLEARED[0/anything]'));
+
+     $query = $conn->query("SELECT name, adm_no, status FROM $clearance_tbl  
+     WHERE (term='$log_term' AND session='$log_session')");
+     if($query->num_rows == 0){
+          $query = $conn->query("SELECT name, userId FROM $users_tbl  
+          WHERE (userId !='' AND user_type='c3R1ZHk=')");
+     }
+      while ($row = $query->fetch_assoc()) {
+          fputcsv($output, $row);
+     }
+     
+     fclose($output);
+}
+
 
 if (isset($_GET['quest_instruct'])) {
      if($_GET['quest_instruct'] == "question"){

@@ -39,5 +39,6 @@ RewriteRule ^adm_view_question adm_view_question.php [NC,L]
 RewriteRule ^adm_expenses adm_expenses.php [NC,L]
 RewriteRule ^fund_wallet fund_wallet.php [NC,L]
 RewriteRule ^adm_enrolment_list adm_enrolment_list.php [NC,L]
+RewriteRule ^adm_clearance adm_clearance.php [NC,L]
 
 php_value date.timezone 'Africa/lagos'

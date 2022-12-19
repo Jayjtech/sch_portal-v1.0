@@ -683,6 +683,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                             <tbody>
                                 <?php while($row = $callSubmissions->fetch_object()):
                                     $status = $row->status;
+                                    $your_term = false;
                                     include "includes/status_const.php";
                                     ?>
                                 <tr>

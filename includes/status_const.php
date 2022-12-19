@@ -36,6 +36,9 @@ switch($status){
     case 11:
         $status_syntax = '<p class="badge badge-success">Checked</p>';
     break;
+    case 12:
+        $status_syntax = '<p class="badge badge-success">Cleared</p>';
+    break;
 }
 
 switch($given_month){
@@ -124,6 +127,18 @@ switch($given_month){
                 break;
             case 5:
                 $priv = "|Student|";
+                break;
+        }
+
+        switch($your_term){
+            case 1:
+                $t_syntax = "First Term";
+                break;
+            case 2:
+                $t_syntax = "Second Term";
+                break;
+            case 3:
+                $t_syntax = "Third Term";
                 break;
         }
 ?>

@@ -18,6 +18,7 @@
         }
         
        $_SESSION['check_result'] = $check->num_rows;
+       
         if($check->num_rows == 0){
              $response = [
                 "title" => "User does not exist!",
@@ -36,6 +37,7 @@
                 $_SESSION['staff_type'] = $row->staff_type;
                 $_SESSION['token'] = $row->token;
                 $_SESSION['pin'] = $row->pin;
+                $_SESSION['activity'] = $row->activity;
                 switch($row->user_type){
                     case "c3R1ZHk=":
                         $user_type = "Student";
@@ -50,7 +52,14 @@
                 $_SESSION['user_type'] = $user_type;
                 $_SESSION['userCategory'] = $userCategory;
             }
-            if($exp_l_s[1] > $exp_c_s[1]){
+
+            if($_SESSION['activity'] == 5){
+                $response = [
+                    "title" => 'Your account has been de-activated!',
+                    "text" => 'Contact the school admin for activation.',
+                    "type" => "error"
+                    ];
+            }else if($exp_l_s[1] > $exp_c_s[1]){
                 $response = [
                     "title" => 'The session ['.$session.'] you selected has not been approved!',
                     "text" => 'You can only login to sessions that precedes ['.$current_session.']',

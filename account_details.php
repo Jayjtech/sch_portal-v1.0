@@ -69,6 +69,7 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                         $period = explode("-", $row->date);
                                         $given_month = $period[1];
                                         $status = $row->status;
+                                        $your_term = false;
                                         include "includes/status_const.php";
                                         $clean_date = $month_syntax .' '. $period[0].', '.$period[2];
                                     ?>

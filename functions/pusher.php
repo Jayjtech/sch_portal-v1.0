@@ -639,3 +639,153 @@ if(isset($_POST['set_disbursement_key'])){
         }
         header('location: ../adm_info?disbursement_key');
 }
+
+
+
+
+
+/**Clearance */
+    if(isset($_POST['push_clearance'])){
+           // Allowed mime types
+        $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
+        // Validate whether selected file is a CSV file
+        if (!empty($_FILES['file']['name']) && in_array($_FILES['file']['type'], $csvMimes)) {
+
+            // If the file is uploaded
+            if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+
+                // Open uploaded CSV file with read-only mode
+                $csvFile = fopen($_FILES['file']['tmp_name'], 'r');
+                // Skip the first line
+                fgetcsv($csvFile);
+
+                // Parse data from CSV file line by line
+                while (($line = fgetcsv($csvFile)) !== FALSE) {
+
+                    // Get row data
+                    $name  =  mysqli_real_escape_string($conn, $line[0]);
+                    $adm_no  =  mysqli_real_escape_string($conn, $line[1]);
+                    $status  =  mysqli_real_escape_string($conn, $line[2]);
+                    $cleared_by = $_SESSION['name'];
+                    if($status == 1 || $status == 12){
+                        $clear = 12;
+                    }else{
+                        $clear = 13;
+                    }
+
+                    //To ensure that The same class is not uploaded over and again
+                    $check = $conn->query("SELECT * FROM $clearance_tbl WHERE (adm_no='$adm_no' AND session='$log_session' AND term='$log_term')");
+
+                    //insert data from CSV file 
+                    if ($check->num_rows == 0) {
+                        $insert = $conn->query("INSERT INTO $clearance_tbl  SET
+                                                name = '$name',
+                                                adm_no = '$adm_no',
+                                                term = '$log_term', 
+                                                session = '$log_session', 
+                                                status = '$clear', 
+                                                cleared_by = '$cleared_by'
+                                              ");
+                    } else {
+                        $update = $conn->query("UPDATE $clearance_tbl SET
+                                        status = '$clear',
+                                        cleared_by = '$cleared_by'
+                                        WHERE adm_no = '$adm_no' 
+                                        AND term = '$log_term' 
+                                        AND session = '$log_session'
+                                        ");
+                    }
+                }
+                  if($insert){
+                        $_SESSION['message'] = "Clearance list have been uploaded!";
+                        $_SESSION['msg_type'] = "success";
+                        $_SESSION['remedy'] = "";
+                    }else if($update){
+                        $_SESSION['message'] = "Clearance list have been uploaded!";
+                        $_SESSION['msg_type'] = "success";
+                        $_SESSION['remedy'] = "";
+                    }else{
+                        $_SESSION['message'] = "Clearance list could not be updated!";
+                        $_SESSION['msg_type'] = "error";
+                        $_SESSION['remedy'] = "This could be due to server error";
+                    }
+            }
+        }
+         header("location: ../adm_clearance?index");
+ fclose($csvFile);
+    }
+// Clear single bill
+    if(isset($_POST['clear_single'])){
+        $adm_no = mysqli_real_escape_string($conn, $_POST['adm_no']);
+        $update = $conn->query("UPDATE $clearance_tbl SET status=12 WHERE adm_no='$adm_no'");
+       
+        if($update){
+            $_SESSION['message'] = "Student successfully cleared!";
+            $_SESSION['msg_type'] = "success";
+            $_SESSION['remedy'] = "";
+        }else{
+            $_SESSION['message'] = "Student could not be cleared!";
+            $_SESSION['msg_type'] = "error";
+            $_SESSION['remedy'] = "This could be due to server error";
+        }
+        header("location: ../adm_clearance?index");
+    }
+
+    /**Delete student */
+    if(isset($_POST['delete_student'])){
+        $adm_no = mysqli_real_escape_string($conn, $_POST['adm_no']);
+        $DEL = $conn->query("DELETE FROM $users_tbl WHERE userId = '$adm_no'");
+        $conn->query("DELETE FROM $score_tbl WHERE adm_no = '$adm_no'");
+        $conn->query("DELETE FROM $clearance_tbl WHERE adm_no = '$adm_no'");
+        $conn->query("DELETE FROM $bill_tbl WHERE userId = '$adm_no'");
+        $conn->query("DELETE FROM $cbe_report_tbl WHERE adm_no = '$adm_no'");
+        $conn->query("DELETE FROM $evaluation_tbl WHERE adm_no = '$adm_no'");
+        $conn->query("DELETE FROM $result_checker_tbl WHERE adm_no = '$adm_no'");
+
+
+        if($DEL){
+            $_SESSION['message'] = "Student successfully deleted!";
+            $_SESSION['msg_type'] = "success";
+            $_SESSION['remedy'] = "";
+        }else{
+            $_SESSION['message'] = "Student could not be deleted!";
+            $_SESSION['msg_type'] = "error";
+            $_SESSION['remedy'] = "This could be due to server error";
+        }
+        header("location: ../adm_students");
+    }
+
+
+    /**Deactivate Staff */
+    if(isset($_POST['deactivate_staff'])){
+        $userId = mysqli_real_escape_string($conn, $_POST['userId']);
+
+        $update = $conn->query("UPDATE $users_tbl SET activity=5 WHERE userId='$userId'");
+        if($update){
+            $_SESSION['message'] = "Staff account has been successfully deactivated!";
+            $_SESSION['msg_type'] = "success";
+            $_SESSION['remedy'] = "";
+        }else{
+            $_SESSION['message'] = "Staff account could not be deactivated!";
+            $_SESSION['msg_type'] = "error";
+            $_SESSION['remedy'] = "This could be due to server error";
+        }
+        header("location: ../adm_staff");
+    }
+
+    /**Deactivate Staff */
+    if(isset($_POST['activate_staff'])){
+        $userId = mysqli_real_escape_string($conn, $_POST['userId']);
+
+        $update = $conn->query("UPDATE $users_tbl SET activity=1 WHERE userId='$userId'");
+        if($update){
+            $_SESSION['message'] = "Staff account has been successfully activated!";
+            $_SESSION['msg_type'] = "success";
+            $_SESSION['remedy'] = "";
+        }else{
+            $_SESSION['message'] = "Staff account could not be activated!";
+            $_SESSION['msg_type'] = "error";
+            $_SESSION['remedy'] = "This could be due to server error";
+        }
+        header("location: ../adm_staff");
+    }

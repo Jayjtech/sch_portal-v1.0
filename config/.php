@@ -40,6 +40,7 @@ $create_user = $conn->query("CREATE TABLE IF NOT EXISTS $users_tbl (
     img varchar(255) NOT NULL,
     num_update int(11) NOT NULL,
     code_d varchar(255) NOT NULL,
+    activity int(11) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 
@@ -106,6 +107,17 @@ $cr_question_tbl_a = $conn->query("CREATE TABLE IF NOT EXISTS $question_tbl_a (
     token varchar(255)  NOT NULL,
     sch_category varchar(255)  NOT NULL,
     quest_id varchar(255)  NOT NULL,
+    PRIMARY KEY (id)
+)");
+
+$cr_clearance_tbl = $conn->query("CREATE TABLE IF NOT EXISTS $clearance_tbl (
+    id int(11) AUTO_INCREMENT NOT NULL,
+    name varchar(255)  NOT NULL,
+    adm_no varchar(50)  NOT NULL,
+    term int(11)  NOT NULL,
+    session varchar(50)  NOT NULL,
+    status int(11)  NOT NULL,
+    cleared_by varchar(11)  NOT NULL,
     PRIMARY KEY (id)
 )");
 

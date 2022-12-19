@@ -24,7 +24,8 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     <th>Email | Phone</th>
                                     <th>Class</th>
                                     <th>Department</th>
-                                    <th>Action</th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,6 +50,14 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                     <td>
                                         <a href="adm_students?rev=<?= htmlspecialchars($stu->token); ?>&ac=<?= htmlspecialchars($stu->userId); ?>"
                                             class="btn-sm btn-primary"><i class="mdi mdi-pen"></i> Review </a>
+                                    </td>
+                                    <td>
+                                        <form action="<?= $pusher; ?>" method="POST" onsubmit="return delStudent(this)">
+                                            <input type="hidden" name="adm_no" value="<?= $stu->userId?>">
+                                            <input type="hidden" name="delete_student" value="<?= $stu->userId?>">
+                                            <button type="submit" name="" class="btn-sm btn-danger"><i
+                                                    class="mdi mdi-delete"></i></button>
+                                        </form>
                                     </td>
                                 </tr>
                                 <?php endwhile; ?>

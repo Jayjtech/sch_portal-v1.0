@@ -100,6 +100,7 @@
                             <tbody>
                                 <?php while($row = $mySubmissions->fetch_object()):
                                     $status = $row->status;
+                                    $your_term = false;
                                     include "includes/status_const.php";
                                     ?>
                                 <tr>

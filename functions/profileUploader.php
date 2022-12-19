@@ -38,7 +38,7 @@ $status = $statusMsg = '';
         $img_size = $_FILES['file']['size'];
             // File info 
             $code = rand(100, 999);
-            $fileName = basename($_FILES["file"]["name"]);
+            $fileName = $userId.'-'.basename($_FILES["file"]["name"]);
             $target_file = $fileName;
             $imageUploadPath = $uploadPath . $fileName; 
             $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION); 

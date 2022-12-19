@@ -324,6 +324,51 @@ function delCourse(form) {
     return false;
 }
 
+function delStudent(form) {
+    swal.fire({
+        title: `Are you sure you want to delete this student?`,
+        text: "All data pertaining to this student will no longer appear on the school portal!",
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    })
+    return false;
+}
+
+function deactivateStaff(form) {
+    swal.fire({
+        title: `Are you sure you want to deactivate this account?`,
+        text: "This staff will not be able to to login to his account anymore!",
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    })
+    return false;
+}
+
+function activateStaff(form) {
+    swal.fire({
+        title: `Are you sure you want to activate this account?`,
+        text: "This staff will now be able to to login to his account!",
+        icon: "info",
+        showDenyButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    })
+    return false;
+}
+
 function docSub(form) {
     swal.fire({
         title: `Are you sure you want to submit?`,
