@@ -23,10 +23,11 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                 <hr>
                                 <div class="form-group col-sm-12">
                                     <label for="">Select bank name</label>
-                                    <select name="bank" class="form-control" required>
-                                        <option value="<?= $bank_account->bank; ?>"><?= $bank_account->bank; ?></option>
+                                    <select name="bank" class="form-control" id="bank" required>
+                                        <option value="<?= $bank_account->bank; ?>|<?= $bank_account->bank_code; ?>">
+                                            <?= $bank_account->bank; ?></option>
                                         <?php while($bnk = $bankList->fetch_object()):?>
-                                        <option value="<?= $bnk->bank?>">
+                                        <option value="<?= $bnk->bank; ?>|<?= $bnk->bank_code; ?>">
                                             <?= $bnk->bank;?></option>
                                         <?php endwhile; ?>
                                     </select>
@@ -34,15 +35,19 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
                                 <div class="form-group col-sm-12">
                                     <label for="">Account number</label>
                                     <input type="number" name="acc_no" value="<?= $bank_account->acc_no; ?>"
-                                        class="form-control" placeholder="Enter your account number" required>
+                                        class="form-control" id="accountNo" placeholder="Enter your account number"
+                                        required>
                                 </div>
                                 <div class="form-group col-sm-12">
                                     <label for="">Account holder's name</label>
                                     <input type="text" name="acc_holder" value="<?= $bank_account->acc_holder; ?>"
-                                        class="form-control" placeholder="Enter your account number" required>
+                                        id="bankHolder" class="form-control" readonly required>
+                                    <input type="hidden" id="valid" value="0" name="valid">
                                 </div>
 
                                 <div class="form-group col-sm-12" align="right">
+                                    <img src="images/loading-2.gif" width="50" alt="Loading" class="loading-img"
+                                        style="display: none;">
                                     <?php if($bank_account == false){?>
                                     <button type="submit" name="add_account" class="btn btn-dark">Add</button>
                                     <?php }else{?>
@@ -98,5 +103,5 @@ window.location.href = "login?msg=Access denied!&msg_type=error"
 </div>
 
 
-
+<script src="js/validate-account.js"></script>
 <?php include "includes/footer.php"; ?>

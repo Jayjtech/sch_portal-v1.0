@@ -1,6 +1,12 @@
 <?php
 include "../../config/db.php";
 include "monnify_auth.php";
+if(!$admin_det->monnify_key){
+  $_SESSION['message'] = "Admin bank token not set!";
+  $_SESSION['remedy'] = "Currently not available";
+  $_SESSION['msg_type'] = "error";
+  header('location: ../../dashboard');
+}
 $curl = curl_init();
 curl_setopt_array($curl, array(
   CURLOPT_URL => '' . $monnify_base_url . '/api/v1/banks',

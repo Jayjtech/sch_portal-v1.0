@@ -25,6 +25,7 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="images/<?= $admin_det->img; ?>" />
     <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
+    <script src="js/my-jquery.min.js"></script>
     <meta name="baseUrl" content="<?= BASE_URL ;?>">
 </head>
 
