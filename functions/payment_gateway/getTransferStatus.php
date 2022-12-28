@@ -3,7 +3,7 @@ include "../../config/db.php";
 include "../../includes/calls.php";
 include "monnify_auth.php";
 
-$getList = $conn->query("SELECT * FROM $payroll_tbl WHERE status = 7 LIMIT 1");
+$getList = $conn->query("SELECT * FROM $payroll_tbl WHERE status = 7");
 if($getList->num_rows != 0){
     $li = $getList->fetch_object();
     $reference = $li->disbursement_id;
@@ -71,6 +71,10 @@ curl_setopt_array($curl, array(
 $response = curl_exec($curl);
 curl_close($curl);
 $res = json_decode($response);
+// echo '<pre>';
+// print_r($res);
+// echo $table;
+// // exit();
 $status_msg = false;
 if($res->responseBody->status == "SUCCESS"){
     $status = 1;
@@ -96,14 +100,16 @@ if($res->responseBody->status == "SUCCESS"){
     $status = 3;
 }
 
-$update = $conn->query("UPDATE $table SET 
+
+
+if($res->responseBody->status == "SUCCESS"){
+if($table == $loan_disbursement_tbl){
+    $update = $conn->query("UPDATE $table SET 
                     status = '$status'
                     WHERE disbursement_id = '$reference'
                     AND loan_id = '$loan_id'
                     ");
-
-if($res->responseBody->status == "SUCCESS"){
-if($table == $loan_disbursement_tbl){
+                    
     $debitLoanTbl = $conn->query("UPDATE $loan_tbl SET
                     debit = '$debit',         
                     interest = '$interest',         
@@ -210,6 +216,10 @@ if($table == $loan_disbursement_tbl){
             ';  
             $msg_subject = "Loan Disbursement";                
 }else if($table == $payroll_tbl){
+    $update = $conn->query("UPDATE $table SET 
+                    status = '$status'
+                    WHERE disbursement_id = '$reference'
+                    ");
     $updateUser = $conn->query("UPDATE $users_tbl SET 
                         salary_count = '$new_salary_count'
                         WHERE token = '$staffToken'
@@ -339,9 +349,10 @@ if($table == $loan_disbursement_tbl){
         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
         $headers .= "From:" . $from;
         mail($to, $subject, $message, $headers);
+        
+        
 }
-
-
+echo $status_msg;
 
 // stdClass Object
 // (
@@ -350,21 +361,22 @@ if($table == $loan_disbursement_tbl){
 //     [responseCode] => 0
 //     [responseBody] => stdClass Object
 //         (
-//             [amount] => 100
-//             [reference] => 3373973965-633362d5b68d8
-//             [narration] => Loan request of 100. Request date: September 27, 2022
+//             [amount] => 5000
+//             [reference] => 81846279-63acb78a322ad
+//             [narration] => Dec. 22 Salary
 //             [currency] => NGN
 //             [fee] => 10
 //             [twoFaEnabled] => 
 //             [status] => SUCCESS
 //             [transactionDescription] => Transaction successful
-//             [transactionReference] => MFDS79820220927095625181755S33NY8
-//             [createdOn] => 2022-09-27T20:56:26.000+0000
-//             [sessionId] => 090405220927215628072908868015
+//             [transactionReference] => MFDS20520221228103926308634SXJ7QF
+//             [createdOn] => 2022-12-28T21:39:26.000+0000
+//             [sessionId] => 090405221228223931921872964666
 //             [sourceAccountNumber] => 6013432866
 //             [destinationAccountNumber] => 7069056472
 //             [destinationAccountName] => OLUWATOSIN EMMANUEL JEGEDE
 //             [destinationBankCode] => 100033
 //             [destinationBankName] => PALMPAY
 //         )
+
 // )
